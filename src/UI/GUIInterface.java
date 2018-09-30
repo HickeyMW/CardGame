@@ -6,15 +6,17 @@ public interface GUIInterface {
 
     //Server methods
 
-    void playerConnected(int PlayerId);
+    void playerConnected(int playerId);
 
     //Client methods
 
-    void connectedToServer();
+    void connectedToServer(int playerId);
 
     //General methods
 
     void roundStarted();
+
+    void roundWinner(int playerId);
 
     void gameStarted();
 

@@ -24,7 +24,8 @@ public class MainControl implements ClientEvents, ServerEvents {
 	private GUIInterface guiInterface;
 	
 	private int numberOfCardsPlayed = 0;
-	private int currentPlayerTurn = 0;
+	private int currentPlayerTurn = 1;
+	private int leadingPlayer = 1;
 
 	public MainControl() {
 		for (int i = 0; i < 3; i++) {
@@ -43,7 +44,7 @@ public class MainControl implements ClientEvents, ServerEvents {
 		clientThread.listenForGameStart();
 	}
 	
-	public void StartGame() {
+	private void StartGame(int playerId) {
 		serverThread.broadcastGameStart(1);
 		ArrayList<Card> deck = new ArrayList<Card>();
 
@@ -111,6 +112,8 @@ public class MainControl implements ClientEvents, ServerEvents {
 	//Called by Network
 
 	public void gameStartedOnClient(int startedByID) {
+		playerId = clientThread.playerID;
+		guiInterface.gameStarted();
 		clientThread.listenForDealtCard();
 	}
 
@@ -119,6 +122,7 @@ public class MainControl implements ClientEvents, ServerEvents {
 		if (myCards.size() != 17) {
 			clientThread.listenForDealtCard();
 		} else {
+			guiInterface.startingHand(myCards);
 			clientThread.listenForPlayedCard();
 		}
 	}
@@ -141,8 +145,10 @@ public class MainControl implements ClientEvents, ServerEvents {
 		currentPlayerTurn = nextPlayerId();
 
 		if (numberOfCardsPlayed == 3) {
-			int winnerId = findWinner();
+			int winnerId = findRoundWinner();
+			guiInterface.roundWinner(winnerId);
 			calculateScoring(winnerId);
+			guiInterface.updateScores(playerScores[0], playerScores[1], playerScores[2]);
 			currentPlayerTurn = winnerId;
 			if (myCards.size() != 0) {
 				if (playerId == 1) {
@@ -152,12 +158,14 @@ public class MainControl implements ClientEvents, ServerEvents {
 				}
 			} else {
 				if (playerId == 1) {
-					serverThread.listenForGameStart(findWinner());
+					serverThread.listenForGameStart(findRoundWinner());
 				} else {
 					clientThread.listenForGameStart();
 				}
 			}
 
+		} else if (currentPlayerTurn == playerId) {
+			guiInterface.playableCards(playableCards());
 		} else if (playerId == 1) {
 			serverThread.listenForCardPlayed(currentPlayerTurn);
 		} else {
@@ -165,10 +173,10 @@ public class MainControl implements ClientEvents, ServerEvents {
 		}
 	}
 
-	private int findWinner() {
-		int winner = currentPlayerTurn;
-		if (playedCards[currentPlayerTurn - 1].getSuit() == playedCards[nextPlayerId() - 1].getSuit() &&
-				playedCards[currentPlayerTurn - 1].getValue() < playedCards[nextPlayerId() - 1].getValue()) {
+	private int findRoundWinner() {
+		int winner = leadingPlayer;
+		if (playedCards[leadingPlayer - 1].getSuit() == playedCards[nextPlayerId() - 1].getSuit() &&
+				playedCards[leadingPlayer - 1].getValue() < playedCards[nextPlayerId() - 1].getValue()) {
 			winner = nextPlayerId();
 		}
 		if (playedCards[winner - 1].getSuit() == playedCards[nextNextPlayerId() - 1].getSuit() &&
@@ -193,12 +201,42 @@ public class MainControl implements ClientEvents, ServerEvents {
 		return winner;
 	}
 
+	private ArrayList<Card> playableCards() {
+		ArrayList<Card> cards = new ArrayList<>();
+		if (leadingPlayer == playerId) {
+			return myCards;
+		} else {
+			for (Card card:myCards) {
+				if (card.getSuit() == playedCards[leadingPlayer - 1].getSuit()) {
+					cards.add(card);
+				}
+			}
+			if (cards.size() == 0) {
+				return myCards;
+			}
+			return cards;
+		}
+	}
+
 	private void calculateScoring(int winnerId) {
 		playerScores[winnerId - 1]++;
 		for (int i = 0; i < 3; i++) {
 			tieBreakerScores[i] += playedCards[i].getValue();
 		}
 	}
+
+	private void resetRound() {
+		leadingPlayer = findRoundWinner();
+	    numberOfCardsPlayed = 0;
+    }
+
+    private void resetGame() {
+		numberOfCardsPlayed = 0;
+		leadingPlayer = 1;
+		playerScores = new int[3];
+		tieBreakerScores = new int[3];
+		currentPlayerTurn = 1;
+    }
 
 	private int nextPlayerId() {
 		return ((currentPlayerTurn + 1) % 4) + 1;
@@ -213,24 +251,31 @@ public class MainControl implements ClientEvents, ServerEvents {
 	}
 
 	public void roundStartedOnServer(int startedByID) {
-		// TODO Auto-generated method stub
-		//GUI
-		//Logic
-		
+		resetRound();
+		guiInterface.roundStarted();
 	}
 
 	public void gameStartedOnServer(int startedByID) {
-		// TODO Auto-generated method stub
+		if (gameWinner() == startedByID) {
+			serverThread.broadcastGameStart(startedByID);
+		}
+		resetGame();
+		startGame();
+		guiInterface.gameStarted();
 		
 	}
 
 	public void connectedToServerOnClient() {
-		// TODO Auto-generated method stub
+		guiInterface.connectedToServer(clientThread.playerID);
 		
 	}
 
 	public void roundStartedOnClient(int startedByID) {
-		// TODO Auto-generated method stub
+		if (findRoundWinner() == startedByID) {
+			serverThread.broadcastRoundStart(startedByID);
+		}
+		resetRound();
+		guiInterface.roundStarted();
 		
 	}
 
