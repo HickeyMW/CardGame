@@ -7,6 +7,7 @@ import Client.ClientThread;
 import Main.Card;
 import Server.ServerEvents;
 import Server.ServerThread;
+import UI.GUIInterface;
 
 public class MainControl implements ClientEvents, ServerEvents {
 	
@@ -20,6 +21,7 @@ public class MainControl implements ClientEvents, ServerEvents {
 
 	private ClientThread clientThread;
 	private ServerThread serverThread;
+	private GUIInterface guiInterface;
 	
 	private int numberOfCardsPlayed = 0;
 	private int currentPlayerTurn = 0;
@@ -121,8 +123,6 @@ public class MainControl implements ClientEvents, ServerEvents {
 		}
 	}
 	
-	//GameControl methods
-	
 	private Card playerHasCard(ArrayList<Card> playerCards, Card card) {
 		for (Card pCard : playerCards) {
 			if (pCard.getSuit() == card.getSuit() && pCard.getValue() == card.getValue()) {
@@ -209,9 +209,7 @@ public class MainControl implements ClientEvents, ServerEvents {
 	}
 
 	public void playerConnectedOnServer(int playerID) {
-		// TODO Auto-generated method stub
-		//GUI
-		
+		guiInterface.playerConnected(playerID);
 	}
 
 	public void roundStartedOnServer(int startedByID) {
@@ -237,7 +235,6 @@ public class MainControl implements ClientEvents, ServerEvents {
 	}
 
 	public void error(String error) {
-		// TODO Auto-generated method stub
-		
+		guiInterface.error(error);
 	}
 }
