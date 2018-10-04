@@ -9,7 +9,7 @@ import Server.ServerEvents;
 import Server.ServerThread;
 import UI.GUIInterface;
 
-public class MainControl implements ClientEvents, ServerEvents {
+public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	
 	private int playerId = 0;
 
@@ -33,18 +33,46 @@ public class MainControl implements ClientEvents, ServerEvents {
 		}
 	}
 
-	//Server methods
-	public void HostGame() {
+	//Client methods
+
+	//Called by GUI
+	public void hostGame() {
 		serverThread = new ServerThread();
 		playerId = 1;
 	}
 	
-	public void JoinGame(String ip) {
+	public void joinGame(String ip) {
 		clientThread = new ClientThread(ip);
 		clientThread.listenForGameStart();
 	}
 	
-	private void StartGame(int playerId) {
+
+
+	public void playCard(Card card) {
+		if (playerId == 1) {
+			serverThread.broadcastCardPlayed(1, card);
+		} else {
+			clientThread.playCard(card);
+		}
+	}
+
+	public void startRound() {
+		if (playerId == 1) {
+			serverThread.broadcastRoundStart(1);
+		} else {
+			clientThread.startRound();
+		}
+	}
+
+	public void startGame() {
+		if (playerId == 1) {
+			serverThread.broadcastGameStart(playerId);
+		} else {
+			clientThread.startGame();
+		}
+	}
+	
+	private void dealCards() {
 		serverThread.broadcastGameStart(1);
 		ArrayList<Card> deck = new ArrayList<Card>();
 
@@ -67,10 +95,6 @@ public class MainControl implements ClientEvents, ServerEvents {
 			}
 		}
 	}
-	
-	public void NewGame() {
-		
-	}
 
 	public void cardPlayedOnServer(int player, Card card) {
 		Card hasCard = playerHasCard(playersHands.get(player - 1), card);
@@ -81,33 +105,7 @@ public class MainControl implements ClientEvents, ServerEvents {
 		}
 	}
 
-	//Client methods
 
-	//Called by GUI
-
-	public void playCard(Card card) {
-		if (playerId == 1) {
-			serverThread.broadcastCardPlayed(1, card);
-		} else {
-			clientThread.playCard(card);
-		}
-	}
-
-	public void startRound() {
-		if (playerId == 1) {
-			serverThread.broadcastRoundStart(1);
-		} else {
-			clientThread.startRound();
-		}
-	}
-
-	public void startGame() {
-		if (playerId == 1) {
-			serverThread.broadcastGameStart(1);
-		} else {
-			clientThread.startGame();
-		}
-	}
 
 	//Called by Network
 
@@ -260,7 +258,7 @@ public class MainControl implements ClientEvents, ServerEvents {
 			serverThread.broadcastGameStart(startedByID);
 		}
 		resetGame();
-		startGame();
+		dealCards();
 		guiInterface.gameStarted();
 		
 	}
