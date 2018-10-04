@@ -19,6 +19,8 @@ public interface GUIInterface {
     void roundWinner(int playerId);
 
     void gameStarted();
+    
+    void gameWinner(int playerId);
 
     void error(String error);
 
