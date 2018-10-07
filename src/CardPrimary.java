@@ -7,7 +7,9 @@ public class CardPrimary {
 		card.setValue( 5 );
 		
 		System.out.println( card );
-		
+		//Starts the game UI
+		StartGame info = new StartGame();
+
 		
 	}
 }
