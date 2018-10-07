@@ -8,6 +8,7 @@ import java.net.Socket;
 
 import Main.Card;
 import Main.CardGamePrimary;
+import UI.Driver;
 
 public class ClientThread extends Thread {
 	
@@ -15,7 +16,7 @@ public class ClientThread extends Thread {
 	String serverAddress = "";
 	
 	//Where the client events are
-	private ClientEvents events = CardGamePrimary.gameLogic.clientEvents;
+	private ClientEvents events;
 	
 	//The server's port
 	int port = CardGamePrimary.PORT;
@@ -33,17 +34,20 @@ public class ClientThread extends Thread {
 	public int playerID;
 	
 	//Constructor
-	public ClientThread( String serverAddress ) {
+	public ClientThread( ClientEvents clientEvents, String serverAddress ) {
 		this.serverAddress = serverAddress;
 		
 		//Start ourselves
 		this.start();
+		
+		//Set our client events object
+		this.events = clientEvents;
 	}
 	
 	//Main thread code
 	public void run(){
 		
-		CardGamePrimary.ui.print( "Connecting to server..." );
+		Driver.info.print( "Connecting to server..." );
 		
 		//Try to connect to the server
 		try {
@@ -64,13 +68,13 @@ public class ClientThread extends Thread {
 			in = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
 			out = new PrintWriter(socket.getOutputStream(), true);
 			
-			CardGamePrimary.ui.print( "Waiting for playerID" );
+			Driver.info.print( "Waiting for playerID" );
 			
 			//Listen for our player number
 			String playerIDString = in.readLine();
 			playerID = Integer.parseInt( playerIDString );
 			
-			CardGamePrimary.ui.print( "We are player " + playerID );
+			Driver.info.print( "We are player " + playerID );
 			
 		} catch (IOException e) {
 			
@@ -80,7 +84,7 @@ public class ClientThread extends Thread {
 			return;
 		}
 		
-		CardGamePrimary.ui.print( "Connected." );
+		Driver.info.print( "Connected." );
 		
 		//Call the client connection event
 		events.connectedToServerOnClient();
@@ -100,7 +104,7 @@ public class ClientThread extends Thread {
 	//Listens for dealt cards
 	public void listenForDealtCard() {
 		
-		CardGamePrimary.ui.print( "Listening for dealt card from server..." );
+		Driver.info.print( "Listening for dealt card from server..." );
 		
 		//Start listening for a card from the server for our hand
 			
@@ -132,7 +136,7 @@ public class ClientThread extends Thread {
 				Card dealtCard = new Card( cardValue, cardSuit );
 				
 				//Call the dealt card event
-				CardGamePrimary.gameLogic.clientEvents.cardDealtOnClient( dealtCard );
+				events.cardDealtOnClient( dealtCard );
 				
 			} catch (IOException e) {
 				error( "Encountered an error while reading dealt card values. Exiting..." );
@@ -144,7 +148,7 @@ public class ClientThread extends Thread {
 	//Listens for someone to play a card
 	public void listenForPlayedCard() {
 		
-		CardGamePrimary.ui.print( "Listening for someone to play a card..." );
+		Driver.info.print( "Listening for someone to play a card..." );
 		
 		//Try to read the next line
 		String line;
@@ -189,7 +193,7 @@ public class ClientThread extends Thread {
 	//Listens for someone to start the next round
 	public void listenForRoundStart() {
 		
-		CardGamePrimary.ui.print( "Listening for someone to start the next round..." );
+		Driver.info.print( "Listening for someone to start the next round..." );
 		
 		//Try to read the next line
 		String line;
@@ -223,7 +227,7 @@ public class ClientThread extends Thread {
 	//Listens for someone to start the next game
 	public void listenForGameStart() {
 		
-		CardGamePrimary.ui.print( "Listening for someone to start the next game..." );
+		Driver.info.print( "Listening for someone to start the next game..." );
 		
 		//Try to read the next line
 		String line;
@@ -258,7 +262,7 @@ public class ClientThread extends Thread {
 	private void error( String error ) {
 		
 		//Log the error
-		CardGamePrimary.ui.print( error );
+		Driver.info.print( error );
 		
 		//Call the event
 		events.error( error );

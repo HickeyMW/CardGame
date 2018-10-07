@@ -6,15 +6,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import GameLogic.GUIEvents;
-import Main.Card;
+import GameLogic.MainControl;
 
 public class StartGame implements GUIStartInterface{
 	
@@ -24,7 +23,7 @@ public class StartGame implements GUIStartInterface{
 
 	private JButton host;
     private JButton connect;
-    private JTextField ipInField;
+    private JTextArea ipInField;
     private JLabel playerInfoLabel;
     private JLabel p1;
     private JLabel p2;
@@ -34,9 +33,11 @@ public class StartGame implements GUIStartInterface{
     private JLabel ipInfoLabel;
     private JButton startButton;
     
+    static MainControl ctrl = new MainControl( Driver.panel, Driver.info );
     
 	
-	public StartGame() {
+	public StartGame() throws IOException {
+		Driver.panel = new GuiPanel();
 		window.setSize(400, 400);
 		window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
@@ -47,7 +48,7 @@ public class StartGame implements GUIStartInterface{
         		//Obtains IP info and displays it
         		try {
 					ipPull();
-					GuiPanel.ctrl.hostGame();
+					ctrl.hostGame();
 					
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
@@ -63,7 +64,7 @@ public class StartGame implements GUIStartInterface{
         	public void actionPerformed(ActionEvent ae) {
         		//Sends IP info to networking
         		System.out.println(getIPFromText());
-        		GuiPanel.ctrl.joinGame(getIPFromText());
+        		ctrl.joinGame(getIPFromText());
         	}
         });
         startButton = new JButton ("Start Game");
@@ -80,7 +81,8 @@ public class StartGame implements GUIStartInterface{
         	}
         });
 
-        ipInField = new JTextField (5);
+        ipInField = new JTextArea ();
+        //ipInField.setSize( 500 , 10 );
         playerInfoLabel = new JLabel ("Connected Players");
         p1 = new JLabel ("Player 1: Not Connected");
         p2 = new JLabel ("Player 2: Not Connected");
@@ -110,7 +112,7 @@ public class StartGame implements GUIStartInterface{
         //set component bounds (only needed by Absolute Positioning)
         host.setBounds (55, 335, 100, 25);
         connect.setBounds (230, 335, 100, 25);
-        ipInField.setBounds (230, 280, 100, 25);
+        ipInField.setBounds (230, 100, 150, 250);
         playerInfoLabel.setBounds (50, 20, 145, 25);
         p1.setBounds (50, 60, 175, 20);
         p2.setBounds (50, 90, 140, 25);
@@ -122,6 +124,10 @@ public class StartGame implements GUIStartInterface{
 		
 		
 		window.setVisible(true);
+	}
+	
+	public void print( String str ){
+		ipInField.setText( ipInField.getText() + str + "\n" );
 	}
 	
 	private String getIPFromText() {
@@ -149,14 +155,14 @@ public class StartGame implements GUIStartInterface{
 	
 	public static void play() throws IOException {
 		
-		
+		ctrl.startGame();
 		
 		
 		frame.setSize( 1000, 800 );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
 		Driver.panel = new GuiPanel();
-		
+		Driver.panel.createCtrl(ctrl);
 		frame.getContentPane().add( Driver.panel );
 		
 		frame.pack();

@@ -1,15 +1,13 @@
 package Main;
 import Client.ClientThread;
-import GameLogic.GameLogic;
 import Server.ServerThread;
-import UI.UI;
+//import UI.UI;
 
 
 public class CardGamePrimary {
 	
-	public static UI ui;
+	//public static UI ui;
 	
-	public static GameLogic gameLogic;
 	
 	public static ServerThread server;
 	public static ClientThread client;
@@ -20,10 +18,8 @@ public class CardGamePrimary {
 		
 		//UI start
 		//UI Starts networking
-		ui = new UI();
+		//ui = new UI();
 		
-		//Logic start
-		gameLogic = new GameLogic();
 		
 		
 		

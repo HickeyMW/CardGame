@@ -9,5 +9,8 @@ public interface GUIStartInterface {
     //Client methods
 
     void connectedToServer(int playerId);
+    
+    
+    
 	
 }

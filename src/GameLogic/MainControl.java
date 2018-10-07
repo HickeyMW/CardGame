@@ -8,6 +8,7 @@ import Main.Card;
 import Server.ServerEvents;
 import Server.ServerThread;
 import UI.GUIInterface;
+import UI.GUIStartInterface;
 
 public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	
@@ -22,12 +23,17 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	private ClientThread clientThread;
 	private ServerThread serverThread;
 	private GUIInterface guiInterface;
+	private GUIStartInterface guiStartInterface;
 	
 	private int numberOfCardsPlayed = 0;
 	private int currentPlayerTurn = 1;
 	private int leadingPlayer = 1;
 
-	public MainControl() {
+	public MainControl( GUIInterface guiInterface, GUIStartInterface guiStartInterface ) {
+		
+		//Update the GUIInterface to be a real one
+		this.guiInterface = guiInterface;
+		
 		for (int i = 0; i < 3; i++) {
 			playersHands.add(new ArrayList<Card>());
 		}
@@ -37,13 +43,13 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 
 	//Called by GUI
 	public void hostGame() {
-		serverThread = new ServerThread();
+		serverThread = new ServerThread( this );
 		playerId = 1;
 	}
 	
 	public void joinGame(String ip) {
-		clientThread = new ClientThread(ip);
-		clientThread.listenForGameStart();
+		System.out.println(ip);
+		clientThread = new ClientThread( this, ip);
 	}
 	
 
@@ -245,7 +251,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 
 	public void playerConnectedOnServer(int playerID) {
-		guiInterface.playerConnected(playerID);
+		guiStartInterface.playerConnected(playerID);
 	}
 
 	public void roundStartedOnServer(int startedByID) {
@@ -264,7 +270,8 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 
 	public void connectedToServerOnClient() {
-		guiInterface.connectedToServer(clientThread.playerID);
+		guiStartInterface.connectedToServer(clientThread.playerID);
+		clientThread.listenForGameStart();
 		
 	}
 

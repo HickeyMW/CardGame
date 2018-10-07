@@ -11,10 +11,12 @@ public class Driver {
 	public static ArrayList<Drawable> drawables = new ArrayList<Drawable>();
 	public static ArrayList<Clickable> clickables = new ArrayList<Clickable>();
 	
+	
+	public static StartGame info;
 	public static GuiPanel panel;
 	
 	public static void main(String[] args) throws IOException {
-		StartGame info = new StartGame();
+		info = new StartGame();
 		
 	}
 

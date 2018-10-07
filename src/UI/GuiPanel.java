@@ -23,7 +23,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	
 	Boolean isTurn = true;
-	static MainControl ctrl = new MainControl( this );
+	MainControl ctrl;
 	
 	
 	ClickableButton roundButton = 	new ClickableButton( 700, 600, 300, 100, "GUIImages/NextRound.png", "GUIImages/NextRoundNot.png" ) {
@@ -45,7 +45,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			//Detects if there is a selected card and passes it to game logic
 			if(ClickableCard.selectedCard!=null) {
 				System.out.println(ClickableCard.selectedCard.card.toString());
-				GuiPanel.ctrl.playCard(ClickableCard.selectedCard.card);
+				ctrl.playCard(ClickableCard.selectedCard.card);
 				showPlayedCard(2, ClickableCard.selectedCard.card);
 				
 				ClickableCard.cardPlayed();
@@ -73,9 +73,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	
 	//Generates own cards. Used for testing.
-	public GuiPanel() throws IOException
+	public GuiPanel( ) throws IOException
 	{
-		
 		
 		
 		setBackground(Color.LIGHT_GRAY);
@@ -88,7 +87,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 				
 
 		
-		
+		/*
 		//Generate some cards
 		for (int i = 0; i < 17; i++) {
 		
@@ -101,10 +100,15 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			};
 			
 		}
+		*/
 		
 		
 		
 		
+	}
+	
+	public void createCtrl(MainControl newCtrl) {
+		ctrl = newCtrl;
 	}
 	
 	public void ReceiveCards(int[][] dealt) {
@@ -366,7 +370,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	static ArrayList<ClickableCard> hand;
 	@Override
 	public void startingHand(ArrayList<Card> cards) {
-		
+		System.out.println("Receiving Hand");
 		
 		
 		for (int i = 0; i < cards.size()-1; i++) {

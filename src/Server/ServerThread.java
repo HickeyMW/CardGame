@@ -26,10 +26,17 @@ public class ServerThread extends Thread {
 	//Executor to make threading easier
 	private ExecutorService executor = Executors.newFixedThreadPool(3);
 
+	
+	//The location for the server events
+	ServerEvents events;
+	
 	//Constructor
-	public ServerThread() {
+	public ServerThread( ServerEvents serverEvents ) {
 		//Start ourselves
 		this.start();
+		
+		//Set up our server events object
+		this.events = serverEvents;
 	}
 		
 	
@@ -45,7 +52,7 @@ public class ServerThread extends Thread {
 			//If we can't do that, something has gone wrong
 
 			//No server socket means no server so we need to "gracefully" stop here
-			CardGamePrimary.ui.print( "Server failed to start" );
+			System.out.println( "Server failed to start" );
 
 			//Stop any networking that has happened so far
 			stopServer();
@@ -54,19 +61,19 @@ public class ServerThread extends Thread {
 		}
 
 		//If we got past the try catch then the server was started successfully
-		CardGamePrimary.ui.print( "Server started" );
+		System.out.println( "Server started" );
 
 		//Listen for player 2 to connect
 		Socket P2Socket;
 		try {
 			
-			CardGamePrimary.ui.print( "Waiting for player 2 to connect..." );
+			System.out.println( "Waiting for player 2 to connect..." );
 			
 			P2Socket = serverSocket.accept();
 		} catch (IOException e) {
 
 			//Something can go wrong while accepting so we have to handle that
-			CardGamePrimary.ui.print( "Unable to connect to player 2" );
+			System.out.println( "Unable to connect to player 2" );
 
 			//Game can't start without player 2
 
@@ -77,10 +84,10 @@ public class ServerThread extends Thread {
 			return;
 		}
 		
-		CardGamePrimary.ui.print( "Player 2 connected" );
+		System.out.println( "Player 2 connected" );
 
 		//Once we have player 2's socket connected, start a new server to client thread for it
-		P2Thread = new ServerToClientThread( P2Socket, 2 );
+		P2Thread = new ServerToClientThread( events, P2Socket, 2 );
 		
 		//Set up players array
 		players[2] = P2Thread;
@@ -91,13 +98,13 @@ public class ServerThread extends Thread {
 		Socket P3Socket;
 		try {
 			
-			CardGamePrimary.ui.print( "Waiting for player 3 to connect..." );
+			System.out.println( "Waiting for player 3 to connect..." );
 			
 			P3Socket = serverSocket.accept();
 		} catch (IOException e) {
 
 			//Something can go wrong while accepting so we have to handle that
-			CardGamePrimary.ui.print( "Unable to connect to player 3" );
+			System.out.println( "Unable to connect to player 3" );
 
 			//Game can't start without player 3
 
@@ -108,12 +115,12 @@ public class ServerThread extends Thread {
 			return;
 		}
 		
-		CardGamePrimary.ui.print( "Player 3 connected" );
+		System.out.println( "Player 3 connected" );
 		
 		
 
 		//Once we have player 2's socket connected, start a new server to client thread for it
-		P3Thread = new ServerToClientThread( P3Socket, 3 );
+		P3Thread = new ServerToClientThread( events, P3Socket, 3 );
 		
 		//Set up players array
 		players[3] = P3Thread;
@@ -149,6 +156,8 @@ public class ServerThread extends Thread {
 	//Sends a played card to a specific player
 	//Called by broadcastCard internally
 	private void sendCardPlayed( int playerID, int playedByID, Card card ){
+		
+		System.out.println( "Player ID " + playerID );
 		
 		//Send the card to the player via the player's thread
 		players[ playerID ].sendPlayedCard( playedByID, card );
