@@ -67,6 +67,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	Drawable p2 = new Drawable(400, 20, 90, 40, "GUIImages/Player2.png");
 	Drawable p3 = new Drawable(650, 20, 90, 40, "GUIImages/Player3.png");
 	
+	Drawable handTable = new Drawable(0,400,400,300, "GUIImages/TableTop.png");
+	Drawable pokerTable = new Drawable(0,0,1000,400, "GUIImages/PokerTable.png");
 
 	
 	//Receives 3D array for ints containing 17 rows of 2 values.
