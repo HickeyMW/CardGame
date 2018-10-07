@@ -47,7 +47,7 @@ public class StartGame implements GUIInterface{
         		//Obtains IP info and displays it
         		try {
 					ipPull();
-					GuiPanel.guiInt.hostGame();
+					GuiPanel.ctrl.hostGame();
 					
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
@@ -63,7 +63,7 @@ public class StartGame implements GUIInterface{
         	public void actionPerformed(ActionEvent ae) {
         		//Sends IP info to networking
         		System.out.println(getIPFromText());
-        		GuiPanel.guiInt.joinGame(getIPFromText());
+        		GuiPanel.ctrl.joinGame(getIPFromText());
         	}
         });
         startButton = new JButton ("Start Game");
@@ -75,7 +75,6 @@ public class StartGame implements GUIInterface{
 						play();
 						window.dispose();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
         	}

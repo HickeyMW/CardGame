@@ -16,14 +16,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import GameLogic.GUIEvents;
+import GameLogic.MainControl;
 import Main.Card;
 
 public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	
 	Boolean isTurn = true;
-	static GUIEvents guiInt;
+	static MainControl ctrl = new MainControl();
 	
 	
 	ClickableButton roundButton = 	new ClickableButton( 700, 600, 300, 100, "GUIImages/NextRound.png", "GUIImages/NextRoundNot.png" ) {
@@ -32,7 +32,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			//endGame();
 			
 			//TODO 
-			guiInt.startRound();
+			//startRound();
 			
 			
 		}
@@ -45,9 +45,11 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			//Detects if there is a selected card and passes it to game logic
 			if(ClickableCard.selectedCard!=null) {
 				System.out.println(ClickableCard.selectedCard.card.toString());
+				GuiPanel.ctrl.playCard(ClickableCard.selectedCard.card);
 				showPlayedCard(2, ClickableCard.selectedCard.card);
+				
 				ClickableCard.cardPlayed();
-				//GUIEvents.playCard();
+				
 			}
 			//TODO Uncomment
 			
@@ -73,7 +75,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//Generates own cards. Used for testing.
 	public GuiPanel() throws IOException
 	{
-		//IPwindow ipwin = new IPwindow();
 		
 		
 		
@@ -158,7 +159,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	Drawable p3Card = new Drawable(650, 125, 137, 200, "GUIImages/Cards/temp.png");
 	
 	public void showPlayedCard(int player, Card card) {
-		System.out.println("A");
 		
 		if(player == 1) {
 			p1Card.changeImage("GUIImages/cards/" + card.toString().replaceAll(" ", "_") + ".png");
@@ -167,13 +167,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		}else if(player == 3) {
 			p3Card.changeImage("GUIImages/cards/" + card.toString().replaceAll(" ", "_") + ".png");
 		}
-		//Removes card from hand
-		if(player == 2 /*TODO playerID*/) {
-			
-		}
-		
-		
-		
 		
 	}
 	
@@ -379,17 +372,20 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		// TODO Auto-generated method stub
 		
 	}
-
+	static ArrayList<ClickableCard> hand;
 	@Override
 	public void startingHand(ArrayList<Card> cards) {
-		// TODO Auto-generated method stub
+		
+		
+		
 		for (int i = 0; i < cards.size()-1; i++) {
-			new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) ) {
+			new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) ){
 				public void onClicked() {
 					//System.out.println( "Clicked " + this.card );
 				}
 			};
-
+			
+			
 		}
 		
 	}

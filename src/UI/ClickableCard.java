@@ -1,11 +1,5 @@
 package UI;
 
-import java.awt.Graphics;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import Main.Card;
 
 public class ClickableCard extends Clickable {
@@ -52,7 +46,8 @@ public class ClickableCard extends Clickable {
 	
 	public static void cardPlayed() {
 		selectedCard.y+=selectedCardHeightModifier;
-		selectedCard=null;
+		Driver.drawables.remove(selectedCard);
+		//selectedCard=null;
 	}
 	
 	
