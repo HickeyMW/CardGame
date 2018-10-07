@@ -100,6 +100,8 @@ public class ServerToClientThread extends Thread {
 	public void sendGameStart( int startedByID ){
 		//CardGamePrimary.ui.print( "Informing player " + playerID + " that a game is starting" );
 		
+		System.out.println( "Sending game start to " + playerID );
+		
 		writeLine( "gamestart" );
 		writeLine( startedByID );
 	}

@@ -9,6 +9,7 @@ import Server.ServerEvents;
 import Server.ServerThread;
 import UI.GUIInterface;
 import UI.GUIStartInterface;
+import UI.StartGame;
 
 public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	
@@ -33,6 +34,9 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		
 		//Update the GUIInterface to be a real one
 		this.guiInterface = guiInterface;
+		
+		//Update guiStartInterface to be a real one
+		this.guiStartInterface = guiStartInterface;
 		
 		for (int i = 0; i < 3; i++) {
 			playersHands.add(new ArrayList<Card>());
@@ -71,7 +75,13 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 
 	public void startGame() {
+		
+		System.out.println( "Startgame" );
+		
 		if (playerId == 1) {
+			
+			System.out.println( "Starting game" );
+			
 			serverThread.broadcastGameStart(playerId);
 		} else {
 			clientThread.startGame();
@@ -270,7 +280,14 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 
 	public void connectedToServerOnClient() {
+		UI.StartGame.print( "Connectd event" );
+		
+		UI.StartGame.print( "Please don't be null " + guiStartInterface );
+		
 		guiStartInterface.connectedToServer(clientThread.playerID);
+		
+		UI.StartGame.print( "Connected on client.  Listening for game start" );
+		
 		clientThread.listenForGameStart();
 		
 	}

@@ -8,6 +8,7 @@ import java.net.Socket;
 
 import Main.Card;
 import Main.Driver;
+import UI.StartGame;
 
 public class ClientThread extends Thread {
 	
@@ -46,7 +47,7 @@ public class ClientThread extends Thread {
 	//Main thread code
 	public void run(){
 		
-		Driver.info.print( "Connecting to server..." );
+		StartGame.print( "Connecting to server..." );
 		
 		//Try to connect to the server
 		try {
@@ -67,13 +68,13 @@ public class ClientThread extends Thread {
 			in = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
 			out = new PrintWriter(socket.getOutputStream(), true);
 			
-			Driver.info.print( "Waiting for playerID" );
+			StartGame.print( "Waiting for playerID" );
 			
 			//Listen for our player number
 			String playerIDString = in.readLine();
 			playerID = Integer.parseInt( playerIDString );
 			
-			Driver.info.print( "We are player " + playerID );
+			StartGame.print( "We are player " + playerID );
 			
 		} catch (IOException e) {
 			
@@ -83,7 +84,10 @@ public class ClientThread extends Thread {
 			return;
 		}
 		
-		Driver.info.print( "Connected." );
+		StartGame.print( "Connected." );
+		
+		
+		StartGame.print( "Calling connected event" );
 		
 		//Call the client connection event
 		events.connectedToServerOnClient();
@@ -103,7 +107,7 @@ public class ClientThread extends Thread {
 	//Listens for dealt cards
 	public void listenForDealtCard() {
 		
-		Driver.info.print( "Listening for dealt card from server..." );
+		StartGame.print( "Listening for dealt card from server..." );
 		
 		//Start listening for a card from the server for our hand
 			
@@ -147,7 +151,7 @@ public class ClientThread extends Thread {
 	//Listens for someone to play a card
 	public void listenForPlayedCard() {
 		
-		Driver.info.print( "Listening for someone to play a card..." );
+		StartGame.print( "Listening for someone to play a card..." );
 		
 		//Try to read the next line
 		String line;
@@ -192,7 +196,7 @@ public class ClientThread extends Thread {
 	//Listens for someone to start the next round
 	public void listenForRoundStart() {
 		
-		Driver.info.print( "Listening for someone to start the next round..." );
+		StartGame.print( "Listening for someone to start the next round..." );
 		
 		//Try to read the next line
 		String line;
@@ -226,7 +230,7 @@ public class ClientThread extends Thread {
 	//Listens for someone to start the next game
 	public void listenForGameStart() {
 		
-		Driver.info.print( "Listening for someone to start the next game..." );
+		StartGame.print( "Listening for someone to start the next game..." );
 		
 		//Try to read the next line
 		String line;
@@ -261,7 +265,7 @@ public class ClientThread extends Thread {
 	private void error( String error ) {
 		
 		//Log the error
-		Driver.info.print( error );
+		StartGame.print( error );
 		
 		//Call the event
 		events.error( error );

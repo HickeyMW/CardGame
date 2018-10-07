@@ -19,12 +19,12 @@ import Main.Driver;
 public class StartGame implements GUIStartInterface{
 	
 	//Holds everything
-	JFrame window = new JFrame("Jack or Better Launcher");
+	public static JFrame window = new JFrame("Jack or Better Launcher");
 	static JFrame frame = new JFrame( "Jacks or Better" );
 
 	private JButton host;
     private JButton connect;
-    private JTextArea ipInField;
+    private static JTextArea ipInField;
     private JLabel playerInfoLabel;
     private JLabel p1;
     private JLabel p2;
@@ -34,11 +34,16 @@ public class StartGame implements GUIStartInterface{
     private JLabel ipInfoLabel;
     private JButton startButton;
     
-    static MainControl ctrl = new MainControl( Driver.panel, Driver.info );
+    public static GuiPanel panel;
     
+    static MainControl ctrl;
 	
 	public StartGame() throws IOException {
-		Driver.panel = new GuiPanel();
+		
+		panel = new GuiPanel();
+		
+		ctrl = new MainControl( panel, this );
+		
 		window.setSize(400, 400);
 		window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
@@ -127,7 +132,7 @@ public class StartGame implements GUIStartInterface{
 		window.setVisible(true);
 	}
 	
-	public void print( String str ){
+	public static void print( String str ){
 		ipInField.setText( ipInField.getText() + str + "\n" );
 	}
 	
@@ -162,9 +167,9 @@ public class StartGame implements GUIStartInterface{
 		frame.setSize( 1000, 800 );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
-		Driver.panel = new GuiPanel();
-		Driver.panel.createCtrl(ctrl);
-		frame.getContentPane().add( Driver.panel );
+		panel = new GuiPanel();
+		panel.createCtrl(ctrl);
+		frame.getContentPane().add( panel );
 		
 		frame.pack();
 		frame.setVisible( true );
@@ -176,6 +181,9 @@ public class StartGame implements GUIStartInterface{
 
 	@Override
 	public void connectedToServer(int playerId) {
+		
+		StartGame.print( "fuck" );
+		
 		if(playerId==1)
 			p1.setText("Player 1: Connected");
 		else if(playerId == 2)

@@ -173,6 +173,8 @@ public class ServerThread extends Thread {
 	//Broadcasts to every player that a new game has started
 	public void broadcastGameStart( int startedByID ){
 		
+		System.out.println( "Broadcasted game start" );
+		
 		players[2].sendGameStart( startedByID );
 		players[3].sendGameStart( startedByID );
 		

@@ -28,7 +28,6 @@ public class ClickableCard extends Clickable {
 		selectedCard = this;
 		
 		y -= selectedCardHeightModifier;
-		Driver.panel.repaint();
 		
 	}
 	
@@ -41,8 +40,6 @@ public class ClickableCard extends Clickable {
 		selectedCard = this;
 		y -= selectedCardHeightModifier;
 		
-		
-		Driver.panel.repaint();
 	}
 	
 	public static void cardPlayed() {
