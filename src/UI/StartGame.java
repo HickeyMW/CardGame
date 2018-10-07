@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import GameLogic.GUIEvents;
 import Main.Card;
 
-public class StartGame implements GUIInterface{
+public class StartGame implements GUIStartInterface{
 	
 	//Holds everything
 	JFrame window = new JFrame("Jack or Better Launcher");
@@ -169,60 +169,17 @@ public class StartGame implements GUIInterface{
 
 	@Override
 	public void connectedToServer(int playerId) {
-		// TODO Auto-generated method stub
+		if(playerId==1)
+			p1.setText("Player 1: Connected");
+		else if(playerId == 2)
+			p2.setText("Player 2: Connected");
+		else if(playerId == 3)
+			p3.setText("Player 3: Connected");
 		
 	}
 
 	
 
-	@Override
-	public void roundWinner(int playerId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void gameStarted() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void roundStarted() {
-
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void gameWinner(int playerId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void error(String error) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void startingHand(ArrayList<Card> cards) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void playableCards(ArrayList<Card> cards) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateScores(int player1, int player2, int player3) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 	

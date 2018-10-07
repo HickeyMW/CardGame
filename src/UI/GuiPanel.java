@@ -23,7 +23,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	
 	Boolean isTurn = true;
-	static MainControl ctrl = new MainControl();
+	static MainControl ctrl = new MainControl( this );
 	
 	
 	ClickableButton roundButton = 	new ClickableButton( 700, 600, 300, 100, "GUIImages/NextRound.png", "GUIImages/NextRoundNot.png" ) {
@@ -331,16 +331,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		
 	}
 
-	@Override
-	public void playerConnected(int playerId) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void connectedToServer(int playerId) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	@Override
 	public void gameStarted() {
 		// TODO Auto-generated method stub

@@ -4,14 +4,6 @@ import java.util.ArrayList;
 
 public interface GUIInterface {
 
-    //Server methods
-
-    void playerConnected(int playerId);
-
-    //Client methods
-
-    void connectedToServer(int playerId);
-
     //General methods
 
     void roundStarted();
