@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import GameLogic.MainControl;
 import Main.Card;
+import Main.Driver;
 
 public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	

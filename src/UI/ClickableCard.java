@@ -1,6 +1,7 @@
 package UI;
 
 import Main.Card;
+import Main.Driver;
 
 public class ClickableCard extends Clickable {
 

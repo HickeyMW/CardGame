@@ -6,9 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import Client.ClientEvents;
 import Main.Card;
-import Main.CardGamePrimary;
 
 public class ServerToClientThread extends Thread {
 

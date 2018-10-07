@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import Main.Card;
-import Main.CardGamePrimary;
+import Main.Driver;
 
 public class ServerThread extends Thread {
 
@@ -46,7 +46,7 @@ public class ServerThread extends Thread {
 		//Start networking
 		try {
 			//Attempt to bind a server socket to the port
-			serverSocket = new ServerSocket( CardGamePrimary.PORT );
+			serverSocket = new ServerSocket( Driver.PORT );
 		} catch (IOException e) {
 
 			//If we can't do that, something has gone wrong

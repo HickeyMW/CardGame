@@ -7,8 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import Main.Card;
-import Main.CardGamePrimary;
-import UI.Driver;
+import Main.Driver;
 
 public class ClientThread extends Thread {
 	
@@ -19,7 +18,7 @@ public class ClientThread extends Thread {
 	private ClientEvents events;
 	
 	//The server's port
-	int port = CardGamePrimary.PORT;
+	int port = Driver.PORT;
 	
 	//Socket connecting this client to the server
 	private Socket socket;

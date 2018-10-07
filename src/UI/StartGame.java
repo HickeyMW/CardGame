@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import GameLogic.MainControl;
+import Main.Driver;
 
 public class StartGame implements GUIStartInterface{
 	

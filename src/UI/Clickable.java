@@ -1,5 +1,7 @@
 package UI;
 
+import Main.Driver;
+
 public class Clickable extends Drawable {
 
 	int w, h;
