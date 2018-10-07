@@ -83,6 +83,8 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			System.out.println( "Starting game" );
 			
 			serverThread.broadcastGameStart(playerId);
+			
+			dealCards();
 		} else {
 			clientThread.startGame();
 		}
@@ -92,12 +94,17 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		serverThread.broadcastGameStart(1);
 		ArrayList<Card> deck = new ArrayList<Card>();
 
+		System.out.println( "Starting deal" );
+		
 		for (int i = 0; i < 4; i++) {
-			for (int j = 2; j < 15; j++) {
+			for (int j = 1; j < 14; j++) {
 				deck.add(new Card(j, i));
 			}
 		}
 		Collections.shuffle(deck);
+		
+		System.out.println( "Starting deal" );
+		
 		for (int i = 0; i < 17; i++) {
 			for (int j = 1; j < 4; j++) {
 				Card nextCard = deck.get(0);
@@ -110,6 +117,8 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 				}
 			}
 		}
+		
+		guiInterface.startingHand( myCards );
 	}
 
 	public void cardPlayedOnServer(int player, Card card) {
