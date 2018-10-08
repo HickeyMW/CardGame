@@ -259,24 +259,23 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {		
-	}
+	public void mouseEntered(MouseEvent arg0) {}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
-		
-	}
+	public void mouseExited(MouseEvent arg0) {}
+	
+	@Override
+	public void mouseClicked(MouseEvent arg0) {}
 	
 	@Override
 	public void mouseReleased( MouseEvent mouseEvent ) {
-		
 		//If there's something held, let it go
 		if( ClickableButton.heldButton != null ) {
 			
 			//If we just released over the held button then we did a full click on it
 			if( ClickableButton.heldButton.pointWithin( mouseEvent.getX() ,  mouseEvent.getY() ) ){
 			
-				//ClickableButton.heldButton.onClicked();
+				ClickableButton.heldButton.onClicked();
 				
 			}
 			
@@ -314,7 +313,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			}
 			
 			if( clickable.pointWithin( mouseEvent.getX() ,  mouseEvent.getY() ) ){
-				clickable.onClicked();
 				clickable.onMouseDown();
 				break;
 			}
@@ -325,13 +323,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		this.repaint();
 		
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-	
-		
-	}
-
 	
 	@Override
 	public void gameStarted()  {

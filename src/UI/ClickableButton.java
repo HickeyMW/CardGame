@@ -27,9 +27,7 @@ public class ClickableButton extends Clickable{
 		heldButton = null;
 	}
 	
-	public void onClicked() {
-		System.out.println("dot");
-	}
+	public void onClicked() {}
 	
 	
 	//When the mouse goes down here, toggle to our held image
