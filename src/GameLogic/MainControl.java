@@ -291,8 +291,9 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		guiStartInterface.connectedToServer(clientThread.playerID);
 		
 		UI.StartGame.print( "Connected on client.  Listening for game start" );
-		
+		playerId = clientThread.playerID;
 		clientThread.listenForGameStart();
+		
 		
 	}
 
