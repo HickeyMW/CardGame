@@ -131,7 +131,7 @@ public class StartGame implements GUIStartInterface{
         
         ipInField.setText( "127.0.0.1" );
 		
-		
+        ipInField.setText("127.0.0.1");
 		window.setVisible(true);
 	}
 	
