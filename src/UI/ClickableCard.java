@@ -45,6 +45,7 @@ public class ClickableCard extends Clickable {
 	public static void cardPlayed() {
 		selectedCard.y+=selectedCardHeightModifier;
 		Driver.drawables.remove(selectedCard);
+		Driver.clickables.remove(selectedCard);
 		//selectedCard=null;
 	}
 	

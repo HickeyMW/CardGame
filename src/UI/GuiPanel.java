@@ -40,13 +40,10 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		}
 	};
 	
-	ClickableButton playButton = 	new ClickableButton( 700, 700, 300, 100, "GUIImages/PlayCard.png", "GUIImages/PlayCardNot.png" ) {
+	ClickableButton playCard = 	new ClickableButton( 700, 700, 300, 100, "GUIImages/PlayCard.png", "GUIImages/PlayCardNot.png" ) {
 		public void onClicked() {
-			System.out.println( "Clicked play" );
-			
 			//Detects if there is a selected card and passes it to game logic
-			if(ClickableCard.selectedCard!=null) {
-				System.out.println(ClickableCard.selectedCard.card.toString());
+			if( ClickableCard.selectedCard != null ) {
 				ctrl.playCard(ClickableCard.selectedCard.card);
 				showPlayedCard( ctrl.playerId, ClickableCard.selectedCard.card);
 				
