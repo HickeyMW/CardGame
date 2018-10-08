@@ -76,18 +76,13 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	
 	//Generates own cards. Used for testing.
-	public GuiPanel( ) throws IOException
-	{
+	public GuiPanel( ) throws IOException {
 		
 		
 		setBackground(Color.LIGHT_GRAY);
 		setPreferredSize(new Dimension(1000,800));
 		setFont(new Font("Arial", Font.BOLD, 16));
-		addMouseListener(this);	
-		
-		
-		
-				
+		addMouseListener(this);				
 
 		
 		/*
@@ -123,14 +118,15 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			new ClickableCard( 50 + 30 * i, 500, 156, 256, card );
 		}
 		
+		//Redraw everything
+		this.repaint();
+		
 	}
 	
 	public void updateScores(int player1, int player2, int player3){
 		p1Score = player1;
 		p2Score = player2;
 		p3Score = player3;
-		
-		
 	}
 	
 	
@@ -159,6 +155,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		
 		}
 		
+		//Redraw everything
+		this.repaint();
 		
 	}
 	Drawable p1Card = new Drawable(150, 125, 156, 256, "GUIImages/Cards/temp.png");
@@ -271,10 +269,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	@Override
 	public void mouseReleased( MouseEvent mouseEvent ) {
-		
-		
-		
-		
 		
 		//If there's something held, let it go
 		if( ClickableButton.heldButton != null ) {

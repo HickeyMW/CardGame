@@ -10,11 +10,10 @@ import java.net.UnknownHostException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import GameLogic.MainControl;
-import Main.Driver;
 
 public class StartGame implements GUIStartInterface{
 	
@@ -101,10 +100,14 @@ public class StartGame implements GUIStartInterface{
         window.setPreferredSize (new Dimension (350, 400));
         window.setLayout (null);
 
+        
+        JScrollPane scroll = new JScrollPane (ipInField, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scroll.setBounds (230, 100, 150, 230 );
+        
         //add components
         window.add (host);
         window.add (connect);
-        window.add (ipInField);
+        window.add ( scroll );
         window.add (playerInfoLabel);
         window.add (p1);
         window.add (p2);
@@ -117,7 +120,6 @@ public class StartGame implements GUIStartInterface{
         //set component bounds (only needed by Absolute Positioning)
         host.setBounds (55, 335, 100, 25);
         connect.setBounds (230, 335, 100, 25);
-        ipInField.setBounds (230, 100, 150, 250);
         playerInfoLabel.setBounds (50, 20, 145, 25);
         p1.setBounds (50, 60, 175, 20);
         p2.setBounds (50, 90, 140, 25);
