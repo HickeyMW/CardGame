@@ -260,11 +260,11 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
     }
 
 	private int nextPlayerId() {
-		return ((currentPlayerTurn + 1) % 4) + 1;
+		return (currentPlayerTurn % 3) + 1;
 	}
 
 	private int nextNextPlayerId() {
-		return ((currentPlayerTurn + 2) % 4) + 1;
+		return ((currentPlayerTurn + 1) % 3) + 1;
 	}
 
 	public void playerConnectedOnServer(int playerID) {
