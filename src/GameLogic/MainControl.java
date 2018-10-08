@@ -131,10 +131,10 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 
 	//Called by Network
 
-	public void gameStartedOnClient(int startedByID) throws IOException {
+	public void gameStartedOnClient(int startedByID) {
 		playerId = clientThread.playerID;
 		guiInterface.gameStarted();
-		StartGame.play();
+		
 		clientThread.listenForDealtCard();
 	}
 
