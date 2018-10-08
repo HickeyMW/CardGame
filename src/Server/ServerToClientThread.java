@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import Main.Card;
+import UI.StartGame;
 
 public class ServerToClientThread extends Thread {
 
@@ -58,7 +59,7 @@ public class ServerToClientThread extends Thread {
 			return;
 		}
 
-		//CardGamePrimary.ui.print( "Player " + playerID + " connected successfully" );
+		StartGame.print( "Player " + playerID + " connected successfully" );
 		
 		
 		//Call the player connection event
@@ -79,7 +80,7 @@ public class ServerToClientThread extends Thread {
 
 	//Sends a dealt card to this player's hand
 	public void sendDealtCard( Card card ){
-		//CardGamePrimary.ui.print( "Dealing " + card + " to player " + playerID );
+		StartGame.print( "Dealing " + card + " to player " + playerID );
 		writeLine( "carddealt" );
 		writeLine( card.getValue() );
 		writeLine( card.getSuit() );
@@ -87,7 +88,7 @@ public class ServerToClientThread extends Thread {
 	
 	//Sends a card played by another player to this player
 	public void sendPlayedCard( int playedByID, Card card ){
-		//CardGamePrimary.ui.print( "Informing player " + playerID + " that player " + playedByID + " played " + card );
+		StartGame.print( "Informing player " + playerID + " that player " + playedByID + " played " + card );
 		
 		writeLine( "cardplayed" );
 		writeLine( playedByID );
@@ -98,7 +99,7 @@ public class ServerToClientThread extends Thread {
 	
 	//Sends the player a notice that the game has started
 	public void sendGameStart( int startedByID ){
-		//CardGamePrimary.ui.print( "Informing player " + playerID + " that a game is starting" );
+		StartGame.print( "Informing player " + playerID + " that a game is starting" );
 		
 		System.out.println( "Sending game start to " + playerID );
 		
@@ -108,7 +109,7 @@ public class ServerToClientThread extends Thread {
 	
 	//Sends the player a notice that the round has started
 	public void sendRoundStart( int startedByID ){
-		//CardGamePrimary.ui.print( "Informing player " + playerID + " that a round is starting" );
+		StartGame.print( "Informing player " + playerID + " that a round is starting" );
 		
 		writeLine( "roundstart" );
 		writeLine( startedByID );
@@ -117,7 +118,7 @@ public class ServerToClientThread extends Thread {
 	//Listen for this player to play a card
 	public void ListenForCardPlayed() {
 		
-		//CardGamePrimary.ui.print( "Listening for a card from client..." );
+		StartGame.print( "Listening for a card from client..." );
 		
 		//No loop as we only need to listen for a single card	
 		try {
@@ -154,7 +155,7 @@ public class ServerToClientThread extends Thread {
 	//Listen for this player to start the round
 	public void ListenForRoundStart() {
 		
-		//CardGamePrimary.ui.print( "Listening for round start from player " + playerID );
+		StartGame.print( "Listening for round start from player " + playerID );
 		
 		try {
 		
@@ -178,7 +179,7 @@ public class ServerToClientThread extends Thread {
 	
 	//Listen for the start of the next game
 	public void ListenForGameStart() {
-		//CardGamePrimary.ui.print( "Listening for game start from player " + playerID );
+		StartGame.print( "Listening for game start from player " + playerID );
 		
 		try {
 		
@@ -203,7 +204,7 @@ public class ServerToClientThread extends Thread {
 	public void error( String error ) {
 		
 		//Log the error
-		//CardGamePrimary.ui.print( error );
+		StartGame.print( error );
 		
 		//Call the event
 		events.error( error );

@@ -53,13 +53,16 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 	
 	public void joinGame(String ip) {
-		System.out.println(ip);
+		StartGame.print(ip);
 		clientThread = new ClientThread( this, ip);
 	}
 	
 
 
 	public void playCard(Card card) {
+		
+		StartGame.print( "Player " + playerId + " played " + card );
+		
 		if (playerId == 1) {
 			serverThread.broadcastCardPlayed(1, card);
 		} else {
@@ -77,11 +80,11 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 
 	public void startGame() {
 		
-		System.out.println( "Startgame" );
+		StartGame.print( "Startgame" );
 		
 		if (playerId == 1) {
 			
-			System.out.println( "Starting game" );
+			StartGame.print( "Starting game" );
 			
 			serverThread.broadcastGameStart(playerId);
 			
@@ -161,7 +164,11 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	//Shared methods
 
 	public void cardPlayedOnClient(int player, Card card) {
+		
+		StartGame.print( "Letting the gui know about player " + player + " playing " + card );
+		
 		guiInterface.cardPlayed(player, card);
+		
 		playedCards[player - 1] = card;
 		numberOfCardsPlayed++;
 		currentPlayerTurn = nextPlayerId();

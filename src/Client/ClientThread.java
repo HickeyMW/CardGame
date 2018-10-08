@@ -184,6 +184,8 @@ public class ClientThread extends Thread {
 				//Recreate the dealt card object
 				Card card = new Card( cardValue, cardSuit );
 				
+				StartGame.print( "Player " + playedByID + " played " + card );
+				
 				//Call card played event
 				events.cardPlayedOnClient(playedByID, card);
 				

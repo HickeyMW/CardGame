@@ -44,8 +44,12 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		public void onClicked() {
 			//Detects if there is a selected card and passes it to game logic
 			if( ClickableCard.selectedCard != null ) {
-				ctrl.playCard(ClickableCard.selectedCard.card);
-				showPlayedCard( ctrl.playerId, ClickableCard.selectedCard.card);
+				
+				//Tells gamelogic to play the card
+				ctrl.playCard( ClickableCard.selectedCard.card );
+				
+				//Tells the UI to play the card
+				showPlayedCard( ctrl.playerId, ClickableCard.selectedCard.card );
 				
 				//Let the card know it was played
 				ClickableCard.cardPlayed();
