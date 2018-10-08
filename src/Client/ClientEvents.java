@@ -1,5 +1,7 @@
 package Client;
 
+import java.io.IOException;
+
 import Main.Card;
 
 //Events that occur on the client
@@ -18,7 +20,7 @@ public interface ClientEvents {
 	void roundStartedOnClient( int startedByID );
 	
 	//Called when a player starts a new game
-	void gameStartedOnClient( int startedByID );
+	void gameStartedOnClient( int startedByID ) throws IOException;
 	
 	//Called whenever there's an error and the game needs to be reset
 	void error(String error);

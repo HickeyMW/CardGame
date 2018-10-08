@@ -60,7 +60,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	};
 	
 	
-	Drawable handTable = new Drawable(0,400,400,300, "GUIImages/TableTop.png");
+	//Drawable handTable = new Drawable(0,400,400,300, "GUIImages/TableTop.png");
 	Drawable pokerTable = new Drawable(0,0,1000,400, "GUIImages/PokerTable.png");
 
 	
