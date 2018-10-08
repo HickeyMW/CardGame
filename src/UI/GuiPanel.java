@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import GameLogic.MainControl;
 import Main.Card;
@@ -59,7 +60,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		}
 	};
 	
-	
 	//Drawable handTable = new Drawable(0,400,400,300, "GUIImages/TableTop.png");
 	Drawable pokerTable = new Drawable(0,0,1000,400, "GUIImages/PokerTable.png");
 
@@ -82,31 +82,29 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		setBackground(Color.LIGHT_GRAY);
 		setPreferredSize(new Dimension(1000,800));
 		setFont(new Font("Arial", Font.BOLD, 16));
-		addMouseListener(this);				
-
-		
-		/*
-		//Generate some cards
-		for (int i = 0; i < 17; i++) {
-		
-			Card card = new Card( 1 + i%13, (int) ( Math.random() * 3 ) );
-			
-			new ClickableCard( 50 + 30 * i, 500, 156, 256, card ) {
-				public void onClicked() {
-					//System.out.println( "Clicked " + this.card );
-				}
-			};
-			
-		}
-		*/
-		
-		
-		
+		addMouseListener(this);
 		
 	}
 	
 	public void createCtrl(MainControl newCtrl) {
 		ctrl = newCtrl;
+		
+		//Change the player image to indicate which player this window is.
+		//TODO remove this "feature"
+		switch( ctrl.playerId ) {
+		
+		case 1:
+			p1.changeImage("GUIImages/Player1Turn.png");
+			break;
+		case 2:
+			p2.changeImage("GUIImages/Player2Turn.png");
+			break;
+		case 3:
+			p3.changeImage("GUIImages/Player3Turn.png");
+			break;
+		}
+		
+		
 	}
 	
 	public void ReceiveCards(int[][] dealt) {

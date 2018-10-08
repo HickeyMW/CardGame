@@ -59,7 +59,9 @@ public class StartGame implements GUIStartInterface{
 					e.printStackTrace();
 				}
         		
-        		
+        		//Names the start window to player 1 if we are the host
+        		//TODO remove this
+        		StartGame.window.setTitle( "Player 1" );
         		
         		
         	}
@@ -186,14 +188,17 @@ public class StartGame implements GUIStartInterface{
 	
 
 	@Override
-	public void connectedToServer(int playerId) {
+	public void connectedToServer( int playerID ) {
 		
+		//Names the start window AKA the console window to the player number
+		//TODO remove this
+		StartGame.window.setTitle( "Player " + playerID );
 		
-		if(playerId==1)
+		if( playerID==1 )
 			p1.setText("Player 1: Connected");
-		else if(playerId == 2)
+		else if( playerID == 2 )
 			p2.setText("Player 2: Connected");
-		else if(playerId == 3)
+		else if( playerID == 3 )
 			p3.setText("Player 3: Connected");
 		
 	}
