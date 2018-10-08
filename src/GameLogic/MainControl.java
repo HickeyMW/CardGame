@@ -14,7 +14,7 @@ import UI.StartGame;
 
 public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	
-	private int playerId = 0;
+	public int playerId = 0;
 
 	private ArrayList<ArrayList<Card>> playersHands = new ArrayList<ArrayList<Card>>();
 	private Card[] playedCards = new Card[3];

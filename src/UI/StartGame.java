@@ -128,6 +128,8 @@ public class StartGame implements GUIStartInterface{
         hostNameLabel.setBounds (55, 280, 200, 25);
         ipInfoLabel.setBounds (55, 200, 130, 25);
         startButton.setBounds (225, 25, 100, 25);
+        
+        ipInField.setText( "127.0.0.1" );
 		
 		
 		window.setVisible(true);
