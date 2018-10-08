@@ -178,6 +178,9 @@ public class StartGame implements GUIStartInterface{
 	}
 	
 	public static void clientPlay() throws IOException{
+		ctrl.startGame();
+
+		
 		frame.setSize( 1000, 800 );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		

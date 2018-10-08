@@ -1,4 +1,5 @@
 package GameLogic;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -74,7 +75,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		}
 	}
 
-	public void startGame() {
+	public void startGame() throws IOException {
 		
 		System.out.println( "Startgame" );
 		
@@ -273,7 +274,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		guiInterface.roundStarted();
 	}
 
-	public void gameStartedOnServer(int startedByID) {
+	public void gameStartedOnServer(int startedByID) throws IOException {
 		if (gameWinner() == startedByID) {
 			serverThread.broadcastGameStart(startedByID);
 		}
@@ -291,9 +292,8 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		guiStartInterface.connectedToServer(clientThread.playerID);
 		
 		UI.StartGame.print( "Connected on client.  Listening for game start" );
-		playerId = clientThread.playerID;
-		clientThread.listenForGameStart();
 		
+		clientThread.listenForGameStart();
 		
 	}
 
