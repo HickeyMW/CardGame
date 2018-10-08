@@ -124,6 +124,8 @@ public class ClientThread extends Thread {
 		//If this line contains "carddealt" then the server is dealing us a card
 		if( line.contains( "carddealt" ) ){
 			
+			StartGame.print( "Got card" );
+			
 			//Read in the next two lines, which will be ints for card value and card suit, in that order
 			try {
 				

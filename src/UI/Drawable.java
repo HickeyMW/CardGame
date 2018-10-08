@@ -30,7 +30,6 @@ public class Drawable {
 		
 		this.imageURL = imageURL;
 		try {
-			System.out.println( "Image was " + imageURL );
 			image = ImageIO.read( new File( imageURL ) );
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

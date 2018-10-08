@@ -91,10 +91,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 	
 	private void dealCards() {
-		serverThread.broadcastGameStart(1);
 		ArrayList<Card> deck = new ArrayList<Card>();
-
-		System.out.println( "Starting deal" );
 		
 		for (int i = 0; i < 4; i++) {
 			for (int j = 1; j < 14; j++) {
@@ -102,8 +99,6 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			}
 		}
 		Collections.shuffle(deck);
-		
-		System.out.println( "Starting deal" );
 		
 		for (int i = 0; i < 17; i++) {
 			for (int j = 1; j < 4; j++) {
