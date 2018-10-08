@@ -47,6 +47,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 				ctrl.playCard(ClickableCard.selectedCard.card);
 				showPlayedCard( ctrl.playerId, ClickableCard.selectedCard.card);
 				
+				//Let the card know it was played
 				ClickableCard.cardPlayed();
 				
 			}
