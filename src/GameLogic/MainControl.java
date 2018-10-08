@@ -161,6 +161,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	//Shared methods
 
 	public void cardPlayedOnClient(int player, Card card) {
+		guiInterface.cardPlayed(player, card);
 		playedCards[player - 1] = card;
 		numberOfCardsPlayed++;
 		currentPlayerTurn = nextPlayerId();

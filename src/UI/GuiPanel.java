@@ -394,5 +394,11 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void cardPlayed(int player, Card card) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

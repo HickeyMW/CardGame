@@ -1,7 +1,10 @@
 package UI;
 
+import java.awt.CardLayout;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import Main.Card;
 
 public interface GUIInterface {
 
@@ -22,4 +25,6 @@ public interface GUIInterface {
     void playableCards(ArrayList<Main.Card> cards);
 
     void updateScores(int player1, int player2, int player3);
+
+	void cardPlayed(int player, Card card);
 }
