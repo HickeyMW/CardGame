@@ -159,8 +159,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		this.repaint();
 		
 	}
-	Drawable p1Card = new Drawable(150, 125, 156, 256, "GUIImages/Cards/temp.png");
-	Drawable p2Card = new Drawable(400, 125, 156, 256, "GUIImages/Cards/temp.png");
+	Drawable p1Card = new Drawable(150, 125, 137, 200, "GUIImages/Cards/temp.png");
+	Drawable p2Card = new Drawable(400, 125, 137, 200, "GUIImages/Cards/temp.png");
 	Drawable p3Card = new Drawable(650, 125, 137, 200, "GUIImages/Cards/temp.png");
 	
 	public void showPlayedCard(int player, Card card) {
