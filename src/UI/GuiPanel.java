@@ -274,23 +274,16 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			
 			//If we just released over the held button then we did a full click on it
 			if( ClickableButton.heldButton.pointWithin( mouseEvent.getX() ,  mouseEvent.getY() ) ){
-			
 				ClickableButton.heldButton.onClicked();
-				
 			}
-			
 			
 			//Release the held button
 			ClickableButton.onMouseUp();
 			
-			
 		}
-		
-		
 		
 		//Redraw everything
 		this.repaint();
-
 	}
 
 	@Override
@@ -301,7 +294,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			//If this is the case, we'll do some error avoidance and just ignore this event.
 			return;
 		}
-		
 		
 		//Check if we just started clicking any buttons
 		for(  int i = Driver.clickables.size()-1 ; i>= 0; i--) {
