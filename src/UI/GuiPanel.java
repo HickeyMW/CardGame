@@ -340,8 +340,15 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 
 	
 	@Override
-	public void gameStarted() {
-		// TODO Auto-generated method stub
+	public void gameStarted()  {
+		
+		
+		try {
+			StartGame.play();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

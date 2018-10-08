@@ -1,5 +1,7 @@
 package Client;
 
+import java.io.IOException;
+
 import Main.Card;
 
 //Events that occur on the client
