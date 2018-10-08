@@ -1,4 +1,5 @@
 package GameLogic;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -86,6 +87,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			
 			dealCards();
 		} else {
+			
 			clientThread.startGame();
 		}
 	}
@@ -129,9 +131,10 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 
 	//Called by Network
 
-	public void gameStartedOnClient(int startedByID) {
+	public void gameStartedOnClient(int startedByID) throws IOException {
 		playerId = clientThread.playerID;
 		guiInterface.gameStarted();
+		StartGame.play();
 		clientThread.listenForDealtCard();
 	}
 
@@ -286,11 +289,11 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	public void connectedToServerOnClient() {
 		UI.StartGame.print( "Connectd event" );
 		
-		UI.StartGame.print( "Please don't be null " + guiStartInterface );
+		//UI.StartGame.print( "Please don't be null " + guiStartInterface );
 		
 		guiStartInterface.connectedToServer(clientThread.playerID);
 		
-		UI.StartGame.print( "Connected on client.  Listening for game start" );
+		//UI.StartGame.print( "Connected on client.  Listening for game start" );
 		
 		clientThread.listenForGameStart();
 		

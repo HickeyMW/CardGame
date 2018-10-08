@@ -80,7 +80,6 @@ public class StartGame implements GUIStartInterface{
         		if(true)
 					try {
 						play();
-						window.dispose();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -173,16 +172,18 @@ public class StartGame implements GUIStartInterface{
 		
 		frame.pack();
 		frame.setVisible( true );
-
+		//window.dispose();
 		
 	}
+	
+	
+	
 
 	
 
 	@Override
 	public void connectedToServer(int playerId) {
 		
-		StartGame.print( "fuck" );
 		
 		if(playerId==1)
 			p1.setText("Player 1: Connected");
