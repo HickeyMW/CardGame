@@ -157,8 +157,6 @@ public class ServerThread extends Thread {
 	//Called by broadcastCard internally
 	private void sendCardPlayed( int playerID, int playedByID, Card card ){
 		
-		System.out.println( "Player ID " + playerID );
-		
 		//Send the card to the player via the player's thread
 		players[ playerID ].sendPlayedCard( playedByID, card );
 		
