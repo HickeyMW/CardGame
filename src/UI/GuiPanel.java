@@ -403,7 +403,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		isTurn = true;
 		changeTurn(ctrl.playerId);
 		//Redraw
-		this.repaint();
+		this.repaint(); 
 		
 	}
 
