@@ -161,13 +161,17 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	public void showPlayedCard(int player, Card card) {
 		StartGame.print("Player "+ player + " played: "+ card);
+		
 		if(player == 1) {
-			p1Card.changeImage("GUIImages/Cards/" + card.toString().replaceAll(" ", "_") + ".png");
+			p1Card.changeImage( ClickableCard.getAddress( card ) );
 		}else if(player == 2) {
-			p2Card.changeImage("GUIImages/Cards/" + card.toString().replaceAll(" ", "_") + ".png");
+			p2Card.changeImage( ClickableCard.getAddress( card ) );
 		}else if(player == 3) {
-			p3Card.changeImage("GUIImages/Cards/" + card.toString().replaceAll(" ", "_") + ".png");
+			p3Card.changeImage( ClickableCard.getAddress( card ) );
 		}
+		
+		//Redraw everything
+		this.repaint();
 		
 	}
 	
@@ -337,6 +341,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			e.printStackTrace();
 		}
 		
+		//Redraw everything
+		this.repaint();
 	}
 	
 	@Override
@@ -346,7 +352,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		p2Card.changeImage("GUIImages/Cards/temp.png");
 		p3Card.changeImage("GUIImages/Cards/temp.png");
 		
-		
+		//Redraw everything
+		this.repaint();
 	}
 
 	@Override
@@ -401,8 +408,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public void cardPlayed(int player, Card card) {
 		// Plays the given card for the given player
 		showPlayedCard(player, card);
-		
-		
 	}
 
 	

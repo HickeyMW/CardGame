@@ -49,6 +49,10 @@ public class Drawable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		Driver.drawables.remove( this );
+		Driver.drawables.add( this );
+		
 	}
 	
 	//Draws the image at the X and Y
