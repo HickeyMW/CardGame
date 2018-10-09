@@ -42,35 +42,32 @@ public class ClickableCard extends Clickable {
 		if(StartGame.panel.isTurn) {
 			
 			//You can only click on playable cards
-			for (int i = 0; i < StartGame.panel.playableCardsVar.size()-1; i++) {
-				Card testCard  = StartGame.panel.playableCardsVar.get(i);
-				System.out.println(i);
-				if(testCard == this.card ) {
-					//If we just clicked on the card we already have selected, we should unselect that card
-					if( selectedCard == this ){
-						
-						//Move the selected card down into the hand
-						selectedCard.y += selectedCardHeightModifier;
-						
-						//Make sure we are no longer selecting this card
-						selectedCard = null;
-						
-						//Stop
-						return;
-					}
+			if(StartGame.panel.playableCardsVar.contains(this.card)) {
+				//If we just clicked on the card we already have selected, we should unselect that card
+				if( selectedCard == this ){
 					
-					//If we have a card already selected, we should move it back down into the hand
-					if( selectedCard != null ) {
-						selectedCard.y += selectedCardHeightModifier;
-					}
+					//Move the selected card down into the hand
+					selectedCard.y += selectedCardHeightModifier;
 					
-					//This is now the selected card
-					selectedCard = this;
+					//Make sure we are no longer selecting this card
+					selectedCard = null;
 					
-					//Move the selected card up out of the hand to show that it is selected
-					y -= selectedCardHeightModifier;
+					//Stop
+					return;
 				}
+				
+				//If we have a card already selected, we should move it back down into the hand
+				if( selectedCard != null ) {
+					selectedCard.y += selectedCardHeightModifier;
+				}
+				
+				//This is now the selected card
+				selectedCard = this;
+				
+				//Move the selected card up out of the hand to show that it is selected
+				y -= selectedCardHeightModifier;
 			}
+			
 		}
 		
 	}
