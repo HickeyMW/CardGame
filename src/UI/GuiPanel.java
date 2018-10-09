@@ -99,7 +99,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	public void createCtrl(MainControl newCtrl) {
 		ctrl = newCtrl;
-		
+		StartGame.print("ctrl created");
 		//Sets window title to indicated which player they are.
 		StartGame.frame.setTitle("Player " + ctrl.playerId );
 		
@@ -137,23 +137,18 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			isTurn = false;
 		
 		
-		switch(player) {
 		
-		case 1: player = 1;
+		if(player == 1) {
 			p3.changeImage("GUIImages/PlayerThreeNotTurn.png");
 			p1.changeImage("GUIImages/PlayerOneTurn.png");
-			break;
-		case 2: player = 2;
+		} else if(player == 2) {
 			p1.changeImage("GUIImages/PlayerOneNotTurn.png");
 			p2.changeImage("GUIImages/PlayerTwoTurn.png");
-			break;
-		case 3: player = 3;
+		}else if (player == 3) {
 			p2.changeImage("GUIImages/PlayerTwoNotTurn.png");
 			p3.changeImage("GUIImages/PlayerThreeTurn.png");
-			break;
-		
 		}
-		
+			
 		//Redraw everything
 		this.repaint();
 		
@@ -406,7 +401,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		if(!playableCardsVar.isEmpty())
 			StartGame.print("Cards received");
 		isTurn = true;
-		
+		int a = ctrl.playerId;
+		changeTurn(ctrl.playerId);
 		//Redraw
 		this.repaint();
 		
@@ -416,6 +412,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public void cardPlayed(int player, Card card) {
 		// Plays the given card for the given player
 		showPlayedCard(player, card);
+		changeTurn((player+1)%3);
 	}
 
 	

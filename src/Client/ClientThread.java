@@ -107,7 +107,7 @@ public class ClientThread extends Thread {
 	//Listens for dealt cards
 	public void listenForDealtCard() {
 		
-		StartGame.print( "Listening for dealt card from server..." );
+		//StartGame.print( "Listening for dealt card from server..." );
 		
 		//Start listening for a card from the server for our hand
 			
@@ -124,7 +124,7 @@ public class ClientThread extends Thread {
 		//If this line contains "carddealt" then the server is dealing us a card
 		if( line.contains( "carddealt" ) ){
 			
-			StartGame.print( "Got card" );
+			//StartGame.print( "Got card" );
 			
 			//Read in the next two lines, which will be ints for card value and card suit, in that order
 			try {

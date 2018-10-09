@@ -166,7 +166,7 @@ public class StartGame implements GUIStartInterface{
 	
 	public static void play() throws IOException {
 		
-		ctrl.startGame();
+		
 		
 		
 		frame.setSize( 1000, 800 );
@@ -175,7 +175,7 @@ public class StartGame implements GUIStartInterface{
 		panel = new GuiPanel();
 		panel.createCtrl(ctrl);
 		frame.getContentPane().add( panel );
-		
+		ctrl.startGame();
 		frame.pack();
 		frame.setVisible( true );
 		//window.dispose();
