@@ -24,7 +24,7 @@ import Main.Driver;
 public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	
-	Boolean isTurn = false;
+	public static Boolean isTurn = false;
 	MainControl ctrl;
 	
 	 ArrayList<Card> playableCardsVar;
