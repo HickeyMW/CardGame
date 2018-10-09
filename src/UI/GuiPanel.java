@@ -116,10 +116,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			//Redraw
 			this.repaint();
 		}
-		
-		//Redraw everything
-		this.repaint();
-		
 	}
 	
 	public void updateScores(){
@@ -167,9 +163,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		}else if(player == 3) {
 			p3Card.changeImage( ClickableCard.getAddress( card ) );
 		}
-		
-		//Redraw everything
-		this.repaint();
 		
 	}
 	
@@ -323,9 +316,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			}
 			
 		}
-		
-		//Redraw everything
-		this.repaint();
 		
 	}
 	
