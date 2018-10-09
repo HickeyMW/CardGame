@@ -334,7 +334,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		
 		
 		try {
-			StartGame.play();
+			StartGame.clientPlay();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
