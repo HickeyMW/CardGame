@@ -27,7 +27,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	static Boolean isTurn = true;
 	MainControl ctrl;
 	
-	 ArrayList<Card> playableCardsVar;
+	public ArrayList<Card> playableCardsVar;
 	
 	
 	ClickableButton roundButton = 	new ClickableButton( 700, 600, 300, 100, "GUIImages/NextRound.png", "GUIImages/NextRoundNot.png" ) {
@@ -391,7 +391,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public void playableCards(ArrayList<Card> cards) {
 		//Sets playable cards as local variable
 		playableCardsVar = cards;
-		System.out.println("Cards received");
+		if(!playableCardsVar.isEmpty())
+			System.out.println("Cards received");
 		isTurn = true;
 		
 	}
