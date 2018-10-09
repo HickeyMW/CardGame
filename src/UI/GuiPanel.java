@@ -400,6 +400,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	public void cardPlayed(int player, Card card) {
 		// Plays the given card for the given player
+		System.out.println("Drawing");
 		showPlayedCard(player, card);
 		changeTurn((player+1)%3);
 	}

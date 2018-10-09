@@ -190,6 +190,7 @@ public class ServerThread extends Thread {
 	
 	//Begins listening for a player to play a card
 	public void listenForCardPlayed( int playerID ) {
+		System.out.println("serverthread.listenforcrdplayed");
 		players[ playerID ].ListenForCardPlayed();
 	}
 	

@@ -130,6 +130,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 
 	public void cardPlayedOnServer(int player, Card card) {
+		System.out.println("CardPlayedOnServer");
 		StartGame.print( "MainControl cardPlayedOnServer 1" );
 		Card hasCard = playerHasCard(playersHands.get(player - 1), card);
 		if (hasCard != null) {
@@ -178,7 +179,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	//Shared methods
 
 	public void cardPlayedOnClient(int player, Card card) {
-		
+		System.out.println("CardPlayedOnClient");
 		StartGame.print( "MainControl cardPlayedOnClient 1" );
 		StartGame.print( "Letting the gui know about player " + player + " playing " + card );
 		
@@ -215,6 +216,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			StartGame.print( "MainControl cardPlayedOnClient 5" );
 			guiInterface.playableCards(playableCards());
 		} else if (playerId == 1) {
+			System.out.println("maincontrol.cardPlayedOnClient before calling serverThread.listenforcardPlayed");
 			StartGame.print( "MainControl cardPlayedOnClient 6" );
 			serverThread.listenForCardPlayed(currentPlayerTurn);
 		} else {

@@ -117,7 +117,7 @@ public class ServerToClientThread extends Thread {
 	
 	//Listen for this player to play a card
 	public void ListenForCardPlayed() {
-		
+		System.out.println("StoC.ListenforCarPlayed");
 		StartGame.print( "Listening for a card from client..." );
 		
 		//No loop as we only need to listen for a single card	

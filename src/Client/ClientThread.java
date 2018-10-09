@@ -152,7 +152,7 @@ public class ClientThread extends Thread {
 	
 	//Listens for someone to play a card
 	public void listenForPlayedCard() {
-		System.out.println("listening");
+		System.out.println("ClientThread.ListenforPlayedCard");
 		StartGame.print( "Listening for someone to play a card..." );
 		
 		//Try to read the next line
