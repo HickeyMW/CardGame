@@ -21,11 +21,11 @@ public class Card {
 	};
 
 	//Value enums
-	public static final int ACE = 1;
 	public static final int JACK = 11;
 	public static final int QUEEN = 12;
 	public static final int KING = 13;
-
+	public static final int ACE = 14;
+	
 	private static String[] values = {
 			"Ace",
 			"Jack",
@@ -85,7 +85,7 @@ public class Card {
 	public static String getValueName( int value ) {
 
 		//Make sure the value passed is a valid value
-		if( value > 13 || value < 1 ) {
+		if( value > 14 || value < 1 ) {
 			return "invalid value";
 		}
 
