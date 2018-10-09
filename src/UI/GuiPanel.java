@@ -49,7 +49,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			if(isTurn) {
 				//Detects if there is a selected card and passes it to game logic
 				if( ClickableCard.selectedCard != null ) {
-					
+					System.out.println("Played");
 					//Tells gamelogic to play the card
 					ctrl.playCard( ClickableCard.selectedCard.card );
 					
