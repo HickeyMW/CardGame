@@ -1,7 +1,6 @@
 package Main;
 import Client.ClientThread;
 import Server.ServerThread;
-//import UI.UI;
 
 
 public class CardGamePrimary {

@@ -14,6 +14,7 @@ public class ClickableCard extends Clickable {
 	//How much to slide the card up when it is selected
 	public static int selectedCardHeightModifier = 75;
 	
+	
 	//Constructor
 	public ClickableCard(int x, int y, int w, int h, Card card ) {
 		super( x, y, w, h, getAddress( card ) );
@@ -32,29 +33,40 @@ public class ClickableCard extends Clickable {
 	//Called when this card is clicked (Mouse down, specifically)
 	public void onMouseDown() {
 		
-		//If we just clicked on the card we already have selected, we should unselect that card
-		if( selectedCard == this ){
+		//You can only click on cards when it is your turn.
+		if(StartGame.panel.isTurn) {
 			
-			//Move the selected card down into the hand
-			selectedCard.y += selectedCardHeightModifier;
-			
-			//Make sure we are no longer selecting this card
-			selectedCard = null;
-			
-			//Stop
-			return;
+			//You can only click on playable cards
+			for (int i = 0; i < StartGame.panel.playableCardsVar.size()-1; i++) {
+				Card testCard  = StartGame.panel.playableCardsVar.get(i);
+				
+				if(testCard == this.card ) {
+					//If we just clicked on the card we already have selected, we should unselect that card
+					if( selectedCard == this ){
+						
+						//Move the selected card down into the hand
+						selectedCard.y += selectedCardHeightModifier;
+						
+						//Make sure we are no longer selecting this card
+						selectedCard = null;
+						
+						//Stop
+						return;
+					}
+					
+					//If we have a card already selected, we should move it back down into the hand
+					if( selectedCard != null ) {
+						selectedCard.y += selectedCardHeightModifier;
+					}
+					
+					//This is now the selected card
+					selectedCard = this;
+					
+					//Move the selected card up out of the hand to show that it is selected
+					y -= selectedCardHeightModifier;
+				}
+			}
 		}
-		
-		//If we have a card already selected, we should move it back down into the hand
-		if( selectedCard != null ) {
-			selectedCard.y += selectedCardHeightModifier;
-		}
-		
-		//This is now the selected card
-		selectedCard = this;
-		
-		//Move the selected card up out of the hand to show that it is selected
-		y -= selectedCardHeightModifier;
 		
 	}
 	

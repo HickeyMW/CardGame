@@ -306,6 +306,10 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		clientThread.listenForGameStart();
 		
 	}
+	//Returns all the players scores
+	public int[] getScores() {
+		return playerScores;
+	}
 
 	public void roundStartedOnClient(int startedByID) {
 		if (findRoundWinner() == startedByID) {

@@ -15,8 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
+import GameLogic.GUIEvents;
 import GameLogic.MainControl;
 import Main.Card;
 import Main.Driver;
@@ -24,39 +24,44 @@ import Main.Driver;
 public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	
-	Boolean isTurn = true;
+	Boolean isTurn = false;
 	MainControl ctrl;
+	
+	 ArrayList<Card> playableCardsVar;
 	
 	
 	ClickableButton roundButton = 	new ClickableButton( 700, 600, 300, 100, "GUIImages/NextRound.png", "GUIImages/NextRoundNot.png" ) {
 		public void onClicked() {
+			
 			System.out.println( "Clicked round change" );
-			//endGame();
-			
-			//TODO 
-			//startRound();
-			
+			if(isTurn) {
+				//endGame();
+				
+				//TODO 
+				ctrl.startRound();
+			}
 			
 		}
 	};
 	
 	ClickableButton playCard = 	new ClickableButton( 700, 700, 300, 100, "GUIImages/PlayCard.png", "GUIImages/PlayCardNot.png" ) {
 		public void onClicked() {
-			//Detects if there is a selected card and passes it to game logic
-			if( ClickableCard.selectedCard != null ) {
-				
-				//Tells gamelogic to play the card
-				ctrl.playCard( ClickableCard.selectedCard.card );
-				
-				//Tells the UI to play the card
-				showPlayedCard( ctrl.playerId, ClickableCard.selectedCard.card );
-				
-				//Let the card know it was played
-				ClickableCard.cardPlayed();
-				
+			if(isTurn) {
+				//Detects if there is a selected card and passes it to game logic
+				if( ClickableCard.selectedCard != null ) {
+					
+					//Tells gamelogic to play the card
+					ctrl.playCard( ClickableCard.selectedCard.card );
+					
+					//Tells the UI to play the card
+					showPlayedCard( ctrl.playerId, ClickableCard.selectedCard.card );
+					
+					
+					//Let the card know it was played
+					ClickableCard.cardPlayed();
+					
+				}
 			}
-			//TODO Uncomment
-			
 			
 			
 		}
@@ -91,20 +96,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public void createCtrl(MainControl newCtrl) {
 		ctrl = newCtrl;
 		
-		//Change the player image to indicate which player this window is.
-		//TODO remove this "feature"
-		switch( ctrl.playerId ) {
-		
-		case 1:
-			p1.changeImage("GUIImages/Player1Turn.png");
-			break;
-		case 2:
-			p2.changeImage("GUIImages/Player2Turn.png");
-			break;
-		case 3:
-			p3.changeImage("GUIImages/Player3Turn.png");
-			break;
-		}
+		//Sets window title to indicated which player they are.
+		StartGame.frame.setTitle("Player " + ctrl.playerId );
 		
 		
 	}
@@ -123,16 +116,16 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		
 	}
 	
-	public void updateScores(int player1, int player2, int player3){
-		p1Score = player1;
-		p2Score = player2;
-		p3Score = player3;
+	public void updateScores(){
+		pScores = ctrl.getScores();
+		
+		repaint();
 	}
 	
 	
 	public void changeTurn(int player) {
 		
-		if(player == 2 /*TODO playerID*/)
+		if(player == ctrl.playerId)
 			isTurn = true;
 		else
 			isTurn = false;
@@ -175,16 +168,18 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		
 	}
 	
-	public void endGame() {
+	
+	
+	public void endGame(int player) {
 		StartGame.frame.dispose();
 		JLabel winnerLabel;
 	    JButton restartButton;
 	    JLabel p2;
 	    JLabel p3;
 	    JLabel p1;
-	    JLabel p1Score;
-	    JLabel p2Score;
-	    JLabel p3Score;
+	    JLabel p1ScoreLabel;
+	    JLabel p2ScoreLabel;
+	    JLabel p3ScoreLabel;
 		JFrame end = new JFrame("End of Game");
 		winnerLabel = new JLabel ("Player 1 Wins");
         restartButton = new JButton ("Play Again?");
@@ -198,12 +193,21 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 				}
         	}
         });
+        
+        winnerLabel.setText("Player " + player + "Wins!");
+        
+        
+        
+        
+        p1 = new JLabel ("Player 1:");
         p2 = new JLabel ("Player 2:");
         p3 = new JLabel ("Player 3:");
-        p1 = new JLabel ("Player 1:");
-        p1Score = new JLabel ("####");
-        p2Score = new JLabel ("####");
-        p3Score = new JLabel ("####");
+        
+        p1ScoreLabel = new JLabel (Integer.toString(pScores[1]));
+        p2ScoreLabel = new JLabel (Integer.toString(pScores[2]));
+        p3ScoreLabel = new JLabel (Integer.toString(pScores[3]));
+        
+        
 
         //adjust size and set layout
         end.setPreferredSize (new Dimension (187, 235));
@@ -215,9 +219,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         end.add (p2);
         end.add (p3);
         end.add (p1);
-        end.add (p1Score);
-        end.add (p2Score);
-        end.add (p3Score);
+        end.add (p1ScoreLabel);
+        end.add (p2ScoreLabel);
+        end.add (p3ScoreLabel);
 
         //set component bounds (only needed by Absolute Positioning)
         winnerLabel.setBounds (20, 20, 100, 25);
@@ -225,9 +229,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         p2.setBounds (20, 90, 60, 25);
         p3.setBounds (20, 125, 60, 25);
         p1.setBounds (20, 55, 60, 25);
-        p1Score.setBounds (100, 55, 40, 25);
-        p2Score.setBounds (100, 90, 40, 25);
-        p3Score.setBounds (100, 125, 45, 20);
+        p1ScoreLabel.setBounds (100, 55, 40, 25);
+        p2ScoreLabel.setBounds (100, 90, 40, 25);
+        p3ScoreLabel.setBounds (100, 125, 45, 20);
 		
         end.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         end.pack();
@@ -239,9 +243,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		
 	}
 	
-	int p1Score=0;
-	int p2Score=0;
-	int p3Score=0;
+	
+	int[] pScores = {-1,0,0,0};
 	
 	public void paintComponent(Graphics page)
 	{
@@ -251,10 +254,15 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			img.draw( page );
 		}
 		
-		page.drawString("Scores:", 0, 80);
-		page.drawString(Integer.toString(p1Score), 200, 80);
-		page.drawString(Integer.toString(p2Score), 450, 80);
-		page.drawString(Integer.toString(p3Score), 700, 80);
+		
+		
+		page.setColor(Color.WHITE);
+		//page.drawString("Scores:", 0, 80);
+		page.drawString(Integer.toString(pScores[1]), 200, 80);
+		page.drawString(Integer.toString(pScores[2]), 450, 80);
+		page.drawString(Integer.toString(pScores[3]), 700, 80);
+		
+		
 		
 	}
 
@@ -323,7 +331,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		try {
 			StartGame.play();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -331,21 +338,26 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	@Override
 	public void roundStarted() {
-		// TODO Auto-generated method stub
+		//Resets the images to be blank
+		p1Card.changeImage("GUIImages/Cards/temp.png");
+		p2Card.changeImage("GUIImages/Cards/temp.png");
+		p3Card.changeImage("GUIImages/Cards/temp.png");
+		
 		
 	}
 
 	@Override
 	public void roundWinner(int playerId) {
-		// TODO Auto-generated method stub
 		
+		changeTurn(playerId);
+		//TODO updateScores(, player2, player3);
 	}
 
 	
 
 	@Override
 	public void gameWinner(int playerId) {
-		// TODO Auto-generated method stub
+		endGame(playerId);
 		
 	}
 
@@ -359,7 +371,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public void startingHand(ArrayList<Card> cards) {
 		System.out.println("Receiving Hand");
 		
-		
+		//Receives the cards and turns them into clickable cards
 		for (int i = 0; i < cards.size()-1; i++) {
 			new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) ){
 				public void onClicked() {
@@ -374,13 +386,16 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 
 	@Override
 	public void playableCards(ArrayList<Card> cards) {
-		// TODO Auto-generated method stub
+		
+		playableCardsVar = cards;
 		
 	}
 
 	@Override
 	public void cardPlayed(int player, Card card) {
-		// TODO Auto-generated method stub
+		// Plays the given card for the given player
+		showPlayedCard(player, card);
+		
 		
 	}
 	

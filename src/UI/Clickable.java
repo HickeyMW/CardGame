@@ -3,7 +3,8 @@ package UI;
 import Main.Driver;
 
 public class Clickable extends Drawable {
-
+	
+	public boolean isClickable = true;
 	int w, h;
 	
 	public Clickable(int x, int y, int w, int h, String imageURL) {
