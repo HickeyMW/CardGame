@@ -24,7 +24,7 @@ import Main.Driver;
 public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	
-	Boolean isTurn = false;
+	static Boolean isTurn = true;
 	MainControl ctrl;
 	
 	 ArrayList<Card> playableCardsVar;
@@ -59,7 +59,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 					
 					//Let the card know it was played
 					ClickableCard.cardPlayed();
-					
+					//Ends turn
+					isTurn = false;
 				}
 			}
 			
@@ -98,7 +99,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		
 		//Sets window title to indicated which player they are.
 		StartGame.frame.setTitle("Player " + ctrl.playerId );
-		
 		
 	}
 	
@@ -386,8 +386,10 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 
 	@Override
 	public void playableCards(ArrayList<Card> cards) {
-		
+		//Sets playable cards as local variable
 		playableCardsVar = cards;
+		System.out.println("Cards received");
+		isTurn = true;
 		
 	}
 

@@ -39,7 +39,7 @@ public class ClickableCard extends Clickable {
 			//You can only click on playable cards
 			for (int i = 0; i < StartGame.panel.playableCardsVar.size()-1; i++) {
 				Card testCard  = StartGame.panel.playableCardsVar.get(i);
-				
+				System.out.println(i);
 				if(testCard == this.card ) {
 					//If we just clicked on the card we already have selected, we should unselect that card
 					if( selectedCard == this ){
