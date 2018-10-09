@@ -155,20 +155,21 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		this.repaint();
 		
 	}
-	Drawable p1Card = new Drawable(150, 125, 137, 200, "GUIImages/Cards/temp.png");
-	Drawable p2Card = new Drawable(400, 125, 137, 200, "GUIImages/Cards/temp.png");
-	Drawable p3Card = new Drawable(650, 125, 137, 200, "GUIImages/Cards/temp.png");
+	static Drawable p1Card = new Drawable(150, 125, 137, 200, "GUIImages/Cards/temp.png");
+	static Drawable p2Card = new Drawable(400, 125, 137, 200, "GUIImages/Cards/temp.png");
+	static Drawable p3Card = new Drawable(650, 125, 137, 200, "GUIImages/Cards/temp.png");
 	
 	public void showPlayedCard(int player, Card card) {
 		StartGame.print("Player "+ player + " played: "+ card);
 		if(player == 1) {
-			p1Card.changeImage("GUIImages/Cards/" + card.toString().replaceAll(" ", "_") + ".png");
+			p1Card.changeImage(ClickableCard.getAddress(card));
+			StartGame.print("pdizzle");
 		}else if(player == 2) {
-			p2Card.changeImage("GUIImages/Cards/" + card.toString().replaceAll(" ", "_") + ".png");
+			p2Card.changeImage(ClickableCard.getAddress(card));
 		}else if(player == 3) {
-			p3Card.changeImage("GUIImages/Cards/" + card.toString().replaceAll(" ", "_") + ".png");
+			p3Card.changeImage(ClickableCard.getAddress(card));
 		}
-		
+		repaint();
 	}
 	
 	
@@ -336,7 +337,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		repaint();
 	}
 	
 	@Override
@@ -345,7 +346,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		p1Card.changeImage("GUIImages/Cards/temp.png");
 		p2Card.changeImage("GUIImages/Cards/temp.png");
 		p3Card.changeImage("GUIImages/Cards/temp.png");
-		
+		repaint();
 		
 	}
 
@@ -353,7 +354,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public void roundWinner(int playerId) {
 		
 		changeTurn(playerId);
-		//TODO updateScores(, player2, player3);
+		updateScores();
 	}
 
 	
