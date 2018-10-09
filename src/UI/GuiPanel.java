@@ -160,13 +160,13 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	Drawable p3Card = new Drawable(650, 125, 137, 200, "GUIImages/Cards/temp.png");
 	
 	public void showPlayedCard(int player, Card card) {
-		
+		StartGame.print("Player "+ player + " played: "+ card);
 		if(player == 1) {
-			p1Card.changeImage("GUIImages/cards/" + card.toString().replaceAll(" ", "_") + ".png");
+			p1Card.changeImage("GUIImages/Cards/" + card.toString().replaceAll(" ", "_") + ".png");
 		}else if(player == 2) {
-			p2Card.changeImage("GUIImages/cards/" + card.toString().replaceAll(" ", "_") + ".png");
+			p2Card.changeImage("GUIImages/Cards/" + card.toString().replaceAll(" ", "_") + ".png");
 		}else if(player == 3) {
-			p3Card.changeImage("GUIImages/cards/" + card.toString().replaceAll(" ", "_") + ".png");
+			p3Card.changeImage("GUIImages/Cards/" + card.toString().replaceAll(" ", "_") + ".png");
 		}
 		
 	}
