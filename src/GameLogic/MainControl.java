@@ -68,7 +68,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			cardPlayedOnClient( 1, card );
 		} else {
 			clientThread.playCard(card);
-			//clientThread.listenForPlayedCard();
+			clientThread.listenForPlayedCard();
 		}
 	}
 
