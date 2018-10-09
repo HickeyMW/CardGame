@@ -24,16 +24,16 @@ import Main.Driver;
 public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	
-	static Boolean isTurn = true;
+	static Boolean isTurn = false;
 	MainControl ctrl;
 	
-	public ArrayList<Card> playableCardsVar;
+	public static ArrayList<Card> playableCardsVar;
 	
 	
 	ClickableButton roundButton = 	new ClickableButton( 700, 600, 300, 100, "GUIImages/NextRound.png", "GUIImages/NextRoundNot.png" ) {
 		public void onClicked() {
 			
-			System.out.println( "Clicked round change" );
+			StartGame.print( "Clicked round change" );
 			if(isTurn) {
 				//endGame();
 				
@@ -372,13 +372,13 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	static ArrayList<ClickableCard> hand;
 	@Override
 	public void startingHand(ArrayList<Card> cards) {
-		System.out.println("Receiving Hand");
+		StartGame.print("Receiving Hand");
 		
 		//Receives the cards and turns them into clickable cards
 		for (int i = 0; i < cards.size()-1; i++) {
 			new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) ){
 				public void onClicked() {
-					//System.out.println( "Clicked " + this.card );
+					//StartGame.print( "Clicked " + this.card );
 				}
 			};
 			
@@ -392,7 +392,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		//Sets playable cards as local variable
 		playableCardsVar = cards;
 		if(!playableCardsVar.isEmpty())
-			System.out.println("Cards received");
+			StartGame.print("Cards received");
 		isTurn = true;
 		
 	}
