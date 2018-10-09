@@ -119,6 +119,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		}
 		
 		guiInterface.startingHand( myCards );
+		guiInterface.playableCards( myCards );
 	}
 
 	public void cardPlayedOnServer(int player, Card card) {

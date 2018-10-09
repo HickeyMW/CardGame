@@ -1,5 +1,10 @@
 package UI;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import Main.Card;
 import Main.Driver;
 
@@ -39,7 +44,7 @@ public class ClickableCard extends Clickable {
 			//You can only click on playable cards
 			for (int i = 0; i < StartGame.panel.playableCardsVar.size()-1; i++) {
 				Card testCard  = StartGame.panel.playableCardsVar.get(i);
-				
+				System.out.println(i);
 				if(testCard == this.card ) {
 					//If we just clicked on the card we already have selected, we should unselect that card
 					if( selectedCard == this ){
@@ -68,6 +73,23 @@ public class ClickableCard extends Clickable {
 			}
 		}
 		
+	}
+	
+	public void draw( Graphics g ) {
+	    
+	    g.drawImage( image, x, y, w, h, null );
+	    
+	    //If it isn't our turn, gray out the cards
+		if( !GuiPanel.isTurn ) {
+			Color disableColor = new Color( 127, 127, 127, 200 );
+		    
+			Graphics2D g2d = (Graphics2D) g;
+			
+			g2d.setComposite( AlphaComposite.SrcAtop );
+			g2d.setColor( disableColor );
+			g2d.fillRect( x, y, w, h );
+			
+		}
 	}
 	
 	//Once a card has been played from the hand, it is removed from the hand and destroyed
