@@ -172,7 +172,7 @@ public class StartGame implements GUIStartInterface{
 		frame.setSize( 1000, 800 );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
-		panel = new GuiPanel();
+		//panel = new GuiPanel();
 		panel.createCtrl(ctrl);
 		frame.getContentPane().add( panel );
 		ctrl.startGame();

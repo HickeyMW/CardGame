@@ -401,7 +401,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		if(!playableCardsVar.isEmpty())
 			StartGame.print("Cards received");
 		isTurn = true;
-		int a = ctrl.playerId;
 		changeTurn(ctrl.playerId);
 		//Redraw
 		this.repaint();
