@@ -112,6 +112,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			Card card = new Card(dealt[i][0],dealt[i][1]);
 			
 			new ClickableCard( 50 + 30 * i, 500, 156, 256, card );
+			
+			//Redraw
+			this.repaint();
 		}
 		
 		//Redraw everything
@@ -389,8 +392,10 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 				}
 			};
 			
-			
 		}
+		
+		//Redraw
+		this.repaint();
 		
 	}
 
@@ -401,6 +406,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		if(!playableCardsVar.isEmpty())
 			StartGame.print("Cards received");
 		isTurn = true;
+		
+		//Redraw
+		this.repaint();
 		
 	}
 

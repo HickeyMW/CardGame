@@ -39,6 +39,7 @@ public class Drawable {
 		
 		//Register us as drawable
 		Driver.drawables.add( this );
+		
 	}
 	
 	//Changes the image this drawable should draw
@@ -52,6 +53,9 @@ public class Drawable {
 		
 		Driver.drawables.remove( this );
 		Driver.drawables.add( this );
+		
+		//Redraw
+		StartGame.panel.repaint();
 		
 	}
 	
