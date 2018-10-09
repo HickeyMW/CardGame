@@ -78,7 +78,7 @@ public class ClickableCard extends Clickable {
 	    g.drawImage( image, x, y, w, h, null );
 	    
 	    //If it isn't our turn, gray out the cards
-		if( !GuiPanel.isTurn ) {
+		if( !GuiPanel.isTurn || ( !GuiPanel.playableCardsVar.contains( this.card ) && GuiPanel.playableCardsVar.size() > 0 ) ) {
 			Color disableColor = new Color( 127, 127, 127, 200 );
 		    
 			Graphics2D g2d = (Graphics2D) g;
