@@ -73,9 +73,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 
 	
 	
-	Drawable p1 = new Drawable(150, 20, 90, 40, "GUIImages/Player1.png");
-	Drawable p2 = new Drawable(400, 20, 90, 40, "GUIImages/Player2.png");
-	Drawable p3 = new Drawable(650, 20, 90, 40, "GUIImages/Player3.png");
+	Drawable p1 = new Drawable(200, 20, 90, 40, "GUIImages/PlayerOneTurn.png");
+	Drawable p2 = new Drawable(450, 20, 90, 40, "GUIImages/PlayerTwoNotTurn.png");
+	Drawable p3 = new Drawable(700, 20, 90, 40, "GUIImages/PlayerThreeNotTurn.png");
 	
 	
 	
@@ -137,16 +137,16 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		switch(player) {
 		
 		case 1: player = 1;
-			p3.changeImage("GUIImages/Player3.png");
-			p1.changeImage("GUIImages/Player1Turn.png");
+			p3.changeImage("GUIImages/PlayerThreeNotTurn.png");
+			p1.changeImage("GUIImages/PlayerOneTurn.png");
 			break;
 		case 2: player = 2;
-			p1.changeImage("GUIImages/Player1.png");
-			p2.changeImage("GUIImages/Player2Turn.png");
+			p1.changeImage("GUIImages/PlayerOneNotTurn.png");
+			p2.changeImage("GUIImages/PlayerTwoTurn.png");
 			break;
 		case 3: player = 3;
-			p2.changeImage("GUIImages/Player2.png");
-			p3.changeImage("GUIImages/Player3Turn.png");
+			p2.changeImage("GUIImages/PlayerTwoNotTurn.png");
+			p3.changeImage("GUIImages/PlayerThreeTurn.png");
 			break;
 		
 		}
