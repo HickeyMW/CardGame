@@ -100,7 +100,7 @@ public class Card {
 		}
 
 		//Otherwise look it up in the values array
-		return values[ value - 10 ];
+		return values[ value - 11 ];
 	}
 
 	//Converts the card into a presentable format such as "Ace of Spades", "2 of Clubs", etc.

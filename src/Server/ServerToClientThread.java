@@ -80,7 +80,7 @@ public class ServerToClientThread extends Thread {
 
 	//Sends a dealt card to this player's hand
 	public void sendDealtCard( Card card ){
-		StartGame.print( "Dealing " + card + " to player " + playerID );
+		//StartGame.print( "Dealing " + card + " to player " + playerID );
 		writeLine( "carddealt" );
 		writeLine( card.getValue() );
 		writeLine( card.getSuit() );
