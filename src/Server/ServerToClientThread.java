@@ -125,10 +125,10 @@ public class ServerToClientThread extends Thread {
 		
 			//Get the next string
 			String line = in.readLine();
-			
+			System.out.println("Read line");
 			//See if it's a played card
 			if( line.contains( "cardplayed" ) ) {
-				
+				System.out.println("See if played card test");
 				//Read in the value
 				String stringValue = in.readLine();
 				int value = Integer.parseInt( stringValue );
@@ -146,7 +146,7 @@ public class ServerToClientThread extends Thread {
 			}
 		} catch( IOException e ) {
 			error( "Listening for card failed" );
-			
+			System.out.println("Listening for card failed");
 			return;
 		}
 		
