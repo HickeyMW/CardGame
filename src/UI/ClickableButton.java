@@ -18,8 +18,8 @@ public class ClickableButton extends Clickable{
 	}
 	
 	//Resets the held button to its normal state
-	public static void onMouseUp() {
-		
+	public void onMouseUp() {
+		StartGame.print("Button up");
 		//Change the image of the held button
 		heldButton.changeImage( heldButton.baseImageURL );
 		
@@ -32,11 +32,13 @@ public class ClickableButton extends Clickable{
 	
 	//When the mouse goes down here, toggle to our held image
 	public void onMouseDown() {
-		
+		StartGame.print("Button down");
 		//Change our image to be held
 		this.changeImage( heldImageURL );
+		StartGame.print("Image changed");
 		//Set ourselves as the held image
 		heldButton = this;
+		StartGame.print("Button held");
 		
 	}
 	

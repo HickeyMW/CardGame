@@ -45,11 +45,22 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	};
 	
 	ClickableButton playCard = 	new ClickableButton( 700, 700, 300, 100, "GUIImages/PlayCard.png", "GUIImages/PlayCardNot.png" ) {
-		public void onClicked() {
+		@Override
+		public void onMouseUp() {
+			
+			StartGame.print("Button up");
+			//Change the image of the held button
+			heldButton.changeImage( heldButton.baseImageURL );
+			
+			//Remove the held button;
+			heldButton = null;
+			
+			StartGame.print("clicked play " + ctrl.playerId);
 			if(isTurn) {
+				StartGame.print("isTurn test");
 				//Detects if there is a selected card and passes it to game logic
 				if( ClickableCard.selectedCard != null ) {
-					System.out.println("Played");
+					StartGame.print("Played");
 					//Tells gamelogic to play the card
 					ctrl.playCard( ClickableCard.selectedCard.card );
 					
@@ -63,6 +74,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 					isTurn = false;
 				}
 			}
+			
+			
 			
 			
 		}
@@ -247,11 +260,13 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public void paintComponent(Graphics page)
 	{
 		super.paintComponent(page);
-		
+		int count = 0;
 		for( Drawable img : Driver.drawables ) {
 			img.draw( page );
+			//System.out.println(count++);
 		}
 		
+		StartGame.print("Finished drawables");
 		
 		
 		page.setColor(Color.WHITE);
@@ -275,21 +290,24 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	@Override
 	public void mouseReleased( MouseEvent mouseEvent ) {
+		
+		StartGame.print("Mouse Released");
 		//If there's something held, let it go
 		if( ClickableButton.heldButton != null ) {
 			
 			//If we just released over the held button then we did a full click on it
 			if( ClickableButton.heldButton.pointWithin( mouseEvent.getX() ,  mouseEvent.getY() ) ){
-				ClickableButton.heldButton.onClicked();
+				ClickableButton.heldButton.onMouseUp();
 			}
 			
 			//Release the held button
-			ClickableButton.onMouseUp();
+			//ClickableButton.onMouseUp();
 			
 		}
 		
 		//Redraw everything
 		this.repaint();
+		
 	}
 
 	@Override
@@ -300,12 +318,12 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			//If this is the case, we'll do some error avoidance and just ignore this event.
 			return;
 		}
-		
+		StartGame.print("doing mouse pressed stuff");
 		//Check if we just started clicking any buttons
 		for(  int i = Driver.clickables.size()-1 ; i>= 0; i--) {
 			Clickable clickable = Driver.clickables.get(i);
 			
-			
+
 			if( clickable instanceof ClickableCard ) {
 				ClickableCard card = (ClickableCard) clickable;
 			}
@@ -316,6 +334,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			}
 			
 		}
+		
+		
 		
 	}
 	
@@ -371,12 +391,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		
 		//Receives the cards and turns them into clickable cards
 		for (int i = 0; i < cards.size()-1; i++) {
-			new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) ){
-				public void onClicked() {
-					//StartGame.print( "Clicked " + this.card );
-				}
-			};
-			
+			new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) );
 		}
 		
 		//Redraw
@@ -400,7 +415,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	public void cardPlayed(int player, Card card) {
 		// Plays the given card for the given player
-		System.out.println("Drawing");
+		StartGame.print("Received Card played from: " + player);
 		showPlayedCard(player, card);
 		changeTurn((player+1)%3);
 	}

@@ -37,13 +37,13 @@ public class ClickableCard extends Clickable {
 	
 	//Called when this card is clicked (Mouse down, specifically)
 	public void onMouseDown() {
-		
+		StartGame.print("Selected card");
 		//You can only click on cards when it is your turn.
 		if(StartGame.panel.isTurn) {
 			
 			//You can only click on playable cards
 			if(StartGame.panel.playableCardsVar.contains(this.card)) {
-				
+				StartGame.print("Card is playable");
 				//If we just clicked on the card we already have selected, we should unselect that card
 				if( selectedCard == this ){
 					
@@ -76,7 +76,7 @@ public class ClickableCard extends Clickable {
 	public void draw( Graphics g ) {
 	    
 	    g.drawImage( image, x, y, w, h, null );
-	    
+	    /*
 	    //If it isn't our turn, gray out the cards
 		if( !GuiPanel.isTurn || ( !GuiPanel.playableCardsVar.contains( this.card ) && GuiPanel.playableCardsVar.size() > 0 ) ) {
 			Color disableColor = new Color( 127, 127, 127, 200 );
@@ -88,6 +88,7 @@ public class ClickableCard extends Clickable {
 			g2d.fillRect( x, y, w, h );
 			
 		}
+	    */
 	}
 	
 	//Once a card has been played from the hand, it is removed from the hand and destroyed
