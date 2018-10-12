@@ -8,7 +8,7 @@ import Main.Card;
 
 public interface GUIInterface {
 
-    //General methods
+    //What game logic sends to UI
 
     void roundStarted();
 
@@ -24,7 +24,7 @@ public interface GUIInterface {
 
     void playableCards(ArrayList<Main.Card> cards);
 
-    void updateScores();
+    void updateScores( int P1Score, int P2Score, int P3Score );
 
 	void cardPlayed(int player, Card card);
 }

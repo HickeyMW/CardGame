@@ -4,7 +4,6 @@ import Main.Driver;
 
 public class Clickable extends Drawable {
 	
-	public boolean isClickable = true;
 	int w, h;
 	
 	public Clickable(int x, int y, int w, int h, String imageURL) {
@@ -13,8 +12,7 @@ public class Clickable extends Drawable {
 		this.w = w;
 		this.h = h;
 		
-		Driver.clickables.add( this );
-		
+		GuiPanel.clickables.add( this );
 	}
 	
 	//Returns if a point is within this object.  Used for checking clicks

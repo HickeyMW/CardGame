@@ -38,13 +38,15 @@ public class Drawable {
 		}
 		
 		//Register us as drawable
-		Driver.drawables.add( this );
+		GuiPanel.drawables.add( this );
 		
 	}
 	
 	//Changes the image this drawable should draw
 	public void changeImage( String newImageURL ) {
-		StartGame.print("Begining change");
+		
+		StartGame.print( "Drawable - Changing image on " + this );
+		
 		try {
 			image = ImageIO.read( new File( newImageURL ) );
 		} catch (IOException e) {
@@ -53,14 +55,13 @@ public class Drawable {
 			StartGame.print("Failed to read image");
 		}
 		
-		Driver.drawables.remove( this );
-		StartGame.print("Removed");
-		Driver.drawables.add( this );
-		StartGame.print("Added");
+		//Driver.drawables.remove( this );
+		//Driver.drawables.add( this );
 		
 		//Redraw
 		StartGame.panel.repaint();
-		StartGame.print("Repainted");
+		
+		StartGame.print( "Drawable - Finished changing image on " + this );
 		
 	}
 	

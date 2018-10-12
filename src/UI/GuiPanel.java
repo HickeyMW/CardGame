@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,261 +25,74 @@ import Main.Driver;
 public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	
-	static Boolean isTurn = false;
-	MainControl ctrl;
+	//Tracks whether or not it is currently our turn
+	public static boolean isOurTurn = false;
 	
-	public static ArrayList<Card> playableCardsVar;
+	public static ArrayList<Drawable> drawables = new ArrayList<Drawable>();
+	public static ArrayList<Clickable> clickables = new ArrayList<Clickable>();
 	
+	//Player scores
+	private int P1Score = 0;
+	private int P2Score = 0;
+	private int P3Score = 0;
 	
-	ClickableButton roundButton = 	new ClickableButton( 700, 600, 300, 100, "GUIImages/NextRound.png", "GUIImages/NextRoundNot.png" ) {
-		public void onClicked() {
-			
-			StartGame.print( "Clicked round change" );
-			if(isTurn) {
-				//endGame();
-				
-				//TODO 
-				ctrl.startRound();
-			}
-			
-		}
-	};
+	//Our hand of ClickableCards
+	public static ArrayList<ClickableCard> hand = new ArrayList<ClickableCard>();
 	
-	ClickableButton playCard = 	new ClickableButton( 700, 700, 300, 100, "GUIImages/PlayCard.png", "GUIImages/PlayCardNot.png" ) {
-		@Override
-		public void onMouseUp() {
-			
-			StartGame.print("Button up");
-			//Change the image of the held button
-			heldButton.changeImage( heldButton.baseImageURL );
-			
-			//Remove the held button;
-			heldButton = null;
-			
-			StartGame.print("clicked play " + ctrl.playerId);
-			if(isTurn) {
-				StartGame.print("isTurn test");
-				//Detects if there is a selected card and passes it to game logic
-				if( ClickableCard.selectedCard != null ) {
-					StartGame.print("Played");
-					//Tells gamelogic to play the card
-					ctrl.playCard( ClickableCard.selectedCard.card );
-					
-					//Tells the UI to play the card
-					//showPlayedCard( ctrl.playerId, ClickableCard.selectedCard.card );
-					
-					
-					//Let the card know it was played
-					ClickableCard.cardPlayed();
-					//Ends turn
-					isTurn = false;
-				}
-			}
-			
-			
-			
-			
-		}
-	};
+	//The playable cards list
+	public static ArrayList<Card> playableCards = new ArrayList<Card>();
 	
-	//Drawable handTable = new Drawable(0,400,400,300, "GUIImages/TableTop.png");
-	Drawable pokerTable = new Drawable(0,0,1000,400, "GUIImages/PokerTable.png");
-
+	//UI elements
 	
+	//Play card button
+	ClickableButton playCard;
 	
-	Drawable p1 = new Drawable(200, 20, 90, 40, "GUIImages/PlayerOneTurn.png");
-	Drawable p2 = new Drawable(450, 20, 90, 40, "GUIImages/PlayerTwoNotTurn.png");
-	Drawable p3 = new Drawable(700, 20, 90, 40, "GUIImages/PlayerThreeNotTurn.png");
-	
-	
-	
-	
-	
-	
-	//Receives 3D array for ints containing 17 rows of 2 values.
-	//First value is the face and the second value is the suit.
-	
+	//Start round button
+	ClickableButton startRound;
 	
 	//Generates own cards. Used for testing.
-	public GuiPanel( ) throws IOException {
-		
+	public GuiPanel() throws IOException {
 		
 		setBackground(Color.LIGHT_GRAY);
 		setPreferredSize(new Dimension(1000,800));
 		setFont(new Font("Arial", Font.BOLD, 16));
 		addMouseListener(this);
 		
-	}
-	
-	public void createCtrl(MainControl newCtrl) {
-		ctrl = newCtrl;
-		StartGame.print("ctrl created");
-		//Sets window title to indicated which player they are.
-		StartGame.frame.setTitle("Player " + ctrl.playerId );
-		
-	}
-	
-	public void ReceiveCards(int[][] dealt) {
-		
-		//Receive cards from host
-		for (int i = 0; i < dealt.length; i++) {
-			Card card = new Card(dealt[i][0],dealt[i][1]);
-			
-			new ClickableCard( 50 + 30 * i, 500, 156, 256, card );
-			
-			//Redraw
-			this.repaint();
-		}
-	}
-	
-	public void updateScores(){
-		pScores = ctrl.getScores();
-		
-		repaint();
-	}
-	
-	
-	public void changeTurn(int player) {
-		
-		if(player == ctrl.playerId)
-			isTurn = true;
-		else
-			isTurn = false;
-		
-		
-		
-		if(player == 1) {
-			p3.changeImage("GUIImages/PlayerThreeNotTurn.png");
-			p1.changeImage("GUIImages/PlayerOneTurn.png");
-		} else if(player == 2) {
-			p1.changeImage("GUIImages/PlayerOneNotTurn.png");
-			p2.changeImage("GUIImages/PlayerTwoTurn.png");
-		}else if (player == 3) {
-			p2.changeImage("GUIImages/PlayerTwoNotTurn.png");
-			p3.changeImage("GUIImages/PlayerThreeTurn.png");
-		}
-			
-		//Redraw everything
-		this.repaint();
-		
-	}
-	static Drawable p1Card = new Drawable(150, 125, 137, 200, "GUIImages/Cards/temp.png");
-	static Drawable p2Card = new Drawable(400, 125, 137, 200, "GUIImages/Cards/temp.png");
-	static Drawable p3Card = new Drawable(650, 125, 137, 200, "GUIImages/Cards/temp.png");
-	
-	public void showPlayedCard(int player, Card card) {
-		StartGame.print("Player "+ player + " played: "+ card);
-		
-		if(player == 1) {
-			p1Card.changeImage( ClickableCard.getAddress( card ) );
-		}else if(player == 2) {
-			p2Card.changeImage( ClickableCard.getAddress( card ) );
-		}else if(player == 3) {
-			p3Card.changeImage( ClickableCard.getAddress( card ) );
-		}
+		//Create the main UI elements
+		//Play card button
+		playCard = new ClickableButton( 700, 700, 300, 100, "GUIImages/PlayCard.png", "GUIImages/PlayCardDown.png", "GUIImages/PlayCardLocked.png" ) {
+			@Override
+			public void onClicked() {
+				
+				this.lock();
+				
+			}
+		};
 		
 	}
 	
 	
+	//General methods
 	
-	public void endGame(int player) {
-		StartGame.frame.dispose();
-		JLabel winnerLabel;
-	    JButton restartButton;
-	    JLabel p2;
-	    JLabel p3;
-	    JLabel p1;
-	    JLabel p1ScoreLabel;
-	    JLabel p2ScoreLabel;
-	    JLabel p3ScoreLabel;
-		JFrame end = new JFrame("End of Game");
-		winnerLabel = new JLabel ("Player 1 Wins");
-        restartButton = new JButton ("Play Again?");
-        restartButton.addActionListener(new ActionListener(){
-        	public void actionPerformed(ActionEvent ae) {
-        		//Restarts game
-        		try {
-					StartGame.play();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-        	}
-        });
-        
-        winnerLabel.setText("Player " + player + "Wins!");
-        
-        
-        
-        
-        p1 = new JLabel ("Player 1:");
-        p2 = new JLabel ("Player 2:");
-        p3 = new JLabel ("Player 3:");
-        
-        p1ScoreLabel = new JLabel (Integer.toString(pScores[1]));
-        p2ScoreLabel = new JLabel (Integer.toString(pScores[2]));
-        p3ScoreLabel = new JLabel (Integer.toString(pScores[3]));
-        
-        
-
-        //adjust size and set layout
-        end.setPreferredSize (new Dimension (187, 235));
-        end.setLayout (null);
-
-        //add components
-        end.add (winnerLabel);
-        end.add (restartButton);
-        end.add (p2);
-        end.add (p3);
-        end.add (p1);
-        end.add (p1ScoreLabel);
-        end.add (p2ScoreLabel);
-        end.add (p3ScoreLabel);
-
-        //set component bounds (only needed by Absolute Positioning)
-        winnerLabel.setBounds (20, 20, 100, 25);
-        restartButton.setBounds (20, 170, 100, 25);
-        p2.setBounds (20, 90, 60, 25);
-        p3.setBounds (20, 125, 60, 25);
-        p1.setBounds (20, 55, 60, 25);
-        p1ScoreLabel.setBounds (100, 55, 40, 25);
-        p2ScoreLabel.setBounds (100, 90, 40, 25);
-        p3ScoreLabel.setBounds (100, 125, 45, 20);
-		
-        end.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-        end.pack();
-		end.setVisible(true);
-		
-		
-		
-		
+	//Called when it becomes our turn
+	//Unlocks the UI and lets us play a card
+	public void ourTurn() {
 		
 	}
 	
 	
-	int[] pScores = {-1,0,0,0};
-	
-	public void paintComponent(Graphics page)
-	{
+	//JPanel methods
+	public void paintComponent(Graphics page){
 		super.paintComponent(page);
-		int count = 0;
-		for( Drawable img : Driver.drawables ) {
+		
+		for( Drawable img : drawables ) {
 			img.draw( page );
-			//System.out.println(count++);
 		}
 		
-		StartGame.print("Finished drawables");
-		
-		
-		page.setColor(Color.WHITE);
-		//page.drawString("Scores:", 0, 80);
-		page.drawString(Integer.toString(pScores[1]), 200, 80);
-		page.drawString(Integer.toString(pScores[2]), 450, 80);
-		page.drawString(Integer.toString(pScores[3]), 700, 80);
-		
-		
-		
 	}
-
+	
+	//Mouse methods
+	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {}
 
@@ -287,139 +101,129 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {}
+
+	@Override
+	//When the mouse is pressed down, check it against clickable objects
+	public void mousePressed(MouseEvent mouseEvent) {
+		
+		//Go through every clickable
+		for( Clickable clickable : clickables ) {
+			
+			//Check if we just clicked inside of its bounds
+			if( clickable.pointWithin( mouseEvent.getX(), mouseEvent.getY() ) ) {
+				
+				//If we did, then start clicking on this object.
+				clickable.onMouseDown();
+				
+				//Stop checking
+				break;
+				
+			}
+			
+		}
+		
+	}
 	
 	@Override
+	//When the mouse is released
 	public void mouseReleased( MouseEvent mouseEvent ) {
 		
-		StartGame.print("Mouse Released");
-		//If there's something held, let it go
+		//If there is a clickable button that is held down, check if we just released inside of it
 		if( ClickableButton.heldButton != null ) {
 			
-			//If we just released over the held button then we did a full click on it
-			if( ClickableButton.heldButton.pointWithin( mouseEvent.getX() ,  mouseEvent.getY() ) ){
-				ClickableButton.heldButton.onMouseUp();
-			}
-			
-			//Release the held button
-			//ClickableButton.onMouseUp();
-			
-		}
-		
-		//Redraw everything
-		this.repaint();
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent mouseEvent) {
-	
-		//Right off the bat, if we are already holding something then we have a problem.
-		if( ClickableButton.heldButton != null ) {
-			//If this is the case, we'll do some error avoidance and just ignore this event.
-			return;
-		}
-		StartGame.print("doing mouse pressed stuff");
-		//Check if we just started clicking any buttons
-		for(  int i = Driver.clickables.size()-1 ; i>= 0; i--) {
-			Clickable clickable = Driver.clickables.get(i);
-			
-
-			if( clickable instanceof ClickableCard ) {
-				ClickableCard card = (ClickableCard) clickable;
-			}
-			
-			if( clickable.pointWithin( mouseEvent.getX() ,  mouseEvent.getY() ) ){
-				clickable.onMouseDown();
-				break;
+			//If we just released in the held button
+			if( ClickableButton.heldButton.pointWithin( mouseEvent.getX(), mouseEvent.getY() ) ) {
+				
+				//That counts as a full click
+				ClickableButton.heldButton.onClicked();
+				
+				//We are no longer holding that button
+				ClickableButton.onMouseUp();
+				
 			}
 			
 		}
-		
-		
 		
 	}
 	
+	
+	//Game logic methods
+	
 	@Override
+	//Someone has started the game so we should start our UI
 	public void gameStarted()  {
-		
 		
 		try {
 			StartGame.clientPlay();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		//Redraw everything
-		this.repaint();
 	}
 	
 	@Override
-	public void roundStarted() {
-		//Resets the images to be blank
-		p1Card.changeImage("GUIImages/Cards/temp.png");
-		p2Card.changeImage("GUIImages/Cards/temp.png");
-		p3Card.changeImage("GUIImages/Cards/temp.png");
-		
-		//Redraw everything
-		this.repaint();
-	}
+	public void roundStarted() {}
 
 	@Override
-	public void roundWinner(int playerId) {
-		
-		changeTurn(playerId);
-		updateScores();
-	}
+	public void roundWinner(int playerId) {}
 
+	@Override
+	public void gameWinner(int playerId) {}
+
+	@Override
+	public void error(String error) {}
 	
-
 	@Override
-	public void gameWinner(int playerId) {
-		endGame(playerId);
-		
-	}
-
-	@Override
-	public void error(String error) {
-		// TODO Auto-generated method stub
-		
-	}
-	static ArrayList<ClickableCard> hand;
-	@Override
+	//Server deals us our starting cards
 	public void startingHand(ArrayList<Card> cards) {
-		StartGame.print("Receiving Hand");
 		
-		//Receives the cards and turns them into clickable cards
-		for (int i = 0; i < cards.size()-1; i++) {
-			new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) );
+		//Build ClickableCards from the arraylist of cards
+		for( Card card : cards ) {
+			
+			//Create a new ClickableCard and add it to our hand
+			hand.add( new ClickableCard( -1000, -1000, 56, 256, card ) );
+			
 		}
 		
-		//Redraw
-		this.repaint();
-		
 	}
 
 	@Override
+	//Server alerts us what cards we can play, which also alerts us that it is our turn
 	public void playableCards(ArrayList<Card> cards) {
-		//Sets playable cards as local variable
-		playableCardsVar = cards;
-		if(!playableCardsVar.isEmpty())
-			StartGame.print("Cards received");
-		isTurn = true;
-		changeTurn(ctrl.playerId);
-		//Redraw
-		this.repaint(); 
 		
+		//Make sure we know that it is our turn
+		isOurTurn = true;
+		
+		//Save the playable cards list
+		playableCards = (ArrayList<Card>) cards.clone();
+		
+		//Take our turn
+		ourTurn();
 	}
 
 	@Override
 	public void cardPlayed(int player, Card card) {
-		// Plays the given card for the given player
-		StartGame.print("Received Card played from: " + player);
-		showPlayedCard(player, card);
-		changeTurn((player+1)%3);
+		
+		//If we just played a card, then it must not be our turn anymore
+		if( player == StartGame.mainControl.playerId ) {
+			isOurTurn = false;
+		}
+		
+		//TODO - Most of this
 	}
 
-	
+	@Override
+	//When the server updates our player scores, save them and draw them
+	public void updateScores( int P1Score, int P2Score, int P3Score ) {
+		
+		//Update scores
+		this.P1Score = P1Score;
+		this.P2Score = P2Score;
+		this.P3Score = P3Score;
+		
+		//TODO - Draw them
+		
+	}
 	
 }

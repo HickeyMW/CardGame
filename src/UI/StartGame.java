@@ -35,13 +35,14 @@ public class StartGame implements GUIStartInterface{
     
     public static GuiPanel panel;
     
-    static MainControl ctrl;
+    public static MainControl mainControl;;
 	
 	public StartGame() throws IOException {
 		
 		panel = new GuiPanel();
 		
-		ctrl = new MainControl( panel, this );
+		//Start game logic
+		mainControl = new MainControl( panel, this );
 		
 		window.setSize(400, 400);
 		window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -53,7 +54,7 @@ public class StartGame implements GUIStartInterface{
         		//Obtains IP info and displays it
         		try {
 					ipPull();
-					ctrl.hostGame();
+					mainControl.hostGame();
 					
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
@@ -71,7 +72,7 @@ public class StartGame implements GUIStartInterface{
         	public void actionPerformed(ActionEvent ae) {
         		//Sends IP info to networking
         		System.out.println(getIPFromText());
-        		ctrl.joinGame(getIPFromText());
+        		mainControl.joinGame(getIPFromText());
         	}
         });
         startButton = new JButton ("Start Game");
@@ -132,8 +133,7 @@ public class StartGame implements GUIStartInterface{
         startButton.setBounds (225, 25, 100, 25);
         
         ipInField.setText( "127.0.0.1" );
-		
-        ipInField.setText("127.0.0.1");
+        
 		window.setVisible(true);
 	}
 	
@@ -166,16 +166,11 @@ public class StartGame implements GUIStartInterface{
 	
 	public static void play() throws IOException {
 		
-		
-		
-		
 		frame.setSize( 1000, 800 );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
-		//panel = new GuiPanel();
-		panel.createCtrl(ctrl);
 		frame.getContentPane().add( panel );
-		ctrl.startGame();
+		mainControl.startGame();
 		frame.pack();
 		frame.setVisible( true );
 		//window.dispose();
@@ -187,12 +182,10 @@ public class StartGame implements GUIStartInterface{
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
 		//panel = new GuiPanel();
-		panel.createCtrl(ctrl);
 		frame.getContentPane().add( panel );
 		frame.pack();
 		frame.setVisible( true );
 		//window.dispose();
-
 		
 	}
 	

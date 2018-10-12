@@ -259,7 +259,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			int winnerId = findRoundWinner();
 			guiInterface.roundWinner(winnerId);
 			calculateScoring(winnerId);
-			guiInterface.updateScores();
+			guiInterface.updateScores( playerScores[0], playerScores[1], playerScores[2] );
 			currentPlayerTurn = winnerId;
 			
 			if (myCards.size() != 0) {

@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import Main.Card;
-import Main.Driver;
 
 public class ClickableCard extends Clickable {
 
@@ -37,13 +36,13 @@ public class ClickableCard extends Clickable {
 	
 	//Called when this card is clicked (Mouse down, specifically)
 	public void onMouseDown() {
-		StartGame.print("Selected card");
+		
 		//You can only click on cards when it is your turn.
-		if(StartGame.panel.isTurn) {
+		if( GuiPanel.isOurTurn ) {
 			
 			//You can only click on playable cards
-			if(StartGame.panel.playableCardsVar.contains(this.card)) {
-				StartGame.print("Card is playable");
+			if( StartGame.panel.playableCards.contains( this.card ) ) {
+				
 				//If we just clicked on the card we already have selected, we should unselect that card
 				if( selectedCard == this ){
 					
@@ -57,7 +56,7 @@ public class ClickableCard extends Clickable {
 					return;
 				}
 				
-				//If we have a card already selected, we should move it back down into the hand
+				//If we have a card already selected, we should move it back down into the hand before moving the selected one up
 				if( selectedCard != null ) {
 					selectedCard.y += selectedCardHeightModifier;
 				}
@@ -73,12 +72,24 @@ public class ClickableCard extends Clickable {
 		
 	}
 	
+	//Removes this card
+	public void remove() {
+		
+		//Make sure we can't see or click it
+		GuiPanel.drawables.remove( this );
+		GuiPanel.clickables.remove( this );
+		
+		//Remvoe it from our hand
+		GuiPanel.hand.remove( this );
+		
+	}
+	
 	public void draw( Graphics g ) {
 	    
 	    g.drawImage( image, x, y, w, h, null );
-	    /*
+	    
 	    //If it isn't our turn, gray out the cards
-		if( !GuiPanel.isTurn || ( !GuiPanel.playableCardsVar.contains( this.card ) && GuiPanel.playableCardsVar.size() > 0 ) ) {
+		if( !GuiPanel.isOurTurn || ( !StartGame.panel.playableCards.contains( this.card ) && StartGame.panel.playableCards.size() > 0 ) ) {
 			Color disableColor = new Color( 127, 127, 127, 200 );
 		    
 			Graphics2D g2d = (Graphics2D) g;
@@ -88,20 +99,7 @@ public class ClickableCard extends Clickable {
 			g2d.fillRect( x, y, w, h );
 			
 		}
-	    */
-	}
-	
-	//Once a card has been played from the hand, it is removed from the hand and destroyed
-	public static void cardPlayed() {
-		
-		//Remove it from the drawables list
-		Driver.drawables.remove(selectedCard);
-		
-		//Remove it from the clickables list
-		Driver.clickables.remove(selectedCard);
-		
-		//It is no longer the selected card
-		selectedCard = null;
+	    
 	}
 	
 	
