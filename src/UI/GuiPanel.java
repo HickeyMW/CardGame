@@ -21,6 +21,10 @@ import GameLogic.GUIEvents;
 import GameLogic.MainControl;
 import Main.Card;
 import Main.Driver;
+import UI.Ables.Clickable;
+import UI.Ables.ClickableButton;
+import UI.Ables.ClickableCard;
+import UI.Ables.Drawable;
 
 public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
@@ -29,7 +33,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public static boolean isOurTurn = false;
 	
 	public static ArrayList<Drawable> drawables = new ArrayList<Drawable>();
-	public static ArrayList<Clickable> clickables = new ArrayList<Clickable>();
+	public static ArrayList<ClickableButton> buttons = new ArrayList<ClickableButton>();
+	public static ArrayList<ClickableCard> clickableCards = new ArrayList<ClickableCard>();
 	
 	//Player scores
 	private int P1Score = 0;
@@ -45,29 +50,42 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//UI elements
 	
 	//Play card button
-	ClickableButton playCard;
+	public static ClickableButton playCardButton;
 	
 	//Start round button
-	ClickableButton startRound;
+	public static ClickableButton startRoundButton;
 	
-	//Generates own cards. Used for testing.
+	//Constructor
 	public GuiPanel() throws IOException {
 		
-		setBackground(Color.LIGHT_GRAY);
-		setPreferredSize(new Dimension(1000,800));
-		setFont(new Font("Arial", Font.BOLD, 16));
-		addMouseListener(this);
+		setBackground( Color.LIGHT_GRAY );
+		setPreferredSize( new Dimension( 1000, 800 ) );
+		setFont( new Font( "Arial", Font.BOLD, 16 ) );
+		addMouseListener( this );
 		
 		//Create the main UI elements
 		//Play card button
-		playCard = new ClickableButton( 700, 700, 300, 100, "GUIImages/PlayCard.png", "GUIImages/PlayCardDown.png", "GUIImages/PlayCardLocked.png" ) {
+		playCardButton = new ClickableButton( 700, 700, 300, 100, "GUIImages/PlayCard.png", "GUIImages/PlayCardDown.png", "GUIImages/PlayCardLocked.png" ) {
 			@Override
 			public void onClicked() {
 				
-				this.lock();
+				//Play the selected card
+				GameLauncher.mainControl.playCard( ClickableCard.selectedCard.card );
+				
+				//Remove the card we just played
+				ClickableCard.selectedCard.remove();
+				
+				//Reposition the remaining cards
+				positionHand();
+				
+				//Disable the play button
+				//playCardButton.lock();
 				
 			}
 		};
+		
+		//Play card starts disabled
+		playCardButton.lock();
 		
 	}
 	
@@ -78,15 +96,48 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//Unlocks the UI and lets us play a card
 	public void ourTurn() {
 		
+		
+		
 	}
 	
+	//Upper left corner of the leftmost card
+	int cardsX = 50;
+	int cardsY = 500;
+	
+	//How wide the hand space is
+	int cardsW = 450;
+	
+	//Positions all of the cards in our hand evenly across the hand space
+	public void positionHand(){
+		
+		//Position every card, from back to front, to their appropriate position
+		for( int i = hand.size() - 1; i >= 0; i-- ){
+			
+			//Find our percentage through the hand
+			float percentage = ( (float) i / ( (float) hand.size() - 1 ) );
+			
+			//Find our X position in the total play space
+			int cardX = cardsX + (int) ( percentage * cardsW );
+			
+			//Reposition this card
+			ClickableCard card = hand.get( i );
+			card.x = cardX;
+			card.y = cardsY;
+			
+		}
+		
+		//Redraw
+		this.repaint();
+		
+	}
 	
 	//JPanel methods
 	public void paintComponent(Graphics page){
 		super.paintComponent(page);
 		
-		for( Drawable img : drawables ) {
-			img.draw( page );
+		for( int i = 0; i <= drawables.size() - 1; i++ ){
+		//for( Drawable drawable : drawables ){
+			drawables.get( i ).draw( page );
 		}
 		
 	}
@@ -106,14 +157,19 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//When the mouse is pressed down, check it against clickable objects
 	public void mousePressed(MouseEvent mouseEvent) {
 		
-		//Go through every clickable
-		for( Clickable clickable : clickables ) {
+		//Go through every button
+		for( ClickableButton button : buttons ) {
+			
+			//If this button is locked, don't bother checking more
+			if( button.locked ){
+				continue;
+			}
 			
 			//Check if we just clicked inside of its bounds
-			if( clickable.pointWithin( mouseEvent.getX(), mouseEvent.getY() ) ) {
+			if( button.pointWithin( mouseEvent.getX(), mouseEvent.getY() ) ) {
 				
 				//If we did, then start clicking on this object.
-				clickable.onMouseDown();
+				button.onMouseDown();
 				
 				//Stop checking
 				break;
@@ -121,6 +177,27 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			}
 			
 		}
+		
+		//Go through every card
+		for( int i = hand.size() - 1; i >= 0; i-- ){
+			
+			ClickableCard card = clickableCards.get( i );
+			
+			//If we clicked on this card
+			if( card.pointWithin( mouseEvent.getX(), mouseEvent.getY() ) ){
+				
+				//Click on this card
+				card.onMouseDown();
+				
+				//Stop checking
+				break;
+				
+			}
+			
+		}
+		
+		//Draw everything
+		this.repaint();
 		
 	}
 	
@@ -137,12 +214,15 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 				//That counts as a full click
 				ClickableButton.heldButton.onClicked();
 				
-				//We are no longer holding that button
-				ClickableButton.onMouseUp();
-				
 			}
 			
 		}
+		
+		//We are no longer holding a button
+		ClickableButton.onMouseUp();
+		
+		//Draw everything
+		this.repaint();
 		
 	}
 	
@@ -154,7 +234,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public void gameStarted()  {
 		
 		try {
-			StartGame.clientPlay();
+			GameLauncher.clientPlay();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -182,9 +262,12 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		for( Card card : cards ) {
 			
 			//Create a new ClickableCard and add it to our hand
-			hand.add( new ClickableCard( -1000, -1000, 56, 256, card ) );
+			hand.add( new ClickableCard( -1000, -1000, 156, 256, card ) );
 			
 		}
+		
+		//Position our hand appropriately
+		positionHand();
 		
 	}
 
@@ -206,7 +289,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public void cardPlayed(int player, Card card) {
 		
 		//If we just played a card, then it must not be our turn anymore
-		if( player == StartGame.mainControl.playerId ) {
+		if( player == GameLauncher.mainControl.playerId ) {
 			isOurTurn = false;
 		}
 		

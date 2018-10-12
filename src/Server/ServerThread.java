@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 
 import Main.Card;
 import Main.Driver;
-import UI.StartGame;
+import UI.GameLauncher;
 
 public class ServerThread extends Thread {
 
@@ -53,7 +53,7 @@ public class ServerThread extends Thread {
 			//If we can't do that, something has gone wrong
 
 			//No server socket means no server so we need to "gracefully" stop here
-			StartGame.print( "ServerThread - Server failed to start" );
+			GameLauncher.print( "ServerThread - Server failed to start" );
 
 			//Stop any networking that has happened so far
 			stopServer();
@@ -62,19 +62,19 @@ public class ServerThread extends Thread {
 		}
 
 		//If we got past the try catch then the server was started successfully
-		StartGame.print( "ServerThread - Server started" );
+		GameLauncher.print( "ServerThread - Server started" );
 
 		//Listen for player 2 to connect
 		Socket P2Socket;
 		try {
 			
-			StartGame.print( "ServerThread - Waiting for player 2 to connect..." );
+			GameLauncher.print( "ServerThread - Waiting for player 2 to connect..." );
 			
 			P2Socket = serverSocket.accept();
 		} catch (IOException e) {
 
 			//Something can go wrong while accepting so we have to handle that
-			StartGame.print( "ServerThread - Unable to connect to player 2" );
+			GameLauncher.print( "ServerThread - Unable to connect to player 2" );
 
 			//Game can't start without player 2
 
@@ -85,7 +85,7 @@ public class ServerThread extends Thread {
 			return;
 		}
 		
-		StartGame.print( "ServerThread - Player 2 connected" );
+		GameLauncher.print( "ServerThread - Player 2 connected" );
 
 		//Once we have player 2's socket connected, start a new server to client thread for it
 		P2Thread = new ServerToClientThread( events, P2Socket, 2 );
@@ -99,13 +99,13 @@ public class ServerThread extends Thread {
 		Socket P3Socket;
 		try {
 			
-			StartGame.print( "ServerThread - Waiting for player 3 to connect..." );
+			GameLauncher.print( "ServerThread - Waiting for player 3 to connect..." );
 			
 			P3Socket = serverSocket.accept();
 		} catch (IOException e) {
 
 			//Something can go wrong while accepting so we have to handle that
-			StartGame.print( "ServerThread - Unable to connect to player 3" );
+			GameLauncher.print( "ServerThread - Unable to connect to player 3" );
 
 			//Game can't start without player 3
 
@@ -116,7 +116,7 @@ public class ServerThread extends Thread {
 			return;
 		}
 		
-		StartGame.print( "ServerThread - Player 3 connected" );
+		GameLauncher.print( "ServerThread - Player 3 connected" );
 		
 		
 
@@ -172,7 +172,7 @@ public class ServerThread extends Thread {
 	//Broadcasts to every player that a new game has started
 	public void broadcastGameStart( int startedByID ){
 		
-		StartGame.print( "ServerThread - Broadcasted game start" );
+		GameLauncher.print( "ServerThread - Broadcasted game start" );
 		
 		players[2].sendGameStart( startedByID );
 		players[3].sendGameStart( startedByID );
@@ -190,7 +190,7 @@ public class ServerThread extends Thread {
 	
 	//Begins listening for a player to play a card
 	public void listenForCardPlayed( int playerID ) {
-		System.out.println("serverthread.listenforcrdplayed");
+		System.out.println("serverthread.listenforcardplayed");
 		players[ playerID ].ListenForCardPlayed();
 	}
 	
