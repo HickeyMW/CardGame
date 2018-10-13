@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import UI.Clickable;
 import UI.Drawable;
 import UI.StartGame;
+import UI.TestGUI;
 
 public class Driver {
 
@@ -16,7 +17,13 @@ public class Driver {
 	public static StartGame startGame;
 	
 	public static void main(String[] args) throws IOException {
-		startGame = new StartGame();
+		boolean testMode = true;
+		
+		if (testMode) {
+			TestGUI testGUI = new TestGUI();
+		} else {
+			startGame = new StartGame();
+		}
 	}
 
 }

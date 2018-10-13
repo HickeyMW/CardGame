@@ -25,6 +25,7 @@ public class TestGUI extends JFrame implements GUIStartInterface, GUIInterface {
 	JTextArea jTextArea;
 	ArrayList<Card> availableCards;
 	MainControl mainControl;
+	boolean autoPlay = true;
 	
 	public TestGUI() {
 		mainControl = new MainControl(this, this);
@@ -59,7 +60,10 @@ public class TestGUI extends JFrame implements GUIStartInterface, GUIInterface {
         JButton btnPlayCard = new JButton ("Play Card");
         btnPlayCard.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent ae) {
-        		int num = Integer.parseInt(jTextField.getText());
+        		int num = 0;
+        		if (!jTextField.getText().equals("")) {
+        			Integer.parseInt(jTextField.getText());
+				}        		
         		mainControl.playCard(availableCards.get(num));
         		
         	}
@@ -68,6 +72,20 @@ public class TestGUI extends JFrame implements GUIStartInterface, GUIInterface {
         btnStartRound.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent ae) {
         		mainControl.startRound();
+        		
+        	}
+        });
+        JButton btnClear = new JButton ("Clear");
+        btnClear.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent ae) {
+        		jTextArea.setText("");
+        		
+        	}
+        });
+        JButton btnAuto = new JButton ("Auto");
+        btnAuto.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent ae) {
+        		autoPlay = !autoPlay;
         		
         	}
         });
@@ -87,12 +105,16 @@ public class TestGUI extends JFrame implements GUIStartInterface, GUIInterface {
         btnJoin.setSize(100, 50);
         btnPlayCard.setSize(100, 50);
         btnStartRound.setSize(100, 50);
+        btnClear.setSize(100, 50);
+        btnAuto.setSize(100, 50);
         
         jPanel.add(btnHost);
         jPanel.add(btnStart);
         jPanel.add(btnJoin);
         jPanel.add(btnPlayCard);
         jPanel.add(btnStartRound);
+        jPanel.add(btnClear);
+        jPanel.add(btnAuto);
         jPanel.add(jTextField);
         jPanel.add(scroll);
         
@@ -116,6 +138,18 @@ public class TestGUI extends JFrame implements GUIStartInterface, GUIInterface {
 	public void roundWinner(int playerId) {
 		// TODO Auto-generated method stub
 		jTextArea.append("\nRound winner " + playerId);
+		if (playerId == mainControl.playerId) {
+			jTextArea.append("\n\n@@@@@@@@@@@@@@@@@");
+		}
+		if (autoPlay && playerId == mainControl.playerId) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			mainControl.startRound();
+		}
 	}
 
 	@Override
@@ -159,12 +193,15 @@ public class TestGUI extends JFrame implements GUIStartInterface, GUIInterface {
 			jTextArea.append("\n" + i + ":    " + card.toString());
 			i++;
 		}
+		if (autoPlay) {
+			mainControl.playCard(availableCards.get(0));
+		}
 	}
 
 	@Override
 	public void updateScores(int[] scores) {
 		// TODO Auto-generated method stub
-		jTextArea.append("\nPlayer 1 " + scores[0] + "Player 2 " + scores[1] + "Player 3 " + scores[2]);
+		jTextArea.append("\nPlayer 1 " + scores[0] + " Player 2 " + scores[1] + " Player 3 " + scores[2]);
 	}
 
 	@Override
