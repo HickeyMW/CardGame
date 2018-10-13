@@ -97,7 +97,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		if (playerId == 1) {
 			StartGame.print( "MainControl startRound 2" );
 			serverThread.broadcastRoundStart(1);
-			roundStart(1);
+			serverRoundStart(1);
 		} else {
 			StartGame.print( "MainControl startRound 3" );
 			clientThread.startRound();
@@ -163,6 +163,8 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			serverThread.broadcastCardPlayed(player, card);
 			playersHands.get(player - 1).remove(hasCard);
 			cardPlayed(player, hasCard);
+		} else {
+			System.out.println("THIS SHOULD NOT HAPPEN");
 		}
 	}
 		
@@ -208,19 +210,20 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 
 	public void roundStartedOnServer(int startedByID) {
-		roundStart(startedByID);
+		if (previousWinner == startedByID) {
+			serverRoundStart(startedByID);
+		}
 	}
 	
-	private void roundStart(int startedByID) {
-		System.out.println(previousWinner);
-		if (previousWinner == startedByID) {
-			serverThread.broadcastRoundStart(startedByID);
-			resetRound();
-			guiInterface.roundStarted();
-			if (previousWinner == playerId) {
-				guiInterface.playableCards(playableCards());
-			}
+	private void serverRoundStart(int startedByID) {
+		System.out.println("HERE!!!!!!!! " + previousWinner);
+		serverThread.broadcastRoundStart(startedByID);
+		resetRound();
+		guiInterface.roundStarted();
+		if (previousWinner == playerId) {
+			guiInterface.playableCards(playableCards());
 		}
+		
 	}
 
 	public void gameStartedOnServer(int startedByID) {
@@ -236,7 +239,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 
 	public void roundStartedOnClient(int startedByID) {
-		System.out.println(previousWinner);
+		System.out.println("GOTCHA BITCH "+ previousWinner);
 		resetRound();
 		guiInterface.roundStarted();
 		if (previousWinner == playerId) {
@@ -279,12 +282,15 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			currentPlayerTurn = winnerId;
 		} else if (currentPlayerTurn == playerId) {
 			//Runs if it is this players turn
-			StartGame.print( "MainControl cardPlayed 5" );
+			//StartGame.print( "MainControl cardPlayed 5" );
 			guiInterface.playableCards(playableCards());
 		}
 	}
 
 	private int findRoundWinner() {
+		System.out.println("Leading player: "+ leadingPlayer);
+		System.out.println("Next player: "+ nextPlayerId());
+		System.out.println("Next Next player: "+ nextNextPlayerId());
 		int winner = leadingPlayer;
 		if (playedCards[leadingPlayer - 1].getSuit() == playedCards[nextPlayerId() - 1].getSuit() &&
 				playedCards[leadingPlayer - 1].getValue() < playedCards[nextPlayerId() - 1].getValue()) {
