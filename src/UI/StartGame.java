@@ -65,6 +65,7 @@ public class StartGame implements GUIStartInterface{
         		//TODO remove this
         		StartGame.window.setTitle( "Player 1" );
         		
+        		p1.setText( "Player 1: Connected" );
         		
         	}
         });
