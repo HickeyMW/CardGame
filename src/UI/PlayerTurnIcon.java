@@ -35,9 +35,7 @@ public class PlayerTurnIcon extends Drawable {
 	//Sets whether this icon is lit or not
 	public void setIsTurn( boolean isTurn ) {
 		
-		if( isTurn ) {
-			
-		}
+		this.isTurn = isTurn;
 		
 	}
 	

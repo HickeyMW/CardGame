@@ -46,9 +46,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	Drawable pokerTable = new Drawable(0,0,1000,400, "GUIImages/PokerTable.png");
 	
 	//The images for the player 1, 2, and 3 turn icons
-	PlayerTurnIcon p1Icon = new PlayerTurnIcon(200, 20, 90, 40, "GUIImages/PlayerOneTurn.png", "GUIImages/PlayerOneNotTurn.png" );
-	PlayerTurnIcon p2Icon = new PlayerTurnIcon(450, 20, 90, 40, "GUIImages/PlayerTwoTurn.png", "GUIImages/PlayerTwoNotTurn.png" );
-	PlayerTurnIcon p3Icon = new PlayerTurnIcon(700, 20, 90, 40, "GUIImages/PlayerThreeTurn.png", "GUIImages/PlayerThreeNotTurn.png" );
+	PlayerTurnIcon p1Icon = new PlayerTurnIcon(200, 20, 90, 40, "GUIImages/PlayerOneNotTurn.png", "GUIImages/PlayerOneTurn.png" );
+	PlayerTurnIcon p2Icon = new PlayerTurnIcon(450, 20, 90, 40, "GUIImages/PlayerTwoNotTurn.png", "GUIImages/PlayerTwoTurn.png" );
+	PlayerTurnIcon p3Icon = new PlayerTurnIcon(700, 20, 90, 40, "GUIImages/PlayerThreeNotTurn.png", "GUIImages/PlayerThreeTurn.png" );
 	
 	//Card placeholders for played cards
 	PlayedCardImage p1Card = new PlayedCardImage( 150, 125, 137, 200 );
