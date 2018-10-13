@@ -27,10 +27,10 @@ public class Card {
 	public static final int ACE = 14;
 	
 	private static String[] values = {
-			"Ace",
 			"Jack",
 			"Queen",
 			"King",
+			"Ace"
 	};
 
 	//Card constructor
