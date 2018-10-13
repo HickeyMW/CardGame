@@ -38,7 +38,10 @@ public class ClickableButton extends Clickable{
 			e.printStackTrace();
 		}
 		
-		Main.Driver.clickables.add( this );
+		GuiPanel.clickables.add( this );
+		GuiPanel.drawables.add( this );
+		
+		GuiPanel.buttons.add( this );
 		
 	}
 	

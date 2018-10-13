@@ -14,7 +14,7 @@ public class Clickable extends Drawable {
 		this.w = w;
 		this.h = h;
 		
-		Driver.clickables.add( this );
+		GuiPanel.clickables.add( this );
 		
 	}
 	

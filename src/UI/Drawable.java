@@ -40,7 +40,7 @@ public class Drawable {
 		}
 		
 		//Register us as drawable
-		Driver.drawables.add( this );
+		GuiPanel.drawables.add( this );
 		
 	}
 	
@@ -53,7 +53,7 @@ public class Drawable {
 		this.h = h;
 		
 		//Register us as drawable
-		Driver.drawables.add( this );
+		GuiPanel.drawables.add( this );
 		
 	}
 	

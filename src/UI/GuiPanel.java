@@ -24,6 +24,11 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	//Variables
 	
+	//Arraylists
+	public static ArrayList<Drawable> drawables = new ArrayList<Drawable>();
+	public static ArrayList<ClickableButton> buttons = new ArrayList<ClickableButton>();
+	public static ArrayList<Clickable> clickables = new ArrayList<Clickable>();
+	
 	//Card hand variables
 	//Upper left corner of the leftmost card
 	static int cardsX = 40;
@@ -45,9 +50,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	Drawable pokerTable = new Drawable( 0 ,0, 1000, 400, "GUIImages/PokerTable.png" );
 	Drawable handBackground = new Drawable( 0, 400, 700, 400, "GUIImages/HandBackground.png" );
 	Drawable felt = new Drawable( 700, 400, 400, 400, "GUIImages/felt.png" );
-
-	
-	
 	
 	//The images for the player 1, 2, and 3 turn icons
 	PlayerTurnIcon p1Icon = new PlayerTurnIcon( 168, 40, 100, 40, "GUIImages/PlayerOneNotTurn.png", "GUIImages/PlayerOneTurn.png" );
@@ -274,9 +276,14 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public void paintComponent(Graphics page){
 		super.paintComponent(page);
 			
-		for( int i = 0; i < Driver.drawables.size(); i++ ){
+		for( int i = 0; i < drawables.size(); i++ ){
 			
-			Driver.drawables.get( i ).draw( page );
+			drawables.get( i ).draw( page );
+		}
+		
+		//Draw all the buttons
+		for( ClickableButton button : buttons ) {
+			button.draw( page );
 		}
 		
 		page.setColor(Color.WHITE);
@@ -329,8 +336,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		}
 		
 		//Check if we just started clicking any buttons
-		for(  int i = Driver.clickables.size()-1 ; i>= 0; i--) {
-			Clickable clickable = Driver.clickables.get(i);
+		for(  int i = clickables.size()-1 ; i>= 0; i--) {
+			Clickable clickable = clickables.get(i);
 			
 			if( clickable.pointWithin( mouseEvent.getX() ,  mouseEvent.getY() ) ){
 				

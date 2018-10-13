@@ -102,8 +102,8 @@ public class ClickableCard extends Clickable {
 		public void remove() {
 			
 			//Make sure we can't see or click it
-			Main.Driver.drawables.remove( this );
-			Main.Driver.clickables.remove( this );
+			GuiPanel.drawables.remove( this );
+			GuiPanel.clickables.remove( this );
 			
 			//Remove it from our hand
 			GuiPanel.hand.remove( this );
