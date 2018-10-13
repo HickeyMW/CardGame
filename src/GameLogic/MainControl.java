@@ -295,7 +295,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		}
 		if (playedCards[winner - 1].getSuit() == playedCards[nextNextPlayerId() - 1].getSuit() &&
 				playedCards[winner - 1].getValue() < playedCards[nextNextPlayerId() - 1].getValue()) {
-			winner = nextPlayerId();
+			winner = nextNextPlayerId();
 		}
 		previousWinner = winner;
 		return winner;
