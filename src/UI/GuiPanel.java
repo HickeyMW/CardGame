@@ -26,11 +26,11 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	//Card hand variables
 	//Upper left corner of the leftmost card
-	static int cardsX = 50;
-	static int cardsY = 500;
+	static int cardsX = 40;
+	static int cardsY = 497;
 	
 	//How wide the hand space is
-	static int cardsW = 450;
+	static int cardsW = 464;
 	
 	//Tracks whether or not it's our turn to play
 	static Boolean isTurn = false;
@@ -382,6 +382,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		for (int i = 0; i < cards.size()-1; i++) {
 			hand.add( new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) ) );
 		}
+		
+		//Position these cards
+		positionHand();
 		
 		//Redraw
 		this.repaint();
