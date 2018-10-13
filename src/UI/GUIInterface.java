@@ -24,7 +24,7 @@ public interface GUIInterface {
 
     void playableCards(ArrayList<Main.Card> cards);
 
-    void updateScores();
+    void updateScores(int[] scores);
 
 	void cardPlayed(int player, Card card);
 }
