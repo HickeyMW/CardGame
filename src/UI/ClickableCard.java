@@ -42,7 +42,7 @@ public class ClickableCard extends Clickable {
 		if(StartGame.panel.isTurn) {
 			
 			//You can only click on playable cards
-			if(StartGame.panel.playableCardsVar.contains(this.card)) {
+			if(StartGame.panel.playableCards.contains(this.card)) {
 				StartGame.print("Card is playable");
 				//If we just clicked on the card we already have selected, we should unselect that card
 				if( selectedCard == this ){
@@ -78,7 +78,7 @@ public class ClickableCard extends Clickable {
 	    g.drawImage( image, x, y, w, h, null );
 	    
 	    //If it isn't our turn, gray out the cards
-		if( !GuiPanel.isTurn || ( !GuiPanel.playableCardsVar.contains( this.card ) && GuiPanel.playableCardsVar.size() > 0 ) ) {
+		if( !GuiPanel.isTurn || ( !GuiPanel.playableCards.contains( this.card ) && GuiPanel.playableCards.size() > 0 ) ) {
 			Color disableColor = new Color( 127, 127, 127, 200 );
 		    
 			Graphics2D g2d = (Graphics2D) g;
