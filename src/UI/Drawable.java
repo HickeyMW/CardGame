@@ -44,6 +44,18 @@ public class Drawable {
 		
 	}
 	
+	//Just in case we don't want to give it an image
+	public Drawable( int x, int y, int w, int h ) {
+		this.x = x;
+		this.y = y;
+		
+		this.w = w;
+		this.h = h;
+		
+		//Register us as drawable
+		Driver.drawables.add( this );
+		
+	}
 	
 	//Draws the image at the X and Y
 	public void draw( Graphics g ) {
