@@ -38,7 +38,7 @@ public class ClickableCard extends Clickable {
 	
 	//Called when this card is clicked (Mouse down, specifically)
 	public void onMouseDown() {
-		StartGame.print("Selected card");
+		
 		//You can only click on cards when it is your turn.
 		if(StartGame.panel.isTurn) {
 			
@@ -54,6 +54,9 @@ public class ClickableCard extends Clickable {
 					//Make sure we are no longer selecting this card
 					selectedCard = null;
 					
+					//Lock the play button
+					GuiPanel.playCardButton.lock();
+					
 					//Stop
 					return;
 				}
@@ -65,6 +68,9 @@ public class ClickableCard extends Clickable {
 				
 				//This is now the selected card
 				selectedCard = this;
+				
+				//Unlock the play button
+				GuiPanel.playCardButton.unlock();
 				
 				//Move the selected card up out of the hand to show that it is selected
 				y -= selectedCardHeightModifier;
