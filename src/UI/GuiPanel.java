@@ -44,6 +44,10 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//Background UI images
 	Drawable pokerTable = new Drawable( 0 ,0, 1000, 400, "GUIImages/PokerTable.png" );
 	Drawable handBackground = new Drawable( 0, 400, 700, 400, "GUIImages/HandBackground.png" );
+	Drawable felt = new Drawable( 700, 400, 400, 400, "GUIImages/felt.png" );
+
+	
+	
 	
 	//The images for the player 1, 2, and 3 turn icons
 	PlayerTurnIcon p1Icon = new PlayerTurnIcon( 168, 40, 100, 40, "GUIImages/PlayerOneNotTurn.png", "GUIImages/PlayerOneTurn.png" );
@@ -54,6 +58,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	PlayedCardImage p1Card = new PlayedCardImage( 143, 100, 150, 233 );
 	PlayedCardImage p2Card = new PlayedCardImage( 426, 100, 150, 233 );
 	PlayedCardImage p3Card = new PlayedCardImage( 707, 100, 150, 233 );
+	
+	//Score Display Board
+	Drawable pointsDisplay = new Drawable(700, 400, 300, 200, "GUIImages/PointsDisplay.png");
 	
 	//Our current hand
 	public static ArrayList<ClickableCard> hand = new ArrayList<ClickableCard>();
