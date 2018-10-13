@@ -21,6 +21,8 @@ public class Drawable {
 	
 	Image image;
 	
+	
+	
 	public Drawable( int x, int y, int w, int h, String imageURL ) {
 		this.x = x;
 		this.y = y;
@@ -42,27 +44,6 @@ public class Drawable {
 		
 	}
 	
-	//Changes the image this drawable should draw
-	public void changeImage( String newImageURL ) {
-		StartGame.print("Begining change");
-		try {
-			image = ImageIO.read( new File( newImageURL ) );
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			StartGame.print("Failed to read image");
-		}
-		
-		Driver.drawables.remove( this );
-		StartGame.print("Removed");
-		Driver.drawables.add( this );
-		StartGame.print("Added");
-		
-		//Redraw
-		StartGame.panel.repaint();
-		StartGame.print("Repainted");
-		
-	}
 	
 	//Draws the image at the X and Y
 	public void draw( Graphics g ) {

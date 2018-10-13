@@ -4,8 +4,9 @@ import Main.Driver;
 
 public class Clickable extends Drawable {
 	
-	public boolean isClickable = true;
 	int w, h;
+	
+	public boolean isClickable = true;
 	
 	public Clickable(int x, int y, int w, int h, String imageURL) {
 		super(x, y, w, h, imageURL);
