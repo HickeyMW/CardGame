@@ -35,13 +35,15 @@ public class StartGame implements GUIStartInterface{
     
     public static GuiPanel panel;
     
-    static MainControl ctrl;
+    static MainControl gameLogic;
 	
 	public StartGame() throws IOException {
 		
 		panel = new GuiPanel();
 		
-		ctrl = new MainControl( panel, this );
+		gameLogic = new MainControl( panel, this );
+		
+		panel.gameLogic = gameLogic;
 		
 		window.setSize(400, 400);
 		window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -53,7 +55,7 @@ public class StartGame implements GUIStartInterface{
         		//Obtains IP info and displays it
         		try {
 					ipPull();
-					ctrl.hostGame();
+					gameLogic.hostGame();
 					
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
@@ -71,7 +73,7 @@ public class StartGame implements GUIStartInterface{
         	public void actionPerformed(ActionEvent ae) {
         		//Sends IP info to networking
         		System.out.println(getIPFromText());
-        		ctrl.joinGame(getIPFromText());
+        		gameLogic.joinGame(getIPFromText());
         	}
         });
         startButton = new JButton ("Start Game");
@@ -173,9 +175,8 @@ public class StartGame implements GUIStartInterface{
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
 		//panel = new GuiPanel();
-		panel.createCtrl(ctrl);
 		frame.getContentPane().add( panel );
-		ctrl.startGame();
+		gameLogic.startGame();
 		frame.pack();
 		frame.setVisible( true );
 		//window.dispose();
@@ -187,7 +188,6 @@ public class StartGame implements GUIStartInterface{
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
 		//panel = new GuiPanel();
-		panel.createCtrl(ctrl);
 		frame.getContentPane().add( panel );
 		frame.pack();
 		frame.setVisible( true );

@@ -16,107 +16,94 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import GameLogic.GUIEvents;
 import GameLogic.MainControl;
 import Main.Card;
 import Main.Driver;
 
 public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
+	//Variables
 	
+	//Card hand variables
+	//Upper left corner of the leftmost card
+	static int cardsX = 50;
+	static int cardsY = 500;
+	
+	//How wide the hand space is
+	static int cardsW = 450;
+	
+	//Tracks whether or not it's our turn to play
 	static Boolean isTurn = false;
-	MainControl ctrl;
 	
-	public static ArrayList<Card> playableCardsVar;
+	//Our variable holding a copy of the game logic
+	public static MainControl gameLogic;
 	
+	//Holds the cards that game logic tells us can be played
+	public static ArrayList<Card> playableCards;
 	
-	ClickableButton roundButton = 	new ClickableButton( 700, 600, 300, 100, "GUIImages/NextRound.png", "GUIImages/NextRoundNot.png" ) {
+	//Background UI images
+	Drawable handTable = new Drawable(0,400,400,300, "GUIImages/TableTop.png");
+	Drawable pokerTable = new Drawable(0,0,1000,400, "GUIImages/PokerTable.png");
+	
+	//The images for the player 1, 2, and 3 turn icons
+	PlayerTurnIcon p1Icon = new PlayerTurnIcon(200, 20, 90, 40, "GUIImages/PlayerOneNotTurn.png", "GUIImages/PlayerOneTurn.png" );
+	PlayerTurnIcon p2Icon = new PlayerTurnIcon(450, 20, 90, 40, "GUIImages/PlayerTwoNotTurn.png", "GUIImages/PlayerTwoTurn.png" );
+	PlayerTurnIcon p3Icon = new PlayerTurnIcon(700, 20, 90, 40, "GUIImages/PlayerThreeNotTurn.png", "GUIImages/PlayerThreeTurn.png" );
+	
+	//Card placeholders for played cards
+	PlayedCardImage p1Card = new PlayedCardImage( 143, 100, 150, 233 );
+	PlayedCardImage p2Card = new PlayedCardImage( 426, 100, 150, 233 );
+	PlayedCardImage p3Card = new PlayedCardImage( 707, 100, 150, 233 );
+	
+	//Our current hand
+	public static ArrayList<ClickableCard> hand = new ArrayList<ClickableCard>();
+	
+	//Player scores
+	int[] scores = { 0, 0, 0 };
+	
+	//Button declarations
+	
+	//Play card button
+	public static ClickableButton playCardButton = new ClickableButton( 700, 700, 300, 100, "GUIImages/PlayCard.png", "GUIImages/PlayCardDown.png", "GUIImages/PlayCardDisabled.png" ) {
+		@Override
 		public void onClicked() {
 			
-			StartGame.print( "Clicked round change" );
+			//We can only play on our turn
 			if(isTurn) {
-				//endGame();
 				
-				//TODO 
-				ctrl.startRound();
-			}
-			
-		}
-	};
-	
-	ClickableButton playCard = 	new ClickableButton( 700, 700, 300, 100, "GUIImages/PlayCard.png", "GUIImages/PlayCardNot.png" ) {
-		@Override
-		public void onMouseUp() {
-			
-			StartGame.print("Button up");
-			//Change the image of the held button
-			heldButton.changeImage( heldButton.baseImageURL );
-			
-			//Remove the held button;
-			heldButton = null;
-			
-			StartGame.print("clicked play " + ctrl.playerId);
-			if(isTurn) {
-				StartGame.print("isTurn test");
 				//Detects if there is a selected card and passes it to game logic
 				if( ClickableCard.selectedCard != null ) {
-					StartGame.print("Played");
+					
 					//Tells gamelogic to play the card
-					ctrl.playCard( ClickableCard.selectedCard.card );
-					
-					//Tells the UI to play the card
-					//showPlayedCard( ctrl.playerId, ClickableCard.selectedCard.card );
-					
+					gameLogic.playCard( ClickableCard.selectedCard.card );
 					
 					//Let the card know it was played
-					ClickableCard.cardPlayed();
+					ClickableCard.selectedCard.remove();
+					
+					//Reposition the cards in our hand
+					positionHand();
+					
 					//Ends turn
 					isTurn = false;
 				}
 			}
-			
-			
-			
-			
 		}
 	};
 	
-	//Drawable handTable = new Drawable(0,400,400,300, "GUIImages/TableTop.png");
-	Drawable pokerTable = new Drawable(0,0,1000,400, "GUIImages/PokerTable.png");
-
-	
-	
-	Drawable p1 = new Drawable(200, 20, 90, 40, "GUIImages/PlayerOneTurn.png");
-	Drawable p2 = new Drawable(450, 20, 90, 40, "GUIImages/PlayerTwoNotTurn.png");
-	Drawable p3 = new Drawable(700, 20, 90, 40, "GUIImages/PlayerThreeNotTurn.png");
-	
-	
-	
-	
-	
-	
-	//Receives 3D array for ints containing 17 rows of 2 values.
-	//First value is the face and the second value is the suit.
-	
-	
 	//Generates own cards. Used for testing.
 	public GuiPanel( ) throws IOException {
-		
 		
 		setBackground(Color.LIGHT_GRAY);
 		setPreferredSize(new Dimension(1000,800));
 		setFont(new Font("Arial", Font.BOLD, 16));
 		addMouseListener(this);
 		
-	}
-	
-	public void createCtrl(MainControl newCtrl) {
-		ctrl = newCtrl;
-		StartGame.print("ctrl created");
-		//Sets window title to indicated which player they are.
-		StartGame.frame.setTitle("Player " + ctrl.playerId );
+		//Lock the play card button
+		playCardButton.lock();
 		
 	}
+	
+	//General UI methods
 	
 	public void ReceiveCards(int[][] dealt) {
 		
@@ -132,54 +119,52 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	}
 	
 	public void updateScores(){
-		pScores = ctrl.getScores();
+		scores = gameLogic.getScores();
 		
 		repaint();
 	}
 	
 	
-	public void changeTurn(int player) {
+	public void changeTurn( int nextPlayerID ) {
 		
-		if(player == ctrl.playerId)
+		if( nextPlayerID == gameLogic.playerId ) {
 			isTurn = true;
-		else
+		} else {
 			isTurn = false;
-		
-		
-		
-		if(player == 1) {
-			p3.changeImage("GUIImages/PlayerThreeNotTurn.png");
-			p1.changeImage("GUIImages/PlayerOneTurn.png");
-		} else if(player == 2) {
-			p1.changeImage("GUIImages/PlayerOneNotTurn.png");
-			p2.changeImage("GUIImages/PlayerTwoTurn.png");
-		}else if (player == 3) {
-			p2.changeImage("GUIImages/PlayerTwoNotTurn.png");
-			p3.changeImage("GUIImages/PlayerThreeTurn.png");
 		}
-			
+		
+		p1Icon.setIsTurn( false );
+		p2Icon.setIsTurn( false );
+		p3Icon.setIsTurn( false );
+		
+		if( nextPlayerID == 1 ) {
+			p1Icon.setIsTurn( true );
+		}else if( nextPlayerID == 2 ) {
+			p2Icon.setIsTurn( true );
+		}else {
+			p3Icon.setIsTurn( true );
+		}
+		
 		//Redraw everything
 		this.repaint();
 		
 	}
-	static Drawable p1Card = new Drawable(150, 125, 137, 200, "GUIImages/Cards/temp.png");
-	static Drawable p2Card = new Drawable(400, 125, 137, 200, "GUIImages/Cards/temp.png");
-	static Drawable p3Card = new Drawable(650, 125, 137, 200, "GUIImages/Cards/temp.png");
 	
 	public void showPlayedCard(int player, Card card) {
 		StartGame.print("Player "+ player + " played: "+ card);
 		
 		if(player == 1) {
-			p1Card.changeImage( ClickableCard.getAddress( card ) );
+			p1Card.changeCard( card );
+			p1Card.shouldDraw = true;
 		}else if(player == 2) {
-			p2Card.changeImage( ClickableCard.getAddress( card ) );
+			p2Card.changeCard( card );
+			p2Card.shouldDraw = true;
 		}else if(player == 3) {
-			p3Card.changeImage( ClickableCard.getAddress( card ) );
+			p3Card.changeCard( card );
+			p3Card.shouldDraw = true;
 		}
 		
 	}
-	
-	
 	
 	public void endGame(int player) {
 		StartGame.frame.dispose();
@@ -207,18 +192,13 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         
         winnerLabel.setText("Player " + player + "Wins!");
         
-        
-        
-        
         p1 = new JLabel ("Player 1:");
         p2 = new JLabel ("Player 2:");
         p3 = new JLabel ("Player 3:");
         
-        p1ScoreLabel = new JLabel (Integer.toString(pScores[1]));
-        p2ScoreLabel = new JLabel (Integer.toString(pScores[2]));
-        p3ScoreLabel = new JLabel (Integer.toString(pScores[3]));
-        
-        
+        p1ScoreLabel = new JLabel( Integer.toString( scores[1] ) );
+        p2ScoreLabel = new JLabel( Integer.toString( scores[2] ) );
+        p3ScoreLabel = new JLabel( Integer.toString( scores[3] ) );
 
         //adjust size and set layout
         end.setPreferredSize (new Dimension (187, 235));
@@ -248,42 +228,49 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         end.pack();
 		end.setVisible(true);
 		
+	}
+	
+	//Positions all of the cards in our hand evenly across the hand space
+	public static void positionHand(){
 		
+		//Position every card, from back to front, to their appropriate position
+		for( int i = hand.size() - 1; i >= 0; i-- ){
+			
+			//Find our percentage through the hand
+			float percentage = ( (float) i / ( (float) hand.size() - 1 ) );
+			
+			//Find our X position in the total play space
+			int cardX = cardsX + (int) ( percentage * cardsW );
+			
+			//Reposition this card
+			ClickableCard card = hand.get( i );
+			card.x = cardX;
+			card.y = cardsY;
+			
+		}
 		
-		
+		//Redraw
+		StartGame.panel.repaint();
 		
 	}
 	
-	
-	int[] pScores = {-1,0,0,0};
-	
-	public void paintComponent(Graphics page)
-	{
+	public void paintComponent(Graphics page){
 		super.paintComponent(page);
-		int count = 0;
-		//for( Drawable img : Driver.drawables ) {
-			
 			
 		for( int i = 0; i < Driver.drawables.size(); i++ ){
 			
 			Driver.drawables.get( i ).draw( page );
-			
-			//System.out.println(count++);
 		}
 		
-		StartGame.print("Finished drawables");
-		
-		
 		page.setColor(Color.WHITE);
-		//page.drawString("Scores:", 0, 80);
-		page.drawString(Integer.toString(pScores[1]), 200, 80);
-		page.drawString(Integer.toString(pScores[2]), 450, 80);
-		page.drawString(Integer.toString(pScores[3]), 700, 80);
-		
-		
+		page.drawString(Integer.toString( scores[0]), 200, 80 );
+		page.drawString(Integer.toString( scores[1]), 450, 80 );
+		page.drawString(Integer.toString( scores[2]), 700, 80 );
 		
 	}
 
+	//Mouse event methods
+	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {}
 
@@ -296,17 +283,17 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	public void mouseReleased( MouseEvent mouseEvent ) {
 		
-		StartGame.print("Mouse Released");
 		//If there's something held, let it go
 		if( ClickableButton.heldButton != null ) {
 			
 			//If we just released over the held button then we did a full click on it
 			if( ClickableButton.heldButton.pointWithin( mouseEvent.getX() ,  mouseEvent.getY() ) ){
-				ClickableButton.heldButton.onMouseUp();
+				
+				ClickableButton.heldButton.onClicked();
+				
+				ClickableButton.onMouseUp();
+				
 			}
-			
-			//Release the held button
-			//ClickableButton.onMouseUp();
 			
 		}
 		
@@ -323,26 +310,25 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			//If this is the case, we'll do some error avoidance and just ignore this event.
 			return;
 		}
-		StartGame.print("doing mouse pressed stuff");
+		
 		//Check if we just started clicking any buttons
 		for(  int i = Driver.clickables.size()-1 ; i>= 0; i--) {
 			Clickable clickable = Driver.clickables.get(i);
 			
-
-			if( clickable instanceof ClickableCard ) {
-				ClickableCard card = (ClickableCard) clickable;
-			}
-			
 			if( clickable.pointWithin( mouseEvent.getX() ,  mouseEvent.getY() ) ){
+				
 				clickable.onMouseDown();
 				break;
 			}
 			
 		}
 		
-		
+		//Redraw everything
+		this.repaint();
 		
 	}
+	
+	//Methods called by game logic
 	
 	@Override
 	public void gameStarted()  {
@@ -361,9 +347,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	public void roundStarted() {
 		//Resets the images to be blank
-		p1Card.changeImage("GUIImages/Cards/temp.png");
-		p2Card.changeImage("GUIImages/Cards/temp.png");
-		p3Card.changeImage("GUIImages/Cards/temp.png");
+		p1Card.shouldDraw = false;
+		p2Card.shouldDraw = false;
+		p3Card.shouldDraw = false;
 		
 		//Redraw everything
 		this.repaint();
@@ -376,8 +362,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		updateScores();
 	}
 
-	
-
 	@Override
 	public void gameWinner(int playerId) {
 		endGame(playerId);
@@ -389,14 +373,14 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		// TODO Auto-generated method stub
 		
 	}
-	static ArrayList<ClickableCard> hand;
+	
 	@Override
 	public void startingHand(ArrayList<Card> cards) {
 		StartGame.print("Receiving Hand");
 		
 		//Receives the cards and turns them into clickable cards
 		for (int i = 0; i < cards.size()-1; i++) {
-			new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) );
+			hand.add( new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) ) );
 		}
 		
 		//Redraw
@@ -407,13 +391,13 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	public void playableCards(ArrayList<Card> cards) {
 		//Sets playable cards as local variable
-		playableCardsVar = cards;
-		if(!playableCardsVar.isEmpty())
-			StartGame.print("Cards received");
+		playableCards = cards;
+		if( !playableCards.isEmpty() )
+			StartGame.print( "Cards received" );
 		isTurn = true;
-		changeTurn(ctrl.playerId);
+		changeTurn( gameLogic.playerId );
 		//Redraw
-		this.repaint(); 
+		this.repaint();
 		
 	}
 
@@ -431,6 +415,5 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		
 	}
 
-	
 	
 }
