@@ -42,13 +42,13 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public static ArrayList<Card> playableCards;
 	
 	//Background UI images
-	Drawable handTable = new Drawable(0,400,400,300, "GUIImages/TableTop.png");
-	Drawable pokerTable = new Drawable(0,0,1000,400, "GUIImages/PokerTable.png");
+	Drawable pokerTable = new Drawable( 0 ,0, 1000, 400, "GUIImages/PokerTable.png" );
+	Drawable handBackground = new Drawable( 0, 400, 700, 400, "GUIImages/HandBackground.png" );
 	
 	//The images for the player 1, 2, and 3 turn icons
-	PlayerTurnIcon p1Icon = new PlayerTurnIcon(200, 20, 90, 40, "GUIImages/PlayerOneNotTurn.png", "GUIImages/PlayerOneTurn.png" );
-	PlayerTurnIcon p2Icon = new PlayerTurnIcon(450, 20, 90, 40, "GUIImages/PlayerTwoNotTurn.png", "GUIImages/PlayerTwoTurn.png" );
-	PlayerTurnIcon p3Icon = new PlayerTurnIcon(700, 20, 90, 40, "GUIImages/PlayerThreeNotTurn.png", "GUIImages/PlayerThreeTurn.png" );
+	PlayerTurnIcon p1Icon = new PlayerTurnIcon( 168, 40, 100, 40, "GUIImages/PlayerOneNotTurn.png", "GUIImages/PlayerOneTurn.png" );
+	PlayerTurnIcon p2Icon = new PlayerTurnIcon( 451, 40, 100, 40, "GUIImages/PlayerTwoNotTurn.png", "GUIImages/PlayerTwoTurn.png" );
+	PlayerTurnIcon p3Icon = new PlayerTurnIcon( 732, 40, 100, 40, "GUIImages/PlayerThreeNotTurn.png", "GUIImages/PlayerThreeTurn.png" );
 	
 	//Card placeholders for played cards
 	PlayedCardImage p1Card = new PlayedCardImage( 143, 100, 150, 233 );
@@ -410,9 +410,15 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	}
 
 	@Override
+	//This indicates that the round has ended
 	public void updateScores(int[] scores) {
-		// TODO Auto-generated method stub
 		
+		//When a new round starts, hide the previously played cards
+		p1Card.shouldDraw = false;
+		p2Card.shouldDraw = false;
+		p3Card.shouldDraw = false;
+		
+		repaint();
 	}
 
 	

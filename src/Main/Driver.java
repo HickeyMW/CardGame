@@ -17,7 +17,7 @@ public class Driver {
 	public static StartGame startGame;
 	
 	public static void main(String[] args) throws IOException {
-		boolean testMode = true;
+		boolean testMode = false;
 		
 		if (testMode) {
 			TestGUI testGUI = new TestGUI();

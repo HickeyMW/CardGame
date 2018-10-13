@@ -1,9 +1,6 @@
 package GameLogic;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 import Client.ClientEvents;
 import Client.ClientThread;
