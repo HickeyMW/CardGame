@@ -67,6 +67,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public static ClickableButton startRoundButton = new ClickableButton(700, 600, 300, 100, "GUIImages/StartRound.png", "GUIImages/StartRoundDown.png", "GUIImages/StartRoundDisabled.png" ) {
 		public void onClicked() {
 			gameLogic.startRound();
+			startRoundButton.lock();
 			
 		}
 	};
@@ -367,7 +368,14 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	public void roundWinner(int playerId) {
 		
+		startRoundButton.lock();
+		
+		if(playerId == gameLogic.playerId) {
+			startRoundButton.unlock();
+		}
+		
 		changeTurn(playerId);
+		
 		updateScores();
 	}
 
@@ -430,8 +438,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		p2Card.shouldDraw = false;
 		p3Card.shouldDraw = false;
 		
-		startRoundButton.unlock();
+		
 		playCardButton.lock();
+		//startRoundButton.unlock();
 		isTurn = false;
 		repaint();
 	}
