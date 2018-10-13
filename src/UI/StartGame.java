@@ -138,7 +138,7 @@ public class StartGame implements GUIStartInterface{
 	}
 	
 	public static void print( String str ){
-		ipInField.setText( ipInField.getText() + str + "\n" );
+		//ipInField.setText( ipInField.getText() + str + "\n" );
 	}
 	
 	private String getIPFromText() {
