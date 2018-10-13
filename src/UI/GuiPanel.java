@@ -187,6 +187,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		
 	}
 	
+	//If the 2 previous players play different suites player 3 cant play anything
+	
 	public void endGame(int player) {
 		StartGame.frame.dispose();
 		JLabel winnerLabel;
