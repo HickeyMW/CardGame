@@ -319,11 +319,11 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	//Returns playable cards by checking leading card if necessary
 	private ArrayList<Card> playableCards() {
 		ArrayList<Card> cards = new ArrayList<>();
-		if (leadingPlayer == playerId) {
+		if (previousWinner == playerId) {
 			return myCards;
 		} else {
 			for (Card card:myCards) {
-				if (card.getSuit() == playedCards[leadingPlayer - 1].getSuit()) {
+				if (card.getSuit() == playedCards[previousWinner - 1].getSuit()) {
 					cards.add(card);
 				}
 			}
