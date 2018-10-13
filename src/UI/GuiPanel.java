@@ -78,6 +78,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			gameLogic.startRound();
 			startRoundButton.lock();
 			
+			
 		}
 	};
 	
@@ -105,6 +106,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 					isTurn = false;
 				}
 			}
+			playCardButton.lock();
 		}
 	};
 	
@@ -371,9 +373,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	public void roundStarted() {
 		//Resets the images to be blank
-		p1Card.shouldDraw = false;
-		p2Card.shouldDraw = false;
-		p3Card.shouldDraw = false;
+				p1Card.shouldDraw = false;
+				p2Card.shouldDraw = false;
+				p3Card.shouldDraw = false;
 		
 		//Redraw everything
 		this.repaint();
@@ -446,12 +448,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	//This indicates that the round has ended
 	public void updateScores(int[] scores) {
-		
-		//When a new round starts, hide the previously played cards
-		p1Card.shouldDraw = false;
-		p2Card.shouldDraw = false;
-		p3Card.shouldDraw = false;
-		
 		
 		playCardButton.lock();
 		//startRoundButton.unlock();
