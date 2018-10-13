@@ -92,6 +92,120 @@ public class ClientThread extends Thread {
 		//Call the client connection event
 		events.connectedToServerOnClient();
 		
+		//Start listening for network input
+		while( true ){
+			String line;
+			
+			try {
+				
+				//Read the next line of network data
+				line = in.readLine();
+				
+				//Check for the server dealing us cards
+				if( line.contains( "carddealt" ) ){
+					
+					//StartGame.print( "Got card" );
+					
+					//Read in the next two lines, which will be ints for card value and card suit, in that order
+					try {
+						
+						//Read and parse the value
+						String cardValueString = in.readLine();
+						int cardValue = Integer.parseInt( cardValueString );
+						
+						//Read and parse the suit
+						String cardSuitString = in.readLine();
+						int cardSuit = Integer.parseInt( cardSuitString );
+						
+						//Recreate the dealt card object
+						Card dealtCard = new Card( cardValue, cardSuit );
+						
+						//Call the dealt card event
+						events.cardDealtOnClient( dealtCard );
+						
+					} catch (IOException e) {
+						error( "Encountered an error while reading dealt card values. Exiting..." );
+						return;
+					}
+				}
+				
+				//Check for someone playing a card
+				if( line.contains( "cardplayed" ) ){
+					
+					//Read in the next three lines, which will be ints for playedByID, card value and card suit, in that order
+					try {
+						
+						//Read and parse the playedByID
+						String playedByIDString = in.readLine();
+						int playedByID = Integer.parseInt( playedByIDString );
+						
+						//Read and parse the value
+						String cardValueString = in.readLine();
+						int cardValue = Integer.parseInt( cardValueString );
+						
+						//Read and parse the suit
+						String cardSuitString = in.readLine();
+						int cardSuit = Integer.parseInt( cardSuitString );
+						
+						//Recreate the dealt card object
+						Card card = new Card( cardValue, cardSuit );
+						
+						StartGame.print( "Player " + playedByID + " played " + card );
+						
+						//Call card played event
+						events.cardPlayedOnClient(playedByID, card);
+						
+					} catch (IOException e) {
+						error( "Encountered an error while reading played card values. Exiting..." );
+						return;
+					}
+				}
+				
+				//Check for round start
+				if( line.contains( "roundstart" ) ){
+					
+					//Read in the next line to get the ID of who started the round
+					try {
+						
+						//Read and parse the startedByID
+						String startedByIDString = in.readLine();
+						int startedByID = Integer.parseInt( startedByIDString );
+						
+						//Fire the event
+						events.roundStartedOnClient( startedByID );
+						
+					} catch (IOException e) {
+						error( "Encountered an error while reading round start. Exiting..." );
+						return;
+					}
+				}
+				
+			} catch (IOException e) {
+				error( "Encountered an error while reading initial card deal line. Exiting..." );
+				return;
+			}
+			
+			//Check for game start
+			if( line.contains( "gamestart" ) ){
+				
+				//Read in the next line to get the ID of who started the game
+				try {
+					
+					//Read and parse the startedByID
+					String startedByIDString = in.readLine();
+					int startedByID = Integer.parseInt( startedByIDString );
+					
+					//Fire the event
+					events.gameStartedOnClient( startedByID );
+					
+				} catch (IOException e) {
+					error( "Encountered an error while reading game start. Exiting..." );
+					return;
+				}
+			}
+			
+		}
+		
 	}
 	//Sends a line to the server
 	private void writeLine( String str ){
@@ -102,167 +216,6 @@ public class ClientThread extends Thread {
 	//Writes an integer as a string for convenience sake
 	private void writeLine( int num ){
 		writeLine( Integer.toString( num ) );
-	}
-	
-	//Listens for dealt cards
-	public void listenForDealtCard() {
-		
-		//StartGame.print( "Listening for dealt card from server..." );
-		
-		//Start listening for a card from the server for our hand
-			
-		String line;
-		
-		//Try to read the next line
-		try {
-			line = in.readLine();
-		} catch (IOException e) {
-			error( "Encountered an error while reading initial card deal line. Exiting..." );
-			return;
-		}
-		
-		//If this line contains "carddealt" then the server is dealing us a card
-		if( line.contains( "carddealt" ) ){
-			
-			//StartGame.print( "Got card" );
-			
-			//Read in the next two lines, which will be ints for card value and card suit, in that order
-			try {
-				
-				//Read and parse the value
-				String cardValueString = in.readLine();
-				int cardValue = Integer.parseInt( cardValueString );
-				
-				//Read and parse the suit
-				String cardSuitString = in.readLine();
-				int cardSuit = Integer.parseInt( cardSuitString );
-				
-				//Recreate the dealt card object
-				Card dealtCard = new Card( cardValue, cardSuit );
-				
-				//Call the dealt card event
-				events.cardDealtOnClient( dealtCard );
-				
-			} catch (IOException e) {
-				error( "Encountered an error while reading dealt card values. Exiting..." );
-				return;
-			}
-		}
-	}
-	
-	//Listens for someone to play a card
-	public void listenForPlayedCard() {
-		System.out.println("ClientThread.ListenforPlayedCard");
-		StartGame.print( "Listening for someone to play a card..." );
-		
-		//Try to read the next line
-		String line;
-		try {
-			line = in.readLine();
-		} catch (IOException e) {
-			error( "Encountered an error while reading initial card deal line. Exiting..." );
-			return;
-		}
-		
-		if( line.contains( "cardplayed" ) ){
-			
-			//Read in the next three lines, which will be ints for playedByID, card value and card suit, in that order
-			try {
-				
-				//Read and parse the playedByID
-				String playedByIDString = in.readLine();
-				int playedByID = Integer.parseInt( playedByIDString );
-				
-				//Read and parse the value
-				String cardValueString = in.readLine();
-				int cardValue = Integer.parseInt( cardValueString );
-				
-				//Read and parse the suit
-				String cardSuitString = in.readLine();
-				int cardSuit = Integer.parseInt( cardSuitString );
-				
-				//Recreate the dealt card object
-				Card card = new Card( cardValue, cardSuit );
-				
-				StartGame.print( "Player " + playedByID + " played " + card );
-				
-				//Call card played event
-				events.cardPlayedOnClient(playedByID, card);
-				
-			} catch (IOException e) {
-				error( "Encountered an error while reading played card values. Exiting..." );
-				return;
-			}
-		}
-		
-	}
-	
-	//Listens for someone to start the next round
-	public void listenForRoundStart() {
-		
-		StartGame.print( "Listening for someone to start the next round..." );
-		
-		//Try to read the next line
-		String line;
-		try {
-			line = in.readLine();
-		} catch (IOException e) {
-			error( "Encountered an error while reading round start line. Exiting..." );
-			return;
-		}
-		
-		if( line.contains( "roundstart" ) ){
-			
-			//Read in the next line to get the ID of who started the round
-			try {
-				
-				//Read and parse the startedByID
-				String startedByIDString = in.readLine();
-				int startedByID = Integer.parseInt( startedByIDString );
-				
-				//Fire the event
-				events.roundStartedOnClient( startedByID );
-				
-			} catch (IOException e) {
-				error( "Encountered an error while reading round start. Exiting..." );
-				return;
-			}
-		}
-		
-	}
-	
-	//Listens for someone to start the next game
-	public void listenForGameStart() {
-		
-		StartGame.print( "Listening for someone to start the next game..." );
-		
-		//Try to read the next line
-		String line;
-		try {
-			line = in.readLine();
-		} catch (IOException e) {
-			error( "Encountered an error while reading game start line. Exiting..." );
-			return;
-		}
-		
-		if( line.contains( "gamestart" ) ){
-			
-			//Read in the next line to get the ID of who started the game
-			try {
-				
-				//Read and parse the startedByID
-				String startedByIDString = in.readLine();
-				int startedByID = Integer.parseInt( startedByIDString );
-				
-				//Fire the event
-				events.gameStartedOnClient( startedByID );
-				
-			} catch (IOException e) {
-				error( "Encountered an error while reading game start. Exiting..." );
-				return;
-			}
-		}
-		
 	}
 	
 	//Logs the error and calls the error event

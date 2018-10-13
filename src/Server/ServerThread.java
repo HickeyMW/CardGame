@@ -187,21 +187,5 @@ public class ServerThread extends Thread {
 		players[3].sendRoundStart( startedByID );
 		
 	}
-	
-	//Begins listening for a player to play a card
-	public void listenForCardPlayed( int playerID ) {
-		System.out.println("serverthread.listenforcrdplayed");
-		players[ playerID ].ListenForCardPlayed();
-	}
-	
-	//Begins listening for a player to start the round
-	public void listenForRoundStart( int playerID ) {
-		players[ playerID ].ListenForRoundStart();
-	}
-	
-	//Begins listening for a player to start a new game
-	public void listenForGameStart( int playerID ) {
-		players[ playerID ].ListenForGameStart();
-	}
 
 }

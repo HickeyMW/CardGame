@@ -261,8 +261,13 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	{
 		super.paintComponent(page);
 		int count = 0;
-		for( Drawable img : Driver.drawables ) {
-			img.draw( page );
+		//for( Drawable img : Driver.drawables ) {
+			
+			
+		for( int i = 0; i < Driver.drawables.size(); i++ ){
+			
+			Driver.drawables.get( i ).draw( page );
+			
 			//System.out.println(count++);
 		}
 		

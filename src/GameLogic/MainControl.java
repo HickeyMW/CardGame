@@ -83,7 +83,6 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		} else {
 			StartGame.print( "MainControl playCard " + card + "3" );
 			clientThread.playCard(card);
-			clientThread.listenForPlayedCard();
 		}
 	}
 	
@@ -166,20 +165,15 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		StartGame.print( "MainControl gameStartedOnClient 1" );
 		playerId = clientThread.playerID;
 		guiInterface.gameStarted();
-		clientThread.listenForDealtCard();
 	}
 
 	//Network method called when a card has been played
 	public void cardDealtOnClient(Card card) {
 		StartGame.print( "MainControl cardDealtOnClient 1" );
 		myCards.add(card);
-		if (myCards.size() != 17) {
-			StartGame.print( "MainControl cardDealtOnClient 2" );
-			clientThread.listenForDealtCard();
-		} else {
+		if (myCards.size() == 17) {
 			StartGame.print( "MainControl cardDealtOnClient 3" );
 			guiInterface.startingHand(myCards);
-			clientThread.listenForPlayedCard();
 		}
 	}
 	
@@ -226,8 +220,6 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		
 		//UI.StartGame.print( "Connected on client.  Listening for game start" );
 		
-		clientThread.listenForGameStart();
-		
 	}
 
 	public void roundStartedOnClient(int startedByID) {
@@ -261,36 +253,10 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			calculateScoring(winnerId);
 			guiInterface.updateScores();
 			currentPlayerTurn = winnerId;
-			
-			if (myCards.size() != 0) {
-				//Runs if the game is over
-				StartGame.print( "MainControl cardPlayed 3" );
-				if (playerId == 1) {
-					serverThread.listenForRoundStart(winnerId);
-				} else {
-					clientThread.listenForRoundStart();
-				}
-			} else {
-				StartGame.print( "MainControl cardPlayed 4" );
-				if (playerId == 1) {
-					serverThread.listenForGameStart(findRoundWinner());
-				} else {
-					clientThread.listenForGameStart();
-				}
-			}
 		} else if (currentPlayerTurn == playerId) {
 			//Runs if it is this players turn
 			StartGame.print( "MainControl cardPlayed 5" );
 			guiInterface.playableCards(playableCards());
-		} else if (playerId == 1) {
-			//Runs if this is the server
-			StartGame.print( "MainControl cardPlayed 6" );
-			serverThread.listenForCardPlayed(currentPlayerTurn);
-		
-		} else {
-			//Runs if this is the client
-			StartGame.print( "MainControl cardPlayed 7" );
-			clientThread.listenForPlayedCard();
 		}
 	}
 

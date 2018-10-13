@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 import Main.Card;
 import UI.StartGame;
@@ -65,6 +66,64 @@ public class ServerToClientThread extends Thread {
 		//Call the player connection event
 		events.playerConnectedOnServer( playerID );
 
+		//Begin listening for network data
+		while( true ){
+			
+			String line = "nothing";
+			
+			try {
+				
+				//Read in the next line
+				line = in.readLine();
+			
+				//Check for a played card
+				if( line.contains( "cardplayed" ) ) {
+					System.out.println("See if played card test");
+					//Read in the value
+					String stringValue = in.readLine();
+					int value = Integer.parseInt( stringValue );
+					
+					//Read in the suit
+					String stringSuit = in.readLine();
+					int suit = Integer.parseInt( stringSuit );
+					
+					//Make a card out of that information
+					Card card = new Card( value, suit );
+					
+					//Call the card played event
+					events.cardPlayedOnServer( playerID, card );
+					
+					continue;
+				}
+				
+				//Check for round start
+				if( line.contains( "roundstart" ) ) {
+					
+					//Call the round started event
+					events.roundStartedOnServer( playerID );
+					
+					continue;
+				}
+				
+				//Check for game start
+				if( line.contains( "gamestart" ) ) {
+					
+					//Call the round started event
+					events.gameStartedOnServer( playerID );
+					
+					continue;
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+				return;
+			}
+			
+			System.out.println( "Networking heard '" + line + "' and did not understand it" );
+			
+		}
+		
 	}
 	
 	//Sends a line to the client
@@ -113,91 +172,6 @@ public class ServerToClientThread extends Thread {
 		
 		writeLine( "roundstart" );
 		writeLine( startedByID );
-	}
-	
-	//Listen for this player to play a card
-	public void ListenForCardPlayed() {
-		System.out.println("StoC.ListenforCarPlayed");
-		StartGame.print( "Listening for a card from client..." );
-		
-		//No loop as we only need to listen for a single card	
-		try {
-		
-			//Get the next string
-			String line = in.readLine();
-			System.out.println("Read line");
-			//See if it's a played card
-			if( line.contains( "cardplayed" ) ) {
-				System.out.println("See if played card test");
-				//Read in the value
-				String stringValue = in.readLine();
-				int value = Integer.parseInt( stringValue );
-				
-				//Read in the suit
-				String stringSuit = in.readLine();
-				int suit = Integer.parseInt( stringSuit );
-				
-				//Make a card out of that information
-				Card card = new Card( value, suit );
-				
-				//Call the card played event
-				events.cardPlayedOnServer( playerID, card );
-				
-			}
-		} catch( IOException e ) {
-			error( "Listening for card failed" );
-			System.out.println("Listening for card failed");
-			return;
-		}
-		
-	}
-	
-	//Listen for this player to start the round
-	public void ListenForRoundStart() {
-		
-		StartGame.print( "Listening for round start from player " + playerID );
-		
-		try {
-		
-			//Get the next string
-			String line = in.readLine();
-			
-			//See if it's a played card
-			if( line.contains( "roundstart" ) ) {
-				
-				//Call the round started event
-				events.roundStartedOnServer( playerID );
-				
-			}
-		} catch( IOException e ) {
-			error( "Listening for round start failed" );
-			
-			return;
-		}
-		
-	}
-	
-	//Listen for the start of the next game
-	public void ListenForGameStart() {
-		StartGame.print( "Listening for game start from player " + playerID );
-		
-		try {
-		
-			//Get the next string
-			String line = in.readLine();
-			
-			//See if it's a played card
-			if( line.contains( "gamestart" ) ) {
-				
-				//Call the round started event
-				events.gameStartedOnServer( playerID );
-				
-			}
-		} catch( IOException e ) {
-			error( "Listening for game start failed" );
-			
-			return;
-		}
 	}
 	
 	//Logs the error and calls the error event
