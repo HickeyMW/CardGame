@@ -153,7 +153,7 @@ public class TestGUI extends JFrame implements GUIStartInterface, GUIInterface {
 		// TODO Auto-generated method stub
 		availableCards = cards;
 		
-		jTextArea.append("\nPlayable cards");
+		jTextArea.append("\n\nPlayable cards");
 		int i = 0;
 		for (Card card : cards) {
 			jTextArea.append("\n" + i + ":    " + card.toString());
