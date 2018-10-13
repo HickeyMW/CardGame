@@ -286,10 +286,10 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			button.draw( page );
 		}
 		
-		page.setColor(Color.WHITE);
-		page.drawString(Integer.toString( scores[0]), 200, 80 );
-		page.drawString(Integer.toString( scores[1]), 450, 80 );
-		page.drawString(Integer.toString( scores[2]), 700, 80 );
+		page.setColor(Color.BLACK);
+		page.drawString(Integer.toString( scores[0]), 910, 460 );
+		page.drawString(Integer.toString( scores[1]), 910, 508 );
+		page.drawString(Integer.toString( scores[2]), 910, 554 );
 		
 	}
 
