@@ -251,7 +251,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			int winnerId = findRoundWinner();
 			guiInterface.roundWinner(winnerId);
 			calculateScoring(winnerId);
-			guiInterface.updateScores();
+			guiInterface.updateScores(playerScores);
 			currentPlayerTurn = winnerId;
 		} else if (currentPlayerTurn == playerId) {
 			//Runs if it is this players turn

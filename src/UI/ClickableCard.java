@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import Main.Card;
 import Main.Driver;
 
+
 public class ClickableCard extends Clickable {
 
 	//The card object that this object represents
@@ -91,18 +92,17 @@ public class ClickableCard extends Clickable {
 	    
 	}
 	
-	//Once a card has been played from the hand, it is removed from the hand and destroyed
-	public static void cardPlayed() {
-		
-		//Remove it from the drawables list
-		Driver.drawables.remove(selectedCard);
-		
-		//Remove it from the clickables list
-		Driver.clickables.remove(selectedCard);
-		
-		//It is no longer the selected card
-		selectedCard = null;
-	}
+	//Removes this card
+		public void remove() {
+			
+			//Make sure we can't see or click it
+			Main.Driver.drawables.remove( this );
+			Main.Driver.clickables.remove( this );
+			
+			//Remove it from our hand
+			GuiPanel.hand.remove( this );
+			
+		}
 	
 	
 }

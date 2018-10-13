@@ -403,5 +403,11 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		changeTurn((player+1)%3);
 	}
 
+	@Override
+	public void updateScores(int[] scores) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
