@@ -25,9 +25,6 @@ public class GameLauncher implements GUIStartInterface{
     private JButton connect;
     private static JTextArea ipInField;
     private JLabel playerInfoLabel;
-    private JLabel p1;
-    private JLabel p2;
-    private JLabel p3;
     private JLabel ipAdLabel;
     private JLabel hostNameLabel;
     private JLabel ipInfoLabel;
@@ -65,9 +62,9 @@ public class GameLauncher implements GUIStartInterface{
         		
         		//Names the start window to player 1 if we are the host
         		//TODO remove this
-        		GameLauncher.launcherWindow.setTitle( "Player 1" );
+        		launcherWindow.setTitle( "Player 1" );
+        		playerInfoLabel.setText("Hosting");
         		
-        		p1.setText( "Player 1: Connected" );
         		
         	}
         });
@@ -77,6 +74,7 @@ public class GameLauncher implements GUIStartInterface{
         		//Sends IP info to networking
         		System.out.println(getIPFromText());
         		gameLogic.joinGame(getIPFromText());
+        		playerConnected(gameLogic.playerId);
         	}
         });
         startButton = new JButton ("Start Game");
@@ -91,13 +89,11 @@ public class GameLauncher implements GUIStartInterface{
 					}
         	}
         });
+        startButton.setEnabled(false);
 
         ipInField = new JTextArea ();
         //ipInField.setSize( 500 , 10 );
-        playerInfoLabel = new JLabel ("Connected Players");
-        p1 = new JLabel ("Player 1: Not Connected");
-        p2 = new JLabel ("Player 2: Not Connected");
-        p3 = new JLabel ("Player 3: Not Connected");
+        playerInfoLabel = new JLabel ("Waiting for Connection");
         ipAdLabel = new JLabel ("############");
         hostNameLabel = new JLabel ("############");
         ipInfoLabel = new JLabel ("Your Connection Info");
@@ -116,9 +112,6 @@ public class GameLauncher implements GUIStartInterface{
         launcherWindow.add (connect);
         launcherWindow.add ( scroll );
         launcherWindow.add (playerInfoLabel);
-        launcherWindow.add (p1);
-        launcherWindow.add (p2);
-        launcherWindow.add (p3);
         launcherWindow.add (ipAdLabel);
         launcherWindow.add (hostNameLabel);
         launcherWindow.add (ipInfoLabel);
@@ -128,9 +121,6 @@ public class GameLauncher implements GUIStartInterface{
         host.setBounds (55, 335, 100, 25);
         connect.setBounds (230, 335, 100, 25);
         playerInfoLabel.setBounds (50, 20, 145, 25);
-        p1.setBounds (50, 60, 175, 20);
-        p2.setBounds (50, 90, 140, 25);
-        p3.setBounds (50, 125, 145, 25);
         ipAdLabel.setBounds (55, 240, 200, 25);
         hostNameLabel.setBounds (55, 280, 200, 25);
         ipInfoLabel.setBounds (55, 200, 130, 25);
@@ -151,14 +141,16 @@ public class GameLauncher implements GUIStartInterface{
 	}
 	
 	public void playerConnected(int player) {
-		
-		if(player==1)
-			p1.setText("Player 1: Connected");
-		else if(player == 2)
-			p2.setText("Player 2: Connected");
-		else if(player == 3)
-			p3.setText("Player 3: Connected");
+		System.out.println(player);
+		if(player==3) {
+			playerInfoLabel.setText("All Players Connected");
+			startButton.setEnabled(true);
+		}
 		//TODO Get this info
+		
+		
+		
+		
 		
 	}
 	
@@ -203,18 +195,16 @@ public class GameLauncher implements GUIStartInterface{
 	
 
 	@Override
-	public void connectedToServer( int playerID ) {
+	public void connectedToServer( int player ) {
 		
 		//Names the start window AKA the console window to the player number
 		//TODO remove this
-		GameLauncher.launcherWindow.setTitle( "Player " + playerID );
+		GameLauncher.launcherWindow.setTitle( "Player " + player );
+		connect.setEnabled(false);
+		host.setEnabled(false);
 		
-		if( playerID==1 )
-			p1.setText("Player 1: Connected");
-		else if( playerID == 2 )
-			p2.setText("Player 2: Connected");
-		else if( playerID == 3 )
-			p3.setText("Player 3: Connected");
+		playerInfoLabel.setText("Waiting for Game Start");
+		
 		
 	}
 

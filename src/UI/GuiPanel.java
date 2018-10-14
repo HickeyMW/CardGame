@@ -69,15 +69,16 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public static ArrayList<ClickableCard> hand = new ArrayList<ClickableCard>();
 	
 	//Player scores
-	int[] scores = { 0, 0, 0 };
+	static int[] scores = { 0, 0, 0 };
 	
 	//Button declarations
 	
 	//Start round button
 	public static ClickableButton startRoundButton = new ClickableButton(700, 600, 300, 100, "GUIImages/StartRound.png", "GUIImages/StartRoundDown.png", "GUIImages/StartRoundDisabled.png" ) {
 		public void onClicked() {
-			gameLogic.startRound();
-			startRoundButton.lock();
+			//gameLogic.startRound();
+			//startRoundButton.lock();
+			endGame(0);
 			
 			
 		}
@@ -190,7 +191,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	//If the 2 previous players play different suites player 3 cant play anything
 	
-	public void endGame(int player){
+	public static void endGame(int player){
 		GameLauncher.gameWindow.dispose();
 		JLabel winnerLabel;
 	    JButton restartButton;
@@ -214,7 +215,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         	}
         });
         
-        winnerLabel.setText("Player " + player + "Wins!");
+        winnerLabel.setText("Player " + (player + 1) + " Wins!");
         
         p1 = new JLabel ("Player 1:");
         p2 = new JLabel ("Player 2:");
