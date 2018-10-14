@@ -250,7 +250,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         	public void actionPerformed(ActionEvent ae) {
         		//Restarts game
         		try {
-        			resetVars();
+        			
 					GameLauncher.play();
 					end.dispose();
 					
@@ -259,7 +259,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 				}
         	}
         });
-        
+        resetVars();
         if(gameLogic.playerId != 1) {
         	restartButton.setEnabled(false);
         }
