@@ -59,9 +59,6 @@ public class ServerToClientThread extends Thread {
 			
 			return;
 		}
-
-		GameLauncher.print( "Player " + playerID + " connected successfully" );
-		
 		
 		//Call the player connection event
 		events.playerConnectedOnServer( playerID );
@@ -117,6 +114,8 @@ public class ServerToClientThread extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				
+				System.exit( 1 );
+				
 				return;
 			}
 			
@@ -147,7 +146,6 @@ public class ServerToClientThread extends Thread {
 	
 	//Sends a card played by another player to this player
 	public void sendPlayedCard( int playedByID, Card card ){
-		GameLauncher.print( "Informing player " + playerID + " that player " + playedByID + " played " + card );
 		
 		writeLine( "cardplayed" );
 		writeLine( playedByID );
@@ -158,7 +156,6 @@ public class ServerToClientThread extends Thread {
 	
 	//Sends the player a notice that the game has started
 	public void sendGameStart( int startedByID ){
-		GameLauncher.print( "Informing player " + playerID + " that a game is starting" );
 		
 		System.out.println( "Sending game start to " + playerID );
 		
@@ -168,7 +165,6 @@ public class ServerToClientThread extends Thread {
 	
 	//Sends the player a notice that the round has started
 	public void sendRoundStart( int startedByID ){
-		GameLauncher.print( "Informing player " + playerID + " that a round is starting" );
 		
 		writeLine( "roundstart" );
 		writeLine( startedByID );
@@ -176,9 +172,6 @@ public class ServerToClientThread extends Thread {
 	
 	//Logs the error and calls the error event
 	public void error( String error ) {
-		
-		//Log the error
-		GameLauncher.print( error );
 		
 		//Call the event
 		events.error( error );

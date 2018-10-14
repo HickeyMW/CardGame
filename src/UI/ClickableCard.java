@@ -44,7 +44,7 @@ public class ClickableCard extends Clickable {
 			
 			//You can only click on playable cards
 			if( GameLauncher.gamePanel.playableCards.contains( this.card ) ) {
-				GameLauncher.print("Card is playable");
+				
 				//If we just clicked on the card we already have selected, we should unselect that card
 				if( selectedCard == this ){
 					

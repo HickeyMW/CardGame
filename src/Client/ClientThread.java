@@ -47,8 +47,6 @@ public class ClientThread extends Thread {
 	//Main thread code
 	public void run(){
 		
-		GameLauncher.print( "Connecting to server..." );
-		
 		//Try to connect to the server
 		try {
 			socket = new Socket( serverAddress, port );
@@ -68,13 +66,9 @@ public class ClientThread extends Thread {
 			in = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
 			out = new PrintWriter(socket.getOutputStream(), true);
 			
-			GameLauncher.print( "Waiting for playerID" );
-			
 			//Listen for our player number
 			String playerIDString = in.readLine();
 			playerID = Integer.parseInt( playerIDString );
-			
-			GameLauncher.print( "We are player " + playerID );
 			
 		} catch (IOException e) {
 			
@@ -83,11 +77,6 @@ public class ClientThread extends Thread {
 			
 			return;
 		}
-		
-		GameLauncher.print( "Connected." );
-		
-		
-		GameLauncher.print( "Calling connected event" );
 		
 		//Call the client connection event
 		events.connectedToServerOnClient();
@@ -150,8 +139,6 @@ public class ClientThread extends Thread {
 						//Recreate the dealt card object
 						Card card = new Card( cardValue, cardSuit );
 						
-						GameLauncher.print( "Player " + playedByID + " played " + card );
-						
 						//Call card played event
 						events.cardPlayedOnClient(playedByID, card);
 						
@@ -181,7 +168,10 @@ public class ClientThread extends Thread {
 				}
 				
 			} catch (IOException e) {
-				error( "Encountered an error while reading initial card deal line. Exiting..." );
+				error( "Encountered an error while reading. Exiting..." );
+				
+				System.exit( 1 );
+				
 				return;
 			}
 			
@@ -220,9 +210,6 @@ public class ClientThread extends Thread {
 	
 	//Logs the error and calls the error event
 	private void error( String error ) {
-		
-		//Log the error
-		GameLauncher.print( error );
 		
 		//Call the event
 		events.error( error );
