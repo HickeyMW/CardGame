@@ -115,7 +115,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		}
 		Collections.shuffle(deck);
 		//17
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 17; i++) {
 			for (int j = 1; j < 4; j++) {
 				Card nextCard = deck.get(0);
 				deck.remove(0);
@@ -158,7 +158,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	//Network method called when a card has been played
 	public void cardDealtOnClient(Card card) {
 		myCards.add(card);
-		if (myCards.size() == 3) {
+		if (myCards.size() == 17) {
 			guiInterface.startingHand(myCards);
 		}
 	}
