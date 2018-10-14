@@ -86,9 +86,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//Start round button
 	public static ClickableButton startRoundButton = new ClickableButton(700, 600, 300, 100, "GUIImages/StartRound.png", "GUIImages/StartRoundDown.png", "GUIImages/StartRoundDisabled.png" ) {
 		public void onClicked() {
-			//gameLogic.startRound();
-			//startRoundButton.lock();
-			endGame(0);
+			gameLogic.startRound();
+			startRoundButton.lock();
 			
 			
 		}
@@ -281,12 +280,12 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         }
         
         
-        winnerLabel.setText("Player " + (player) + " Wins!");
+        
         
         
         p1Label = new JLabel( "Player 1: " + Integer.toString( scores[0] ) );
         p2Label = new JLabel( "Player 2: " + Integer.toString( scores[1] ) );
-        p3Label = new JLabel( "Player 2: " + Integer.toString( scores[2] ) );
+        p3Label = new JLabel( "Player 3: " + Integer.toString( scores[2] ) );
 
         //adjust size and set layout
         end.setPreferredSize (new Dimension (350, 350));
@@ -317,6 +316,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		winnerLabel.setText("Player " + (player) + " Wins!");
 	}
 	
 	//Positions all of the cards in our hand evenly across the hand space
