@@ -136,6 +136,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		playCardButton.lock();
 		startRoundButton.lock();
 		
+		p1Icon.shouldDraw = true;
 		//Cache all of the number images
 		for (int i = 0; i < digits.length; i++) {
 			digits[i] = ImageIO.read( new File( "GUIimages\\digits\\" + i + ".png" ) );
@@ -202,7 +203,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			isTurn = false;
 		}
 		
-		p1Icon.setIsTurn( true );
+		p1Icon.setIsTurn( false );
 		p2Icon.setIsTurn( false );
 		p3Icon.setIsTurn( false );
 		
