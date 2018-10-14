@@ -260,6 +260,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         p2Label = new JLabel ("Player 2: 7");
         p3Label = new JLabel ("Player 3: 7");
         restartButton = new JButton ("Play Again");
+        restartButton.setVisible(true);
 		
         restartButton.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent ae) {
