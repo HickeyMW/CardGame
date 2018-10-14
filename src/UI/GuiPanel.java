@@ -81,9 +81,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//Start round button
 	public static ClickableButton startRoundButton = new ClickableButton(700, 600, 300, 100, "GUIImages/StartRound.png", "GUIImages/StartRoundDown.png", "GUIImages/StartRoundDisabled.png" ) {
 		public void onClicked() {
-			//gameLogic.startRound();
-			//startRoundButton.lock();
-			endGame(0);
+			gameLogic.startRound();
+			startRoundButton.lock();
+			//endGame(0);
 			
 			
 		}
