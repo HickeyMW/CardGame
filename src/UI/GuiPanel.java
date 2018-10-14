@@ -189,13 +189,16 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		}
 	}
 	
+	// Updates the Scores and Repaints
 	public void updateScores(){
 		scores = gameLogic.getScores();
 		
 		repaint();
 	}
 	
+	// Takes in a player turn
 	
+	// changes the turn to the next player.
 	public void changeTurn( int nextPlayerID ) {
 		
 		if( nextPlayerID == gameLogic.playerId ) {
