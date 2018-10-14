@@ -362,10 +362,10 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 
     private void resetGame() {
 		numberOfCardsPlayed = 0;
-		leadingPlayer = gameWinner();
+		leadingPlayer = 1;
 		playerScores = new int[3];
 		tieBreakerScores = new int[3];
-		currentPlayerTurn = gameWinner();
+		currentPlayerTurn = 1;
     }
 
 	private int nextPlayerId() {
