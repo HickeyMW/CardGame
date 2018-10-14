@@ -136,16 +136,11 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 
 	//Network method called when client tries to play a card
 	public void cardPlayedOnServer(int player, Card card) {
-		System.out.println("CardPlayedOnServer");
-		System.out.println( "MainControl cardPlayedOnServer 1" );
 		Card hasCard = playerHasCard(playersHands.get(player - 1), card);
 		if (hasCard != null) {
-			System.out.println( "MainControl cardPlayedOnServer 2" );
 			serverThread.broadcastCardPlayed(player, card);
 			playersHands.get(player - 1).remove(hasCard);
 			cardPlayed(player, hasCard);
-		} else {
-			System.out.println("THIS SHOULD NOT HAPPEN");
 		}
 	}
 		
@@ -248,12 +243,10 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			guiInterface.updateScores(playerScores);
 			currentPlayerTurn = winnerId;
 			if (myCards.size() == 0) {
-				System.out.println("GAME WINNER " + gameWinner());
 				guiInterface.gameWinner(gameWinner());
 			}
 		} else if (currentPlayerTurn == playerId) {
 			//Runs if it is this players turn
-			//StartGame.print( "MainControl cardPlayed 5" );
 			guiInterface.playableCards(playableCards());
 		}
 	}
