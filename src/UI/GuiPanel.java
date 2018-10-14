@@ -278,9 +278,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         resetVars();
         if(gameLogic.playerId == 1) {
         	restartButton.setVisible(true);
-        }else
+        }else {
         	restartButton.setVisible(false);
-        
+        }
         
         
         
@@ -295,17 +295,16 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 
         //add components
         end.add (winnerLabel);
-        end.add (restartButton);
         end.add (p1Label);
         end.add (p2Label);
         end.add (p3Label);
-        
+        end.add (restartButton);
         //Center the window
         end.setLocationRelativeTo(null);  
 
         //set component bounds (only needed by Absolute Positioning)
         winnerLabel.setBounds (140, 50, 95, 25);
-        restartButton.setBounds (125, 315, 100, 25);
+        restartButton.setBounds (125, 225, 100, 25);
         p1Label.setBounds (80, 95, 200, 25);
         p2Label.setBounds (80, 150, 200, 25);
         p3Label.setBounds (80, 200, 200, 25);
