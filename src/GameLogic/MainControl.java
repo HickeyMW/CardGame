@@ -9,7 +9,7 @@ import Server.ServerEvents;
 import Server.ServerThread;
 import UI.GUIInterface;
 import UI.GUIStartInterface;
-import UI.StartGame;
+import UI.GameLauncher;
 
 public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	
@@ -67,7 +67,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 	
 	public void joinGame(String ip) {
-		StartGame.print(ip);
+		GameLauncher.print(ip);
 		clientThread = new ClientThread( this, ip);
 	}
 	
@@ -75,28 +75,28 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	//Called by the GUI when playing a card
 	public void playCard(Card card) {
 		
-		StartGame.print( "MainControl playCard " + card + "1" );
+		GameLauncher.print( "MainControl playCard " + card + "1" );
 		myCards.remove(card);
 		
 		if (playerId == 1) {
-			StartGame.print( "MainControl playCard " + card + "2" );
+			GameLauncher.print( "MainControl playCard " + card + "2" );
 			serverThread.broadcastCardPlayed(1, card);
 			cardPlayed(1, card);
 		} else {
-			StartGame.print( "MainControl playCard " + card + "3" );
+			GameLauncher.print( "MainControl playCard " + card + "3" );
 			clientThread.playCard(card);
 		}
 	}
 	
 	//Called by the GUI when starting a round
 	public void startRound() {
-		StartGame.print( "MainControl startRound 1" );
+		GameLauncher.print( "MainControl startRound 1" );
 		if (playerId == 1) {
-			StartGame.print( "MainControl startRound 2" );
+			GameLauncher.print( "MainControl startRound 2" );
 			serverThread.broadcastRoundStart(1);
 			serverRoundStart(1);
 		} else {
-			StartGame.print( "MainControl startRound 3" );
+			GameLauncher.print( "MainControl startRound 3" );
 			clientThread.startRound();
 		}
 	}
@@ -104,18 +104,18 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	//Called by the GUI when starting a game
 	public void startGame() {
 		
-		StartGame.print( "MainControl startGame 1" );
+		GameLauncher.print( "MainControl startGame 1" );
 		//If statement for host or client
 		if (playerId == 1) {
 			
-			StartGame.print( "MainControl startGame 2" );
+			GameLauncher.print( "MainControl startGame 2" );
 			
 			serverThread.broadcastGameStart(playerId);
 			
 			dealCards();
 			guiInterface.playableCards( myCards );
 		} else {
-			StartGame.print( "MainControl startGame 3" );
+			GameLauncher.print( "MainControl startGame 3" );
 			clientThread.startGame();
 		}
 	}
@@ -167,7 +167,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		
 	//Network method called when host starts a game
 	public void gameStartedOnClient(int startedByID) {
-		StartGame.print( "MainControl gameStartedOnClient 1" );
+		GameLauncher.print( "MainControl gameStartedOnClient 1" );
 		playerId = clientThread.playerID;
 		guiInterface.gameStarted();
 		int winner = gameWinner();
@@ -179,10 +179,10 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 
 	//Network method called when a card has been played
 	public void cardDealtOnClient(Card card) {
-		StartGame.print( "MainControl cardDealtOnClient 1" );
+		GameLauncher.print( "MainControl cardDealtOnClient 1" );
 		myCards.add(card);
 		if (myCards.size() == 17) {
-			StartGame.print( "MainControl cardDealtOnClient 3" );
+			GameLauncher.print( "MainControl cardDealtOnClient 3" );
 			guiInterface.startingHand(myCards);
 		}
 	}
@@ -245,7 +245,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 	
 	public void connectedToServerOnClient() {
-		UI.StartGame.print( "Connectd event" );
+		UI.GameLauncher.print( "Connectd event" );
 		
 		//UI.StartGame.print( "Please don't be null " + guiStartInterface );
 		
@@ -260,8 +260,8 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 	
 	private void cardPlayed(int player, Card card) {
-		StartGame.print( "MainControl cardPlayed 1" );
-		StartGame.print( "Letting the gui know about player " + player + " playing " + card );
+		GameLauncher.print( "MainControl cardPlayed 1" );
+		GameLauncher.print( "Letting the gui know about player " + player + " playing " + card );
 		
 		guiInterface.cardPlayed(player, card);
 		
@@ -271,7 +271,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 
 		if (numberOfCardsPlayed == 3) {
 			//Runs at the end of a round
-			StartGame.print( "MainControl cardPlayed 2" );
+			GameLauncher.print( "MainControl cardPlayed 2" );
 			int winnerId = findRoundWinner();
 			guiInterface.roundWinner(winnerId);
 			calculateScoring(winnerId);

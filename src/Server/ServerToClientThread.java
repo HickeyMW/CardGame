@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import Main.Card;
-import UI.StartGame;
+import UI.GameLauncher;
 
 public class ServerToClientThread extends Thread {
 
@@ -60,7 +60,7 @@ public class ServerToClientThread extends Thread {
 			return;
 		}
 
-		StartGame.print( "Player " + playerID + " connected successfully" );
+		GameLauncher.print( "Player " + playerID + " connected successfully" );
 		
 		
 		//Call the player connection event
@@ -147,7 +147,7 @@ public class ServerToClientThread extends Thread {
 	
 	//Sends a card played by another player to this player
 	public void sendPlayedCard( int playedByID, Card card ){
-		StartGame.print( "Informing player " + playerID + " that player " + playedByID + " played " + card );
+		GameLauncher.print( "Informing player " + playerID + " that player " + playedByID + " played " + card );
 		
 		writeLine( "cardplayed" );
 		writeLine( playedByID );
@@ -158,7 +158,7 @@ public class ServerToClientThread extends Thread {
 	
 	//Sends the player a notice that the game has started
 	public void sendGameStart( int startedByID ){
-		StartGame.print( "Informing player " + playerID + " that a game is starting" );
+		GameLauncher.print( "Informing player " + playerID + " that a game is starting" );
 		
 		System.out.println( "Sending game start to " + playerID );
 		
@@ -168,7 +168,7 @@ public class ServerToClientThread extends Thread {
 	
 	//Sends the player a notice that the round has started
 	public void sendRoundStart( int startedByID ){
-		StartGame.print( "Informing player " + playerID + " that a round is starting" );
+		GameLauncher.print( "Informing player " + playerID + " that a round is starting" );
 		
 		writeLine( "roundstart" );
 		writeLine( startedByID );
@@ -178,7 +178,7 @@ public class ServerToClientThread extends Thread {
 	public void error( String error ) {
 		
 		//Log the error
-		StartGame.print( error );
+		GameLauncher.print( error );
 		
 		//Call the event
 		events.error( error );

@@ -8,7 +8,7 @@ import java.net.Socket;
 
 import Main.Card;
 import Main.Driver;
-import UI.StartGame;
+import UI.GameLauncher;
 
 public class ClientThread extends Thread {
 	
@@ -47,7 +47,7 @@ public class ClientThread extends Thread {
 	//Main thread code
 	public void run(){
 		
-		StartGame.print( "Connecting to server..." );
+		GameLauncher.print( "Connecting to server..." );
 		
 		//Try to connect to the server
 		try {
@@ -68,13 +68,13 @@ public class ClientThread extends Thread {
 			in = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
 			out = new PrintWriter(socket.getOutputStream(), true);
 			
-			StartGame.print( "Waiting for playerID" );
+			GameLauncher.print( "Waiting for playerID" );
 			
 			//Listen for our player number
 			String playerIDString = in.readLine();
 			playerID = Integer.parseInt( playerIDString );
 			
-			StartGame.print( "We are player " + playerID );
+			GameLauncher.print( "We are player " + playerID );
 			
 		} catch (IOException e) {
 			
@@ -84,10 +84,10 @@ public class ClientThread extends Thread {
 			return;
 		}
 		
-		StartGame.print( "Connected." );
+		GameLauncher.print( "Connected." );
 		
 		
-		StartGame.print( "Calling connected event" );
+		GameLauncher.print( "Calling connected event" );
 		
 		//Call the client connection event
 		events.connectedToServerOnClient();
@@ -150,7 +150,7 @@ public class ClientThread extends Thread {
 						//Recreate the dealt card object
 						Card card = new Card( cardValue, cardSuit );
 						
-						StartGame.print( "Player " + playedByID + " played " + card );
+						GameLauncher.print( "Player " + playedByID + " played " + card );
 						
 						//Call card played event
 						events.cardPlayedOnClient(playedByID, card);
@@ -222,7 +222,7 @@ public class ClientThread extends Thread {
 	private void error( String error ) {
 		
 		//Log the error
-		StartGame.print( error );
+		GameLauncher.print( error );
 		
 		//Call the event
 		events.error( error );

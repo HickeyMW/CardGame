@@ -21,7 +21,7 @@ public class Drawable {
 	
 	Image image;
 	
-	
+	public boolean shouldDraw = true;
 	
 	public Drawable( int x, int y, int w, int h, String imageURL ) {
 		this.x = x;
@@ -59,6 +59,12 @@ public class Drawable {
 	
 	//Draws the image at the X and Y
 	public void draw( Graphics g ) {
+		
+		//Don't draw if we're disabled
+		if( !shouldDraw ){
+			return;
+		}
+		
 		g.drawImage( image, x, y, w, h, null );
 	}
 	

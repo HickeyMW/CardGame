@@ -40,11 +40,11 @@ public class ClickableCard extends Clickable {
 	public void onMouseDown() {
 		
 		//You can only click on cards when it is your turn.
-		if(StartGame.panel.isTurn) {
+		if(GameLauncher.gamePanel.isTurn) {
 			
 			//You can only click on playable cards
-			if( StartGame.panel.playableCards.contains( this.card ) ) {
-				StartGame.print("Card is playable");
+			if( GameLauncher.gamePanel.playableCards.contains( this.card ) ) {
+				GameLauncher.print("Card is playable");
 				//If we just clicked on the card we already have selected, we should unselect that card
 				if( selectedCard == this ){
 					

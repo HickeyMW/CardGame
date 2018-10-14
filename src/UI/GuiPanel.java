@@ -172,7 +172,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	}
 	
 	public void showPlayedCard(int player, Card card) {
-		StartGame.print("Player "+ player + " played: "+ card);
+		GameLauncher.print("Player "+ player + " played: "+ card);
 		
 		if(player == 1) {
 			p1Card.changeCard( card );
@@ -189,8 +189,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	//If the 2 previous players play different suites player 3 cant play anything
 	
-	public void endGame(int player) {
-		StartGame.frame.dispose();
+	public void endGame(int player){
+		GameLauncher.gameWindow.dispose();
 		JLabel winnerLabel;
 	    JButton restartButton;
 	    JLabel p2;
@@ -206,7 +206,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         	public void actionPerformed(ActionEvent ae) {
         		//Restarts game
         		try {
-					StartGame.play();
+					GameLauncher.play();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -219,9 +219,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         p2 = new JLabel ("Player 2:");
         p3 = new JLabel ("Player 3:");
         
-        p1ScoreLabel = new JLabel( Integer.toString( scores[1] ) );
-        p2ScoreLabel = new JLabel( Integer.toString( scores[2] ) );
-        p3ScoreLabel = new JLabel( Integer.toString( scores[3] ) );
+        p1ScoreLabel = new JLabel( Integer.toString( scores[0] ) );
+        p2ScoreLabel = new JLabel( Integer.toString( scores[1] ) );
+        p3ScoreLabel = new JLabel( Integer.toString( scores[2] ) );
 
         //adjust size and set layout
         end.setPreferredSize (new Dimension (187, 235));
@@ -273,27 +273,26 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		}
 		
 		//Redraw
-		StartGame.panel.repaint();
+		GameLauncher.gamePanel.repaint();
 		
 	}
 	
-	public void paintComponent(Graphics page){
-		super.paintComponent(page);
+	public void paintComponent(Graphics g){
+		super.paintComponent( g );
 			
 		for( int i = 0; i < drawables.size(); i++ ){
-			
-			drawables.get( i ).draw( page );
+			drawables.get( i ).draw( g );
 		}
 		
 		//Draw all the buttons
 		for( ClickableButton button : buttons ) {
-			button.draw( page );
+			button.draw( g );
 		}
 		
-		page.setColor(Color.BLACK);
-		page.drawString(Integer.toString( scores[0]), 910, 460 );
-		page.drawString(Integer.toString( scores[1]), 910, 508 );
-		page.drawString(Integer.toString( scores[2]), 910, 554 );
+		g.setColor(Color.BLACK);
+		g.drawString(Integer.toString( scores[0]), 910, 460 );
+		g.drawString(Integer.toString( scores[1]), 910, 508 );
+		g.drawString(Integer.toString( scores[2]), 910, 554 );
 		
 	}
 
@@ -363,7 +362,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		
 		
 		try {
-			StartGame.clientPlay();
+			GameLauncher.clientPlay();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -406,15 +405,14 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	public void error(String error) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
 	public void startingHand(ArrayList<Card> cards) {
-		StartGame.print("Receiving Hand");
+		GameLauncher.print("Receiving Hand");
 		
 		//Receives the cards and turns them into clickable cards
-		for (int i = 0; i < cards.size()-1; i++) {
+		for (int i = 0; i < cards.size(); i++) {
 			hand.add( new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) ) );
 		}
 		
@@ -431,7 +429,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		//Sets playable cards as local variable
 		playableCards = cards;
 		if( !playableCards.isEmpty() )
-			StartGame.print( "Cards received" );
+			GameLauncher.print( "Cards received" );
 		isTurn = true;
 		changeTurn( gameLogic.playerId );
 		//Redraw
@@ -442,7 +440,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	public void cardPlayed(int player, Card card) {
 		// Plays the given card for the given player
-		StartGame.print("Received Card played from: " + player);
+		GameLauncher.print("Received Card played from: " + player);
 		showPlayedCard(player, card);
 		changeTurn((player+1)%3);
 	}
