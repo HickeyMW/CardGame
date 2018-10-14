@@ -83,7 +83,7 @@ public class GameLauncher implements GUIStartInterface{
         		//Starts the game if all players are connected
         		
 					try {
-						gamePanel = new GuiPanel();
+						
 						play();
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -170,7 +170,7 @@ public class GameLauncher implements GUIStartInterface{
 		gameWindow.setSize( 1000, 800 );
 		gameWindow.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
-		//panel = new GuiPanel();
+		//gamePanel = new GuiPanel();
 		gameWindow.getContentPane().add( gamePanel );
 		gameLogic.startGame();
 		gameWindow.pack();
@@ -183,7 +183,7 @@ public class GameLauncher implements GUIStartInterface{
 		gameWindow.setSize( 1000, 800 );
 		gameWindow.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
-		//panel = new GuiPanel();
+		//gamePanel = new GuiPanel();
 		gameWindow.getContentPane().add( gamePanel );
 		gameWindow.pack();
 		gameWindow.setVisible( true );
