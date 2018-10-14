@@ -65,7 +65,7 @@ public class GameLauncher implements GUIStartInterface{
         		launcherWindow.setTitle( "Player 1" );
         		playerInfoLabel.setText("Hosting");
         		
-        		
+        		host.setEnabled(false);
         	}
         });
         connect = new JButton ("Connect");
@@ -81,8 +81,9 @@ public class GameLauncher implements GUIStartInterface{
         startButton.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent ae) {
         		//Starts the game if all players are connected
-        		if(true)
+        		
 					try {
+						gamePanel = new GuiPanel();
 						play();
 					} catch (IOException e) {
 						e.printStackTrace();

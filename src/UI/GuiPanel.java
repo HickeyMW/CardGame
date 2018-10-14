@@ -68,13 +68,13 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	Drawable pointsDisplay = new Drawable(700, 400, 300, 200, "GUIImages/PointsDisplay.png");
 	
 	//Our current hand
-	public static ArrayList<ClickableCard> hand = new ArrayList<ClickableCard>();
+	public static ArrayList<ClickableCard> hand;
 	
 	//An array of numbers for drawing score
 	Image[] digits = new Image[ 10 ];
 	
 	//Player scores
-	static int[] scores = { 0, 0, 0 };
+	static int[] scores;
 	
 	//Button declarations
 	
@@ -119,6 +119,25 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	//Generates own cards. Used for testing.
 	public GuiPanel( ) throws IOException {
+		
+		
+		hand = new ArrayList<ClickableCard>();
+		
+		scores = new int[3];
+		
+		scores[0] = 0;
+		scores[1] = 0;
+		scores[2] = 0;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		setBackground(Color.LIGHT_GRAY);
 		setPreferredSize(new Dimension(1000,800));
@@ -242,7 +261,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         	}
         });
         
-        winnerLabel.setText("Player " + (player + 1) + " Wins!");
+        winnerLabel.setText("Player " + (player) + " Wins!");
         
         p1 = new JLabel ("Player 1:");
         p2 = new JLabel ("Player 2:");
