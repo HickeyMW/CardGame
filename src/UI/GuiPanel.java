@@ -4,13 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,7 +21,6 @@ import javax.swing.JPanel;
 
 import GameLogic.MainControl;
 import Main.Card;
-import Main.Driver;
 
 public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
@@ -31,11 +33,11 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	//Card hand variables
 	//Upper left corner of the leftmost card
-	static int cardsX = 40;
-	static int cardsY = 497;
+	static int cardsX = 38;
+	static int cardsY = 498;
 	
 	//How wide the hand space is
-	static int cardsW = 464;
+	static int cardsW = 468;
 	
 	//Tracks whether or not it's our turn to play
 	static Boolean isTurn = false;
@@ -53,20 +55,23 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	Drawable felt = new Drawable( 700, 400, 400, 400, "GUIImages/felt.png" );
 	
 	//The images for the player 1, 2, and 3 turn icons
-	PlayerTurnIcon p1Icon = new PlayerTurnIcon( 168, 40, 100, 40, "GUIImages/PlayerOneNotTurn.png", "GUIImages/PlayerOneTurn.png" );
-	PlayerTurnIcon p2Icon = new PlayerTurnIcon( 451, 40, 100, 40, "GUIImages/PlayerTwoNotTurn.png", "GUIImages/PlayerTwoTurn.png" );
-	PlayerTurnIcon p3Icon = new PlayerTurnIcon( 732, 40, 100, 40, "GUIImages/PlayerThreeNotTurn.png", "GUIImages/PlayerThreeTurn.png" );
+	PlayerTurnIcon p1Icon = new PlayerTurnIcon( 116 + 169/2 - 100/2, 40, 100, 40, "GUIImages/PlayerOneNotTurn.png", "GUIImages/PlayerOneTurn.png" );
+	PlayerTurnIcon p2Icon = new PlayerTurnIcon( 417 + 169/2 - 100/2, 40, 100, 40, "GUIImages/PlayerTwoNotTurn.png", "GUIImages/PlayerTwoTurn.png" );
+	PlayerTurnIcon p3Icon = new PlayerTurnIcon( 716 + 169/2 - 100/2, 40, 100, 40, "GUIImages/PlayerThreeNotTurn.png", "GUIImages/PlayerThreeTurn.png" );
 	
 	//Card placeholders for played cards
-	PlayedCardImage p1Card = new PlayedCardImage( 116, 97, 169, 252 );
-	PlayedCardImage p2Card = new PlayedCardImage( 417, 97, 169, 252 );
-	PlayedCardImage p3Card = new PlayedCardImage( 716, 97, 169, 252 );
+	PlayedCardImage p1Card = new PlayedCardImage( 116, 100, 169, 252 );
+	PlayedCardImage p2Card = new PlayedCardImage( 417, 100, 169, 252 );
+	PlayedCardImage p3Card = new PlayedCardImage( 716, 100, 169, 252 );	
 	
 	//Score Display Board
 	Drawable pointsDisplay = new Drawable(700, 400, 300, 200, "GUIImages/PointsDisplay.png");
 	
 	//Our current hand
 	public static ArrayList<ClickableCard> hand = new ArrayList<ClickableCard>();
+	
+	//An array of numbers for drawing score
+	Image[] digits = new Image[ 10 ];
 	
 	//Player scores
 	int[] scores = { 0, 0, 0 };
@@ -123,9 +128,31 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		playCardButton.lock();
 		startRoundButton.lock();
 		
+		//Cache all of the number images
+		for (int i = 0; i < digits.length; i++) {
+			digits[i] = ImageIO.read( new File( "GUIimages\\digits\\" + i + ".png" ) );
+		}
+		
 	}
 	
 	//General UI methods
+	
+	//Draws a number using images
+	public void drawNumber( Graphics g, int x, int y, int w, int h, int number ) {
+		
+		char[] characters = String.valueOf( number ).toCharArray();
+		
+		for (int i = 0; i < characters.length; i++) {
+			
+			Image img = digits[ Integer.parseInt( String.valueOf( characters[i] ) ) ];
+			
+			int drawX = x + w * i;
+			
+			g.drawImage( img, drawX, y, w, h, null );
+			
+		}
+		
+	}
 	
 	public void ReceiveCards(int[][] dealt) {
 		
@@ -291,9 +318,13 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		}
 		
 		g.setColor(Color.BLACK);
-		g.drawString(Integer.toString( scores[0]), 910, 460 );
-		g.drawString(Integer.toString( scores[1]), 910, 508 );
-		g.drawString(Integer.toString( scores[2]), 910, 554 );
+		//g.drawString(Integer.toString( scores[0]), 910, 460 );
+		//g.drawString(Integer.toString( scores[1]), 910, 508 );
+		//g.drawString(Integer.toString( scores[2]), 910, 554 );
+		
+		drawNumber( g, 870, 440, 18, 24, scores[0] );
+		drawNumber( g, 870, 440 + 48, 18, 24, scores[1] );
+		drawNumber( g, 870, 440 + 48 * 2 - 1, 18, 24, scores[2] );
 		
 	}
 
