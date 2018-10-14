@@ -130,7 +130,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			}
 		}
 		Collections.shuffle(deck);
-		
+		//17
 		for (int i = 0; i < 17; i++) {
 			for (int j = 1; j < 4; j++) {
 				Card nextCard = deck.get(0);
@@ -277,6 +277,10 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			calculateScoring(winnerId);
 			guiInterface.updateScores(playerScores);
 			currentPlayerTurn = winnerId;
+			if (myCards.size() == 0) {
+				System.out.println("GAME WINNER " + gameWinner());
+				guiInterface.gameWinner(gameWinner());
+			}
 		} else if (currentPlayerTurn == playerId) {
 			//Runs if it is this players turn
 			//StartGame.print( "MainControl cardPlayed 5" );
@@ -327,9 +331,19 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 					cards.add(card);
 				}
 			}
-			if (cards.size() == 0) {
+			if (cards.isEmpty()) {
+				System.out.println("MainControl.playableCards EMPTY " + playerId);
 				return myCards;
 			}
+			for (Card card: myCards
+			) {
+				System.out.println("@@ " + card.toString());
+			}
+			for (Card card: cards
+				 ) {
+				System.out.println("@ " + card.toString());
+			}
+			System.out.println("MainControl.playableCards NOEMPTY " + playerId);
 			return cards;
 		}
 	}
