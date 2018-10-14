@@ -66,6 +66,7 @@ public class GameLauncher implements GUIStartInterface{
         		playerInfoLabel.setText("Hosting");
         		
         		host.setEnabled(false);
+        		connect.setEnabled(false);
         	}
         });
         connect = new JButton ("Connect");
