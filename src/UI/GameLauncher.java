@@ -118,6 +118,9 @@ public class GameLauncher implements GUIStartInterface{
         launcherWindow.add (hostNameLabel);
         launcherWindow.add (ipInfoLabel);
         launcherWindow.add (startButton);
+        
+        //Center the window
+        launcherWindow.setLocationRelativeTo(null);  
 
         //set component bounds (only needed by Absolute Positioning)
         host.setBounds (55, 335, 100, 25);
@@ -183,6 +186,9 @@ public class GameLauncher implements GUIStartInterface{
 	public static void clientPlay() throws IOException{
 		gameWindow.setSize( 1000, 800 );
 		gameWindow.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		
+		//Center the window
+		gameWindow.setLocationRelativeTo(null);  
 		
 		//gamePanel = new GuiPanel();
 		gameWindow.getContentPane().add( gamePanel );

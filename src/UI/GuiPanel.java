@@ -295,6 +295,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         end.add (p1ScoreLabel);
         end.add (p2ScoreLabel);
         end.add (p3ScoreLabel);
+        
+        //Center the window
+        end.setLocationRelativeTo(null);  
 
         //set component bounds (only needed by Absolute Positioning)
         winnerLabel.setBounds (20, 20, 100, 25);
