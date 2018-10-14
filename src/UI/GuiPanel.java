@@ -316,6 +316,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		//Says who won
 		winnerLabel.setText("Player " + (player) + " Wins!");
 	}
 	
