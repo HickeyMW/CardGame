@@ -109,11 +109,8 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		if (playerId == 1) {
 			
 			GameLauncher.print( "MainControl startGame 2" );
+			gameSetup(1);
 			
-			serverThread.broadcastGameStart(playerId);
-			
-			dealCards();
-			guiInterface.playableCards( myCards );
 		} else {
 			GameLauncher.print( "MainControl startGame 3" );
 			clientThread.startGame();
@@ -131,7 +128,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		}
 		Collections.shuffle(deck);
 		//17
-		for (int i = 0; i < 17; i++) {
+		for (int i = 0; i < 5; i++) {
 			for (int j = 1; j < 4; j++) {
 				Card nextCard = deck.get(0);
 				deck.remove(0);
@@ -181,7 +178,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	public void cardDealtOnClient(Card card) {
 		GameLauncher.print( "MainControl cardDealtOnClient 1" );
 		myCards.add(card);
-		if (myCards.size() == 17) {
+		if (myCards.size() == 5) {
 			GameLauncher.print( "MainControl cardDealtOnClient 3" );
 			guiInterface.startingHand(myCards);
 		}
@@ -224,15 +221,17 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 
 	public void gameStartedOnServer(int startedByID) {
+		gameSetup(startedByID);
 		
-		if (gameWinner() == startedByID) {
-			serverThread.broadcastGameStart(startedByID);
-			resetGame();
-			dealCards();
-			guiInterface.gameStarted();
-		}
+	}
+	
+	private void gameSetup(int startedByID) {
+		serverThread.broadcastGameStart(startedByID);
 		
-		
+		resetGame();
+		dealCards();
+		guiInterface.gameStarted();
+		guiInterface.playableCards( myCards );
 	}
 
 	public void roundStartedOnClient(int startedByID) {
