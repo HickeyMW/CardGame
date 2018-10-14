@@ -189,13 +189,16 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		}
 	}
 	
+	// Updates the Scores and Repaints
 	public void updateScores(){
 		scores = gameLogic.getScores();
 		
 		repaint();
 	}
 	
+	// Takes in a player turn
 	
+	// changes the turn to the next player.
 	public void changeTurn( int nextPlayerID ) {
 		
 		if( nextPlayerID == gameLogic.playerId ) {
@@ -222,8 +225,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	}
 	
 	
+	// Displays the card played by player, of Value card.
+	
 	public void showPlayedCard(int player, Card card) {
-		GameLauncher.print("Player "+ player + " played: "+ card);
 		
 		System.out.println("showing card " + player + card);
 		
@@ -490,7 +494,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	@Override
 	public void startingHand(ArrayList<Card> cards) {
-		GameLauncher.print("Receiving Hand");
 		resetVars();
 		updateScores();
 		//Receives the cards and turns them into clickable cards
@@ -513,8 +516,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			}
 		//Sets playable cards as local variable
 		playableCards = cards;
-		if( !playableCards.isEmpty() )
-			GameLauncher.print( "Cards received" );
 		isTurn = true;
 		changeTurn( gameLogic.playerId );
 		//Redraw
@@ -525,7 +526,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	public void cardPlayed(int player, Card card) {
 		// Plays the given card for the given player
-		GameLauncher.print("Received Card played from: " + player);
 		showPlayedCard(player, card);
 		changeTurn((player+1)%3);
 	}
