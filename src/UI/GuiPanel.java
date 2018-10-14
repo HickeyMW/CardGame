@@ -53,6 +53,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 
 	Drawable pokerTable = new Drawable( 0, 0, 1000, 400, "GUIImages/PokerTable2.png" );
 	Drawable handBackground = new Drawable( 0, 400, 700, 400, "GUIImages/HandBackground.png" );
+	Drawable yourhand = new Drawable(240,440,220,40,"GUIImages/YourHand.png" );
 	Drawable felt = new Drawable( 700, 400, 400, 400, "GUIImages/felt.png" );
 	
 	//The images for the player 1, 2, and 3 turn icons
@@ -287,7 +288,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         p3ScoreLabel = new JLabel( Integer.toString( scores[2] ) );
 
         //adjust size and set layout
-        end.setPreferredSize (new Dimension (187, 235));
+        end.setPreferredSize (new Dimension (300, 400));
         end.setLayout (null);
 
         //add components
