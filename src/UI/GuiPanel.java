@@ -418,7 +418,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	@Override
 	public void gameStarted()  {
-		
+		resetVars();
 		
 		try {
 			GameLauncher.clientPlay();
@@ -469,6 +469,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	public void startingHand(ArrayList<Card> cards) {
 		GameLauncher.print("Receiving Hand");
+		resetVars();
 		updateScores();
 		//Receives the cards and turns them into clickable cards
 		for (int i = 0; i < cards.size(); i++) {
