@@ -447,11 +447,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//Methods called by game logic
 	
 	@Override
-<<<<<<< HEAD
-	public void gameStarted() {
-=======
 	public void gameStarted()  {
->>>>>>> 43b7efbe66fe11f30684cfbe552ffa436d61ea1b
 		
 		try {
 			GameLauncher.clientPlay();
