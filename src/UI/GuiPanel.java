@@ -86,9 +86,9 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//Start round button
 	public static ClickableButton startRoundButton = new ClickableButton(700, 600, 300, 100, "GUIImages/StartRound.png", "GUIImages/StartRoundDown.png", "GUIImages/StartRoundDisabled.png" ) {
 		public void onClicked() {
-			gameLogic.startRound();
-			startRoundButton.lock();
-			//endGame(0);
+			//gameLogic.startRound();
+			//startRoundButton.lock();
+			endGame(0);
 			
 			
 		}
@@ -247,16 +247,17 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		end = new JFrame("End of Game");
 		GameLauncher.gameWindow.dispose();
 		JLabel winnerLabel;
+	    JLabel p1Label;
+	    JLabel p2Label;
+	    JLabel p3Label;
 	    JButton restartButton;
-	    JLabel p2;
-	    JLabel p3;
-	    JLabel p1;
-	    JLabel p1ScoreLabel;
-	    JLabel p2ScoreLabel;
-	    JLabel p3ScoreLabel;
+	    
+		winnerLabel = new JLabel ("Player # Wins");
+        p1Label = new JLabel ("Player 1: 7");
+        p2Label = new JLabel ("Player 2: 7");
+        p3Label = new JLabel ("Player 3: 7");
+        restartButton = new JButton ("Play Again");
 		
-		winnerLabel = new JLabel ("Player 1 Wins");
-        restartButton = new JButton ("Play Again?");
         restartButton.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent ae) {
         		//Restarts game
@@ -276,43 +277,33 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         }
         
         
-        
         winnerLabel.setText("Player " + (player) + " Wins!");
         
-        p1 = new JLabel ("Player 1:");
-        p2 = new JLabel ("Player 2:");
-        p3 = new JLabel ("Player 3:");
         
-        p1ScoreLabel = new JLabel( Integer.toString( scores[0] ) );
-        p2ScoreLabel = new JLabel( Integer.toString( scores[1] ) );
-        p3ScoreLabel = new JLabel( Integer.toString( scores[2] ) );
+        p1Label = new JLabel( "Player 1: " + Integer.toString( scores[0] ) );
+        p2Label = new JLabel( "Player 2: " + Integer.toString( scores[1] ) );
+        p3Label = new JLabel( "Player 2: " + Integer.toString( scores[2] ) );
 
         //adjust size and set layout
-        end.setPreferredSize (new Dimension (300, 400));
+        end.setPreferredSize (new Dimension (350, 350));
         end.setLayout (null);
 
         //add components
         end.add (winnerLabel);
         end.add (restartButton);
-        end.add (p2);
-        end.add (p3);
-        end.add (p1);
-        end.add (p1ScoreLabel);
-        end.add (p2ScoreLabel);
-        end.add (p3ScoreLabel);
+        end.add (p1Label);
+        end.add (p2Label);
+        end.add (p3Label);
         
         //Center the window
         end.setLocationRelativeTo(null);  
 
         //set component bounds (only needed by Absolute Positioning)
-        winnerLabel.setBounds (20, 20, 100, 25);
-        restartButton.setBounds (20, 170, 100, 25);
-        p2.setBounds (20, 90, 60, 25);
-        p3.setBounds (20, 125, 60, 25);
-        p1.setBounds (20, 55, 60, 25);
-        p1ScoreLabel.setBounds (100, 55, 40, 25);
-        p2ScoreLabel.setBounds (100, 90, 40, 25);
-        p3ScoreLabel.setBounds (100, 125, 45, 20);
+        winnerLabel.setBounds (140, 50, 95, 25);
+        restartButton.setBounds (125, 315, 100, 25);
+        p1Label.setBounds (80, 95, 200, 25);
+        p2Label.setBounds (80, 150, 200, 25);
+        p3Label.setBounds (80, 200, 200, 25);
 		
         end.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         end.pack();

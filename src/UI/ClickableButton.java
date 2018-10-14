@@ -34,13 +34,11 @@ public class ClickableButton extends Clickable{
 			this.baseImage = ImageIO.read( new File( imageURL ) );
 			this.lockedImage = ImageIO.read( new File( lockedImageURL ) );
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		//Adds the button to all the relevant ArrayLists
 		GuiPanel.clickables.add( this );
 		GuiPanel.drawables.add( this );
-		
 		GuiPanel.buttons.add( this );
 		
 	}
