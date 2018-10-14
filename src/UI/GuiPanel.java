@@ -168,7 +168,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	}
 	
 	public void ReceiveCards(int[][] dealt) {
-		updateScores();
+		
 		//Receive cards from host
 		for (int i = 0; i < dealt.length; i++) {
 			Card card = new Card(dealt[i][0],dealt[i][1]);
@@ -257,6 +257,10 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 				}
         	}
         });
+        
+        if(gameLogic.playerId != 1) {
+        	restartButton.setEnabled(false);
+        }
         
         winnerLabel.setText("Player " + (player) + " Wins!");
         
@@ -463,7 +467,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	@Override
 	public void startingHand(ArrayList<Card> cards) {
 		GameLauncher.print("Receiving Hand");
-		
+		updateScores();
 		//Receives the cards and turns them into clickable cards
 		for (int i = 0; i < cards.size(); i++) {
 			hand.add( new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) ) );
