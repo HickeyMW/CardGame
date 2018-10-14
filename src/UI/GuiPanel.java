@@ -66,7 +66,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	static PlayedCardImage p3Card = new PlayedCardImage( 716, 100, 169, 252 );	
 	
 	static //Score display screen
-	JFrame end = new JFrame("End of Game");
+	JFrame end = new JFrame();
 	
 	//Score Display Board
 	Drawable pointsDisplay = new Drawable(700, 400, 300, 200, "GUIImages/PointsDisplay.png");
@@ -200,7 +200,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			isTurn = false;
 		}
 		
-		p1Icon.setIsTurn( false );
+		p1Icon.setIsTurn( true );
 		p2Icon.setIsTurn( false );
 		p3Icon.setIsTurn( false );
 		
@@ -240,6 +240,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//If the 2 previous players play different suites player 3 cant play anything
 	
 	public static void endGame(int player){
+		end = new JFrame("End of Game");
 		GameLauncher.gameWindow.dispose();
 		JLabel winnerLabel;
 	    JButton restartButton;
@@ -437,7 +438,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	@Override
 	public void gameStarted()  {
-		resetVars();
 		
 		try {
 			GameLauncher.clientPlay();
@@ -505,8 +505,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 
 	@Override
 	public void playableCards(ArrayList<Card> cards) {
-		for (Card card: cards
-				 ) {
+		for (Card card: cards) {
 				System.out.println("Playable cards " + card.toString());
 			}
 		//Sets playable cards as local variable

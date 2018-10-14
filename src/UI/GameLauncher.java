@@ -211,7 +211,7 @@ public class GameLauncher implements GUIStartInterface{
 		connect.setEnabled(false);
 		host.setEnabled(false);
 		
-		playerInfoLabel.setText("Waiting for Game Start");
+		playerInfoLabel.setText("Connected. Waiting");
 		
 		
 	}
