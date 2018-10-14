@@ -291,7 +291,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		}
 		
 		g.setColor(Color.BLACK);
-		Drawable p1score = new Drawable(910,460,26,33,"GUIImages/"+scores[0]+".png");
 		g.drawString(Integer.toString( scores[0]), 910, 460 );
 		g.drawString(Integer.toString( scores[1]), 910, 508 );
 		g.drawString(Integer.toString( scores[2]), 910, 554 );
