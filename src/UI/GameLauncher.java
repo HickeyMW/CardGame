@@ -149,7 +149,7 @@ public class GameLauncher implements GUIStartInterface{
 		System.out.println(player);
 		if(player==3) {
 			playerInfoLabel.setText("All Players Connected");
-			startButton.setEnabled(true);
+			startButton.setVisible(true);
 		}
 		//TODO Get this info
 		
