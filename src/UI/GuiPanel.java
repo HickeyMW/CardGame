@@ -414,7 +414,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		StartGame.print("Receiving Hand");
 		
 		//Receives the cards and turns them into clickable cards
-		for (int i = 0; i < cards.size()-1; i++) {
+		for (int i = 0; i < cards.size(); i++) {
 			hand.add( new ClickableCard( 50 + 30 * i, 500, 156, 256, cards.get(i) ) );
 		}
 		
