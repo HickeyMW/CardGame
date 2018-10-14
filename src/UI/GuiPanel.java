@@ -267,7 +267,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         });
         resetVars();
         if(gameLogic.playerId != 1) {
-        	restartButton.setEnabled(false);
+        	restartButton.setVisible(false);
         }
         
         

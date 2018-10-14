@@ -91,7 +91,7 @@ public class GameLauncher implements GUIStartInterface{
 					}
         	}
         });
-        startButton.setEnabled(false);
+        startButton.setVisible(false);
 
         ipInField = new JTextArea ();
         //ipInField.setSize( 500 , 10 );
