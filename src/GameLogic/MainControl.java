@@ -110,7 +110,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 			
 			GameLauncher.print( "MainControl startGame 2" );
 			
-			serverThread.broadcastGameStart(playerId);
+			serverThread.broadcastGameStart(1);
 			
 			dealCards();
 			guiInterface.playableCards( myCards );
@@ -169,12 +169,8 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	public void gameStartedOnClient(int startedByID) {
 		GameLauncher.print( "MainControl gameStartedOnClient 1" );
 		playerId = clientThread.playerID;
-		guiInterface.gameStarted();
-		int winner = gameWinner();
 		resetGame();
-		if (winner == playerId) {
-			guiInterface.playableCards(playableCards());
-		}
+		guiInterface.gameStarted();
 	}
 
 	//Network method called when a card has been played
@@ -213,26 +209,18 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 	}
 	
 	private void serverRoundStart(int startedByID) {
-		System.out.println("HERE!!!!!!!! " + previousWinner);
 		serverThread.broadcastRoundStart(startedByID);
 		resetRound();
 		guiInterface.roundStarted();
-		if (previousWinner == playerId) {
-			guiInterface.playableCards(playableCards());
-		}
+		guiInterface.playableCards(playableCards());
 		
 	}
 
 	public void gameStartedOnServer(int startedByID) {
-		
-		if (gameWinner() == startedByID) {
-			serverThread.broadcastGameStart(startedByID);
-			resetGame();
-			dealCards();
-			guiInterface.gameStarted();
-		}
-		
-		
+		serverThread.broadcastGameStart(startedByID);
+		resetGame();
+		dealCards();
+		guiInterface.gameStarted();
 	}
 
 	public void roundStartedOnClient(int startedByID) {
@@ -363,10 +351,10 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 
     private void resetGame() {
 		numberOfCardsPlayed = 0;
-		leadingPlayer = gameWinner();
+		leadingPlayer = 1;
 		playerScores = new int[3];
 		tieBreakerScores = new int[3];
-		currentPlayerTurn = gameWinner();
+		currentPlayerTurn = 1;
     }
 
 	private int nextPlayerId() {
