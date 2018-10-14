@@ -47,7 +47,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	public static ArrayList<Card> playableCards;
 	
 	//Background UI images
-	Drawable pokerTable = new Drawable( 0 ,0, 1000, 400, "GUIImages/PokerTable.png" );
+	Drawable pokerTable = new Drawable( 0 ,0, 1000, 400, "GUIImages/PokerTable2.png" );
 	Drawable handBackground = new Drawable( 0, 400, 700, 400, "GUIImages/HandBackground.png" );
 	Drawable felt = new Drawable( 700, 400, 400, 400, "GUIImages/felt.png" );
 	
