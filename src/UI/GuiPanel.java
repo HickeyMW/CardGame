@@ -486,6 +486,10 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 
 	@Override
 	public void playableCards(ArrayList<Card> cards) {
+		for (Card card: cards
+				 ) {
+				System.out.println("Playable cards " + card.toString());
+			}
 		//Sets playable cards as local variable
 		playableCards = cards;
 		if( !playableCards.isEmpty() )
