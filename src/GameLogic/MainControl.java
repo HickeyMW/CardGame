@@ -318,6 +318,7 @@ public class MainControl implements ClientEvents, ServerEvents, GUIEvents {
 		playerScores = new int[3];
 		tieBreakerScores = new int[3];
 		currentPlayerTurn = 1;
+		previousWinner = 1;
     }
 
 	private int nextPlayerId() {
