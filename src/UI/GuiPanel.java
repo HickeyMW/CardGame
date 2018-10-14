@@ -225,6 +225,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	}
 	
 	
+	// Displays the card played by player, of Value card.
+	
 	public void showPlayedCard(int player, Card card) {
 		GameLauncher.print("Player "+ player + " played: "+ card);
 		
