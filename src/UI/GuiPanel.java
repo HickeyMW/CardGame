@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import GameLogic.MainControl;
 import Main.Card;
 
+@SuppressWarnings("serial")
 public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	
 	//Variables
@@ -60,9 +61,12 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	PlayerTurnIcon p3Icon = new PlayerTurnIcon( 716 + 169/2 - 100/2, 40, 100, 40, "GUIImages/PlayerThreeNotTurn.png", "GUIImages/PlayerThreeTurn.png" );
 	
 	//Card placeholders for played cards
-	PlayedCardImage p1Card = new PlayedCardImage( 116, 100, 169, 252 );
-	PlayedCardImage p2Card = new PlayedCardImage( 417, 100, 169, 252 );
-	PlayedCardImage p3Card = new PlayedCardImage( 716, 100, 169, 252 );	
+	static PlayedCardImage p1Card = new PlayedCardImage( 116, 100, 169, 252 );
+	static PlayedCardImage p2Card = new PlayedCardImage( 417, 100, 169, 252 );
+	static PlayedCardImage p3Card = new PlayedCardImage( 716, 100, 169, 252 );	
+	
+	static //Score display screen
+	JFrame end = new JFrame("End of Game");
 	
 	//Score Display Board
 	Drawable pointsDisplay = new Drawable(700, 400, 300, 200, "GUIImages/PointsDisplay.png");
@@ -142,9 +146,10 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		isTurn = false;
 		hand = new ArrayList<ClickableCard>();
 		
-		
-		
-		
+		p1Card.shouldDraw = false;
+		p2Card.shouldDraw = false;
+		p3Card.shouldDraw = false;
+		end.dispose();
 	}
 	
 	
@@ -219,14 +224,15 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		System.out.println("showing card " + player + card);
 		
 		if(player == 1) {
-			p1Card.changeCard( card );
 			p1Card.shouldDraw = true;
+			p1Card.changeCard( card );
 		}else if(player == 2) {
-			p2Card.changeCard( card );
 			p2Card.shouldDraw = true;
+			p2Card.changeCard( card );
 		}else if(player == 3) {
-			p3Card.changeCard( card );
 			p3Card.shouldDraw = true;
+			p3Card.changeCard( card );
+			
 		}
 		
 	}
@@ -243,7 +249,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	    JLabel p1ScoreLabel;
 	    JLabel p2ScoreLabel;
 	    JLabel p3ScoreLabel;
-		JFrame end = new JFrame("End of Game");
+		
 		winnerLabel = new JLabel ("Player 1 Wins");
         restartButton = new JButton ("Play Again?");
         restartButton.addActionListener(new ActionListener(){
@@ -263,6 +269,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         if(gameLogic.playerId != 1) {
         	restartButton.setEnabled(false);
         }
+        
+        
         
         winnerLabel.setText("Player " + (player) + " Wins!");
         
@@ -338,6 +346,14 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		for( int i = 0; i < drawables.size(); i++ ){
 			drawables.get( i ).draw( g );
 		}
+		
+		p1Card.draw(g);
+		p2Card.draw(g);
+		p3Card.draw(g);
+		p1Icon.draw(g);
+		p2Icon.draw(g);
+		p3Icon.draw(g);
+		
 		
 		//Draw all the buttons
 		for( ClickableButton button : buttons ) {
@@ -463,7 +479,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 
 	@Override
 	public void error(String error) {
-		// TODO Auto-generated method stub
+		System.out.println(error);
 	}
 	
 	@Override

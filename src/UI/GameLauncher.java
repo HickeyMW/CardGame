@@ -176,7 +176,7 @@ public class GameLauncher implements GUIStartInterface{
 		gameLogic.startGame();
 		gameWindow.pack();
 		gameWindow.setVisible( true );
-		//window.dispose();
+		launcherWindow.dispose();
 		
 	}
 	
@@ -188,7 +188,7 @@ public class GameLauncher implements GUIStartInterface{
 		gameWindow.getContentPane().add( gamePanel );
 		gameWindow.pack();
 		gameWindow.setVisible( true );
-		//window.dispose();
+		launcherWindow.dispose();
 
 		
 	}
