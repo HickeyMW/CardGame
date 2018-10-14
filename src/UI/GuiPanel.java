@@ -110,6 +110,8 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 					//Let the card know it was played
 					ClickableCard.selectedCard.remove();
 					
+					
+					System.out.println( "Play card reposition" );
 					//Reposition the cards in our hand
 					positionHand();
 					
@@ -178,7 +180,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		for (int i = 0; i < dealt.length; i++) {
 			Card card = new Card(dealt[i][0],dealt[i][1]);
 			
-			new ClickableCard( 50 + 30 * i, 500, 156, 256, card );
+			hand.add( new ClickableCard( 50 + 30 * i, 500, 156, 256, card ) );
 			
 			//Redraw
 			this.repaint();
@@ -322,6 +324,10 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//Positions all of the cards in our hand evenly across the hand space
 	public static void positionHand(){
 		
+		System.out.println( "Start positioning" );
+		
+		System.out.println( "Hand size " + hand.size() );
+		
 		//Position every card, from back to front, to their appropriate position
 		for( int i = hand.size() - 1; i >= 0; i-- ){
 			
@@ -338,8 +344,12 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 			
 		}
 		
+		System.out.println( "Finish positioning" );
+		
 		//Redraw
 		GameLauncher.gamePanel.repaint();
+		
+		System.out.println( "Painted" );
 		
 	}
 	
@@ -436,8 +446,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//Methods called by game logic
 	
 	@Override
-	public void gameStarted()  {
-		resetVars();
+	public void gameStarted() {
 		
 		try {
 			GameLauncher.clientPlay();
