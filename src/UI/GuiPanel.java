@@ -120,24 +120,6 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	//Generates own cards. Used for testing.
 	public GuiPanel( ) throws IOException {
 		
-		/*
-		hand = new ArrayList<ClickableCard>();
-		
-		scores = new int[3];
-		
-		scores[0] = 0;
-		scores[1] = 0;
-		scores[2] = 0;
-		*/
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		setBackground(Color.LIGHT_GRAY);
 		setPreferredSize(new Dimension(1000,800));
@@ -154,6 +136,17 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		}
 		
 	}
+	//Resets all the variables for the start of a new game
+	private static void resetVars() {
+		
+		isTurn = false;
+		hand = new ArrayList<ClickableCard>();
+		
+		
+		
+		
+	}
+	
 	
 	//General UI methods
 	
@@ -175,7 +168,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 	}
 	
 	public void ReceiveCards(int[][] dealt) {
-		
+		updateScores();
 		//Receive cards from host
 		for (int i = 0; i < dealt.length; i++) {
 			Card card = new Card(dealt[i][0],dealt[i][1]);
@@ -219,6 +212,7 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
 		
 	}
 	
+	
 	public void showPlayedCard(int player, Card card) {
 		GameLauncher.print("Player "+ player + " played: "+ card);
 		
@@ -254,7 +248,10 @@ public class GuiPanel extends JPanel implements MouseListener, GUIInterface{
         	public void actionPerformed(ActionEvent ae) {
         		//Restarts game
         		try {
+        			resetVars();
 					GameLauncher.play();
+					end.dispose();
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
